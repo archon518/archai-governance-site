@@ -1,734 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ARCHAI — Agentic Governance Architecture</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    /* ─── TOKENS ─────────────────────────────────────────────── */
-    :root {
-      --gold:        #c9a84c;
-      --gold-dim:    #9e7e33;
-      --gold-pale:   rgba(201,168,76,0.12);
-      --gold-glow:   rgba(201,168,76,0.25);
-      --black:       #0a0a0b;
-      --surface-1:   #111113;
-      --surface-2:   #17171a;
-      --surface-3:   #1e1e22;
-      --border:      rgba(201,168,76,0.18);
-      --text-primary:   #f0ead8;
-      --text-secondary: #9e9880;
-      --text-muted:     #5a5748;
-      --radius:      6px;
-      --transition:  0.35s cubic-bezier(0.4,0,0.2,1);
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ARCHAI™ — AI Governance Framework | ARCHONOMY™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#080705;--surface:#0F0E0A;--card:#151310;--rule:#222018;--gold:#C9A84C;--gold-soft:#A07C30;--ivory:#EDE6D3;--mist:#7A7265;--fog:#3A3428}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ivory);font-family:'Inter',sans-serif;font-weight:300;overflow-x:hidden}
 
-    /* ─── RESET ──────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--black);
-      color: var(--text-primary);
-      font-family: 'Inter', system-ui, sans-serif;
-      font-size: 16px;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.6rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(8,7,5,0.97) 0%,transparent 100%)}
+.nav-mark{font-family:'Cinzel',serif;font-weight:700;font-size:0.78rem;letter-spacing:0.5em;color:var(--gold);text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--mist);text-decoration:none;transition:color 0.25s}
+.nav-links a:hover{color:var(--gold)}
 
-    /* ─── BACKGROUND TEXTURE ─────────────────────────────────── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 20% 0%, rgba(201,168,76,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(201,168,76,0.04) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 0;
-    }
+/* HERO */
+.hero{position:relative;height:100vh;min-height:680px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 2rem;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 100%);opacity:0.5;pointer-events:none}
+.hero-disc{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.11) 0%,transparent 65%);animation:disc-pulse 7s ease-in-out infinite;pointer-events:none}
+@keyframes disc-pulse{0%,100%{transform:scale(1);opacity:0.7}50%{transform:scale(1.15);opacity:1}}
+.hero-content{position:relative;display:flex;flex-direction:column;align-items:center}
+.hero-kicker{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.65em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:2.8rem;opacity:0;animation:fade-up 0.8s 0.2s ease forwards}
+.hero-wordmark{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(5rem,18vw,11rem);letter-spacing:0.22em;line-height:1;color:var(--ivory);opacity:0;animation:fade-up 1s 0.4s ease forwards}
+.hero-wordmark .accent{color:var(--gold)}
+.hero-divider{width:48px;height:1px;background:var(--gold-soft);margin:2.4rem auto;opacity:0;animation:fade-in 0.8s 1s ease forwards}
+.hero-tagline{max-width:460px;font-size:0.88rem;font-style:italic;color:var(--mist);line-height:1.9;opacity:0;animation:fade-up 0.9s 1.2s ease forwards;margin-bottom:1.5rem}
+.hero-standards{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:3rem;opacity:0;animation:fade-in 0.8s 1.4s ease forwards}
+.std-pill{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--mist);border:1px solid var(--fog);padding:0.45em 0.9em}
+.hero-price-block{display:flex;flex-direction:column;align-items:center;gap:0.5rem;margin-bottom:2.5rem;opacity:0;animation:fade-up 0.8s 1.5s ease forwards}
+.hero-price{font-family:'Cinzel',serif;font-weight:700;font-size:2.8rem;color:var(--gold);line-height:1}
+.hero-price-label{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--mist)}
+.hero-cta{display:inline-flex;align-items:center;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:1.1rem 3rem;text-decoration:none;transition:background 0.25s,transform 0.2s;opacity:0;animation:fade-up 0.8s 1.7s ease forwards}
+.hero-cta:hover{background:var(--ivory);transform:translateY(-2px)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.6rem;opacity:0;animation:fade-in 1s 2.2s ease forwards}
+.hero-scroll span{font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--mist)}
+.scroll-bar{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold-soft),transparent);animation:scroll-pulse 2s ease-in-out infinite}
+@keyframes scroll-pulse{0%,100%{opacity:0.4}50%{opacity:1}}
 
-    /* ─── NAVIGATION ─────────────────────────────────────────── */
-    .site-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(10,10,11,0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-shrink: 0;
-    }
-    .brand-glyph {
-      width: 32px;
-      height: 32px;
-      border: 2px solid var(--gold);
-      transform: rotate(45deg);
-      position: relative;
-      flex-shrink: 0;
-    }
-    .brand-glyph::after {
-      content: '';
-      position: absolute;
-      inset: 5px;
-      background: var(--gold);
-      opacity: 0.3;
-    }
-    .brand-name {
-      font-family: 'Cinzel', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      color: var(--gold);
-    }
-    .brand-tagline {
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      display: block;
-      margin-top: 1px;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      flex-wrap: wrap;
-    }
-    .nav-link {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      padding: 0.4rem 0.75rem;
-      border-radius: var(--radius);
-      transition: color var(--transition), background var(--transition);
-      white-space: nowrap;
-    }
-    .nav-link:hover, .nav-link.active {
-      color: var(--gold);
-      background: var(--gold-pale);
-    }
-    .nav-cta {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--black);
-      background: var(--gold);
-      padding: 0.45rem 1rem;
-      border-radius: var(--radius);
-      font-weight: 600;
-      transition: background var(--transition), opacity var(--transition);
-      white-space: nowrap;
-      margin-left: 0.5rem;
-    }
-    .nav-cta:hover { background: var(--gold-dim); }
+/* SECTIONS */
+.section{padding:7rem 3.5rem;max-width:1200px;margin:0 auto;border-top:1px solid var(--rule)}
+.eyebrow{font-family:'Cinzel',serif;font-size:0.53rem;letter-spacing:0.55em;text-transform:uppercase;color:var(--gold-soft);display:flex;align-items:center;gap:1.5rem;margin-bottom:4rem}
+.eyebrow::after{content:'';flex:1;height:1px;background:var(--rule)}
 
-    /* ─── HERO ───────────────────────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 120px 2rem 80px;
-      position: relative;
-      z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      gap: 4rem;
-    }
-    .hero-content { flex: 1; min-width: 0; }
-    .hero-kicker {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .hero-kicker::before {
-      content: '';
-      display: block;
-      width: 32px;
-      height: 1px;
-      background: var(--gold);
-    }
-    .hero-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2rem, 4.5vw, 3.5rem);
-      font-weight: 600;
-      line-height: 1.15;
-      letter-spacing: 0.02em;
-      margin-bottom: 1.5rem;
-      color: var(--text-primary);
-    }
-    .hero-title span { color: var(--gold); }
-    .hero-body {
-      font-size: 1.05rem;
-      color: var(--text-secondary);
-      max-width: 520px;
-      margin-bottom: 2rem;
-      line-height: 1.75;
-    }
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 2.5rem;
-    }
-    .tag-pill {
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .btn-primary {
-      background: var(--gold);
-      color: var(--black);
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 600;
-      padding: 0.75rem 1.75rem;
-      border-radius: var(--radius);
-      transition: background var(--transition);
-      white-space: nowrap;
-    }
-    .btn-primary:hover { background: var(--gold-dim); }
-    .btn-ghost {
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.75rem 1.75rem;
-      border-radius: var(--radius);
-      transition: border-color var(--transition), color var(--transition);
-      white-space: nowrap;
-    }
-    .btn-ghost:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
+/* FRAMEWORK */
+.what-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.what-headline{font-family:'Cinzel',serif;font-weight:600;font-size:clamp(1.5rem,2.8vw,2.2rem);line-height:1.3;color:var(--ivory);margin-bottom:2rem}
+.what-headline em{font-style:normal;color:var(--gold)}
+.what-body{font-size:0.87rem;color:var(--mist);line-height:2;margin-bottom:1.5rem}
+.compliance-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule)}
+.compliance-item{background:var(--card);padding:1.8rem 2rem}
+.compliance-name{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.15em;color:var(--ivory);margin-bottom:0.4rem}
+.compliance-desc{font-size:0.72rem;color:var(--mist);line-height:1.6}
 
-    /* ─── HERO VISUAL ────────────────────────────────────────── */
-    .hero-visual {
-      flex: 0 0 340px;
-      height: 340px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    @media (max-width: 860px) { .hero-visual { display: none; } }
-    .hero-orbit {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      animation: spin 24s linear infinite;
-    }
-    .hero-orbit::after {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 8px;
-      height: 8px;
-      background: var(--gold);
-      border-radius: 50%;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .hero-orbit-2 {
-      position: absolute;
-      inset: 28px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.1);
-      animation: spin 16s linear infinite reverse;
-    }
-    .hero-core {
-      position: relative;
-      z-index: 2;
-      width: 110px;
-      height: 110px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    .hero-core-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      color: var(--gold);
-    }
-    .hero-matrix {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-    .hero-matrix-item {
-      position: absolute;
-      font-size: 0.6rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      background: var(--surface-1);
-      border: 1px solid var(--border);
-      padding: 0.35rem 0.7rem;
-      border-radius: var(--radius);
-    }
-    .hero-matrix-item:nth-child(1) { top: 10px;  left: 50%; transform: translateX(-50%); }
-    .hero-matrix-item:nth-child(2) { right: -10px; top: 50%; transform: translateY(-50%); }
-    .hero-matrix-item:nth-child(3) { bottom: 10px; left: 50%; transform: translateX(-50%); }
-    .hero-matrix-item:nth-child(4) { left: -10px; top: 50%; transform: translateY(-50%); }
+/* PROFIT STACK */
+.stack-intro{max-width:580px;margin-bottom:3.5rem}
+.stack-intro p{font-size:0.87rem;color:var(--mist);line-height:2}
+.stack-layers{display:flex;flex-direction:column;gap:1px;background:var(--rule)}
+.stack-layer{background:var(--card);padding:2rem 2.5rem;display:grid;grid-template-columns:9rem 1fr auto;align-items:center;gap:2.5rem;transition:background 0.25s}
+.stack-layer:hover{background:#1A1814}
+.layer-num{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.4em;color:var(--fog);white-space:nowrap}
+.layer-name{font-family:'Cinzel',serif;font-weight:600;font-size:0.9rem;letter-spacing:0.15em;color:var(--ivory);margin-bottom:0.25rem}
+.layer-desc{font-size:0.75rem;color:var(--mist);line-height:1.6}
+.layer-tag{font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--mist);white-space:nowrap;text-align:right}
 
-    /* ─── DIVIDER ─────────────────────────────────────────────── */
-    .divider {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-    .divider-line {
-      height: 1px;
-      background: var(--border);
-    }
+/* MECHANISMS */
+.mech-intro{max-width:620px;margin-bottom:3.5rem}
+.mech-intro p{font-size:0.87rem;color:var(--mist);line-height:2}
+.mech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule)}
+.mech-card{background:var(--card);padding:2.4rem 2rem;display:flex;flex-direction:column;gap:0.7rem;position:relative;overflow:hidden;transition:background 0.3s}
+.mech-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+.mech-card:hover{background:#1A1814}
+.mech-card:hover::after{transform:scaleX(1)}
+.mech-index{font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.5em;color:var(--fog)}
+.mech-name{font-family:'Cinzel',serif;font-weight:600;font-size:0.95rem;letter-spacing:0.12em;color:var(--ivory)}
+.mech-name .g{color:var(--gold)}
+.mech-role{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-soft)}
+.mech-desc{font-size:0.78rem;color:var(--mist);line-height:1.8;flex:1}
+.mech-tool{font-size:0.7rem;color:var(--mist);border-top:1px solid var(--rule);padding-top:0.8rem;margin-top:0.3rem}
+.mech-tool strong{color:var(--gold);font-weight:400}
+.mech-link{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:0.6rem;transition:gap 0.3s;margin-top:auto}
+.mech-link::after{content:'→'}
+.mech-link:hover{gap:1.2rem}
+.mech-note{font-size:0.72rem;color:var(--fog);margin-top:3rem;font-style:italic}
 
-    /* ─── SECTIONS ───────────────────────────────────────────── */
-    .section {
-      position: relative;
-      z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 5rem 2rem;
-    }
-    .section-eyebrow {
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .section-eyebrow::before {
-      content: '';
-      display: block;
-      width: 24px;
-      height: 1px;
-      background: var(--gold);
-    }
-    .section-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(1.4rem, 2.5vw, 2rem);
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.75rem;
-    }
-    .section-subtitle {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      max-width: 600px;
-      line-height: 1.75;
-    }
-    .section-header {
-      margin-bottom: 3rem;
-    }
+/* PRICING */
+.price-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:3rem}
+.price-card{background:var(--card);padding:3rem 2.4rem;display:flex;flex-direction:column}
+.price-card.featured{background:#1C1A10;border-top:2px solid var(--gold)}
+.price-tier{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--mist);margin-bottom:1.5rem}
+.price-name{font-family:'Cinzel',serif;font-weight:600;font-size:1.1rem;letter-spacing:0.1em;color:var(--ivory);margin-bottom:0.3rem}
+.price-sub{font-size:0.72rem;color:var(--mist);margin-bottom:2rem;line-height:1.5}
+.price-amount{font-family:'Cinzel',serif;font-weight:700;font-size:2.2rem;color:var(--gold);line-height:1;margin-bottom:0.4rem}
+.price-cadence{font-size:0.65rem;color:var(--mist);margin-bottom:2rem}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:0.8rem;margin-bottom:2.5rem;padding-top:1.5rem;border-top:1px solid var(--rule);flex:1}
+.price-features li{font-size:0.78rem;color:var(--mist);line-height:1.6;padding-left:1.2rem;position:relative}
+.price-features li::before{content:'✓';position:absolute;left:0;color:var(--gold-soft);font-size:0.7rem}
+.price-cta{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.35em;text-transform:uppercase;text-decoration:none;padding:1rem 1.5rem;text-align:center;transition:background 0.25s,color 0.25s;margin-top:auto}
+.price-cta.primary{background:var(--gold);color:var(--bg)}
+.price-cta.primary:hover{background:var(--ivory)}
+.price-cta.ghost{border:1px solid var(--fog);color:var(--gold)}
+.price-cta.ghost:hover{border-color:var(--gold);color:var(--ivory)}
 
-    /* ─── MECHANISM GRID ─────────────────────────────────────── */
-    .mech-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.25rem;
-    }
-    .mech-card {
-      background: var(--surface-1);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.75rem;
-      transition: border-color var(--transition), background var(--transition);
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .mech-card:hover {
-      border-color: var(--gold);
-      background: var(--surface-2);
-    }
-    .mech-card-kicker {
-      font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      color: var(--gold);
-    }
-    .mech-card-title {
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      line-height: 1.35;
-    }
-    .mech-card-body {
-      font-size: 0.88rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      flex: 1;
-    }
-    .mech-card-link {
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-top: 0.5rem;
-      transition: gap var(--transition);
-    }
-    .mech-card:hover .mech-card-link { gap: 0.75rem; }
-    .mech-card-link::after { content: '→'; }
+/* FOOTER */
+footer{border-top:1px solid var(--rule);padding:2.4rem 3.5rem;max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-brand{font-family:'Cinzel',serif;font-weight:600;font-size:0.7rem;letter-spacing:0.4em;color:var(--gold-soft)}
+.footer-copy{font-size:0.68rem;color:var(--mist)}
+.footer-nav{display:flex;gap:2rem;list-style:none}
+.footer-nav a{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--mist);text-decoration:none;transition:color 0.25s}
+.footer-nav a:hover{color:var(--gold)}
 
-    /* ─── LAYER ARCHITECTURE ─────────────────────────────────── */
-    .layer-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-    .layer-row {
-      display: flex;
-      align-items: stretch;
-      border-bottom: 1px solid var(--border);
-      transition: background var(--transition);
-    }
-    .layer-row:last-child { border-bottom: none; }
-    .layer-row:hover { background: var(--surface-2); }
-    .layer-number {
-      font-family: 'Cinzel', serif;
-      font-size: 0.7rem;
-      color: var(--gold);
-      letter-spacing: 0.1em;
-      padding: 1.25rem 1.5rem;
-      border-right: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      min-width: 56px;
-      justify-content: center;
-      background: var(--surface-1);
-      flex-shrink: 0;
-    }
-    .layer-content {
-      padding: 1.25rem 1.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      justify-content: center;
-    }
-    .layer-name {
-      font-family: 'Cinzel', serif;
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-    .layer-desc {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    .layer-tag {
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-      padding: 0.15rem 0.5rem;
-      border-radius: 999px;
-      align-self: flex-start;
-    }
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.75s ease,transform 0.75s ease}
+.reveal.visible{opacity:1;transform:none}
+@keyframes fade-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
 
-    /* ─── ACCOUNTABILITY BAND ────────────────────────────────── */
-    .accountum-band {
-      position: relative;
-      z-index: 1;
-      background: var(--surface-1);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .accountum-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 4rem 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    @media (max-width: 700px) {
-      .accountum-inner { grid-template-columns: 1fr; gap: 2rem; }
-    }
-    .accountum-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.75rem;
-    }
-    .accountum-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      margin-bottom: 1rem;
-    }
-    .accountum-body {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      margin-bottom: 1.5rem;
-    }
-    .accountum-pillars {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .pillar {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem 1.25rem;
-    }
-    .pillar-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--gold);
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 0.45rem;
-    }
-    .pillar-text {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    .pillar-text strong { color: var(--text-primary); font-weight: 600; }
-
-    /* ─── CERTIFICATION LADDER ───────────────────────────────── */
-    .cert-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.25rem;
-    }
-    .cert-card {
-      background: var(--surface-1);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      transition: border-color var(--transition);
-    }
-    .cert-card:hover { border-color: var(--gold); }
-    .cert-badge {
-      font-family: 'Cinzel', serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      color: var(--gold);
-      border: 1px solid var(--gold-dim);
-      padding: 0.25rem 0.7rem;
-      border-radius: 999px;
-      align-self: flex-start;
-      margin-bottom: 0.5rem;
-    }
-    .cert-name {
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-    }
-    .cert-price {
-      font-family: 'Cinzel', serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.02em;
-    }
-    .cert-desc {
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      line-height: 1.65;
-      margin-top: 0.25rem;
-    }
-
-    /* ─── CTA BAND ───────────────────────────────────────────── */
-    .cta-band {
-      position: relative;
-      z-index: 1;
-      background: linear-gradient(135deg, var(--surface-2) 0%, var(--surface-1) 100%);
-      border-top: 1px solid var(--border);
-    }
-    .cta-inner {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 5rem 2rem;
-      text-align: center;
-    }
-    .cta-eyebrow {
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-    .cta-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      margin-bottom: 1rem;
-    }
-    .cta-body {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      line-height: 1.75;
-      margin-bottom: 2rem;
-    }
-    .cta-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    /* ─── FOOTER ─────────────────────────────────────────────── */
-    .site-footer {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--border);
-      background: var(--black);
-    }
-    .footer-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2.5rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .footer-brand {
-      font-family: 'Cinzel', serif;
-      font-size: 0.85rem;
-      letter-spacing: 0.12em;
-      color: var(--gold);
-    }
-    .footer-meta {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-    }
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-    .footer-links a {
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      transition: color var(--transition);
-    }
-    .footer-links a:hover { color: var(--gold); }
-
-    /* ─── SCROLL REVEAL ──────────────────────────────────────── */
-    .motion {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .motion.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .motion-d1 { transition-delay: 0.05s; }
-    .motion-d2 { transition-delay: 0.15s; }
-    .motion-d3 { transition-delay: 0.25s; }
-    .motion-d4 { transition-delay: 0.35s; }
-    .motion-d5 { transition-delay: 0.45s; }
-    .motion-d6 { transition-delay: 0.55s; }
-
-    @media (prefers-reduced-motion: reduce) {
-      .motion { opacity: 1; transform: none; }
-    }
-
-    /* ─── RESPONSIVE ─────────────────────────────────────────── */
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-    }
-    @media (max-width: 640px) {
-      .hero { padding: 100px 1.25rem 60px; }
-      .section { padding: 3.5rem 1.25rem; }
-    }
-  </style>
+@media(max-width:960px){
+  nav{padding:1.2rem 1.8rem}
+  .section{padding:5rem 1.8rem}
+  .what-layout{grid-template-columns:1fr;gap:3rem}
+  .mech-grid{grid-template-columns:1fr 1fr}
+  .stack-layer{grid-template-columns:1fr;gap:0.6rem}
+  .layer-tag{text-align:left}
+  .price-layout{grid-template-columns:1fr}
+  footer{padding:2rem 1.8rem;flex-direction:column;align-items:flex-start}
+}
+@media(max-width:600px){
+  .nav-links{display:none}
+  .mech-grid{grid-template-columns:1fr}
+  .compliance-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-disc,.scroll-bar{animation:none}
+  .hero-kicker,.hero-wordmark,.hero-divider,.hero-tagline,.hero-standards,.hero-price-block,.hero-cta,.hero-scroll{animation:none;opacity:1}
+  .reveal{opacity:1;transform:none;transition:none}
+}
+</style>
 </head>
 <body>
 
-  <!-- ─── NAVIGATION ─────────────────────────────────────── -->
-  <nav class="site-nav">
-    <div class="nav-inner">
-      <a href="index.html" class="brand">
-        <div class="brand-glyph"></div>
-        <div>
-          <div class="brand-name">ARCHAI</div>
-          <span class="brand-tagline">Governance Architecture</span>
-        </div>
-      </a>
-      <div class="nav-links">
-        <a href="index.html"      class="nav-link active">Overview</a>
-        <a href="archai.html"     class="nav-link">ARCHAI</a>
-        <a href="identarch.html"  class="nav-link">IDENTARCH</a>
-        <a href="intentum.html"   class="nav-link">INTENTUM</a>
-        <a href="mnemarch.html"   class="nav-link">MNEMARCH</a>
-        <a href="agentum.html"    class="nav-link">AGENTUM</a>
+<nav>
+  <a class="nav-mark" href="#">ARCHAI<span style="font-size:0.6em;vertical-align:super;color:var(--gold-soft)">™</span></a>
+  <ul class="nav-links">
+    <li><a href="#framework">Framework</a></li>
+    <li><a href="#stack">Profit Stack</a></li>
+    <li><a href="#mechanisms">Mechanisms</a></li>
+    <li><a href="#pricing">Engage</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-disc"></div>
+  <div class="hero-content">
+    <p class="hero-kicker">ARCHONOMY™ — by Barkdale &amp; Co.</p>
+    <h1 class="hero-wordmark">ARC<span class="accent">H</span>AI<span style="font-size:0.3em;vertical-align:super;color:var(--gold-soft);letter-spacing:0">™</span></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">The AI Governance Framework built for organizations that refuse to govern blindly.</p>
+    <div class="hero-standards">
+      <span class="std-pill">EU AI Act</span>
+      <span class="std-pill">NIST RMF</span>
+      <span class="std-pill">ISO 42001</span>
+      <span class="std-pill">EO 14110</span>
+    </div>
+    <div class="hero-price-block">
+      <span class="hero-price">$1,500</span>
+      <span class="hero-price-label">Launch Price — Immediate Acquisition</span>
+    </div>
+    <a class="hero-cta" href="https://archon79.gumroad.com/l/vneqi">Acquire ARCHAI™</a>
+  </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-bar"></div></div>
+</header>
+
+<!-- FRAMEWORK -->
+<section class="section" id="framework">
+  <p class="eyebrow reveal">What ARCHAI™ Is</p>
+  <div class="what-layout">
+    <div class="reveal">
+      <h2 class="what-headline">A constitutional <em>governance engine</em> — not a methodology, not a checklist</h2>
+      <p class="what-body">ARCHAI™ is a complete AI governance framework that enforces structural alignment across your organization's AI systems. It maps your obligations to four major regulatory frameworks and gives you the architecture to meet them — permanently, not periodically.</p>
+      <p class="what-body">Built on the ARCHONOMY™ discipline: the governing system for how organizations operate, make decisions, and enforce accountability at every structural layer.</p>
+    </div>
+    <div class="compliance-grid reveal">
+      <div class="compliance-item">
+        <p class="compliance-name">EU AI Act</p>
+        <p class="compliance-desc">Risk classification, conformity obligations, and high-risk system controls.</p>
+      </div>
+      <div class="compliance-item">
+        <p class="compliance-name">NIST RMF</p>
+        <p class="compliance-desc">Govern, Map, Measure, and Manage across your full AI portfolio.</p>
+      </div>
+      <div class="compliance-item">
+        <p class="compliance-name">ISO 42001</p>
+        <p class="compliance-desc">AI management system requirements and continuous improvement architecture.</p>
+      </div>
+      <div class="compliance-item">
+        <p class="compliance-name">EO 14110</p>
+        <p class="compliance-desc">Safe, secure, and trustworthy AI — structural enforcement, not policy theater.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFIT STACK -->
+<section class="section" id="stack">
+  <p class="eyebrow reveal">The 5-Layer Profit Stack</p>
+  <div class="stack-intro reveal">
+    <p>ARCHAI™ is the commercial engine of ARCHONOMY™. The discipline monetizes across five layers — from a $97 diagnostic tool to a $200K enterprise governance installation. Every layer feeds the next.</p>
+  </div>
+  <div class="stack-layers reveal">
+    <div class="stack-layer" style="border-left:2px solid var(--gold)">
+      <span class="layer-num">LAYER 01</span>
+      <div>
+        <p class="layer-name" style="color:var(--gold)">Framework Layer</p>
+        <p class="layer-desc">The governance discipline itself — ARCHAI™ / ARCHONOMY™. Licensing, certification, governance rights, structural authority. This is the core intellectual property.</p>
+      </div>
+      <span class="layer-tag" style="color:var(--gold)">Authority Revenue</span>
+    </div>
+    <div class="stack-layer">
+      <span class="layer-num">LAYER 02</span>
+      <div>
+        <p class="layer-name">Method Layer</p>
+        <p class="layer-desc">Modules, curriculum, certification tiers (CAP / MEC / ESC), operator training, governance playbooks. This is where recurring revenue begins.</p>
+      </div>
+      <span class="layer-tag">Training &amp; Certification</span>
+    </div>
+    <div class="stack-layer">
+      <span class="layer-num">LAYER 03</span>
+      <div>
+        <p class="layer-name">Tooling Layer</p>
+        <p class="layer-desc">Templates, checklists, diagnostic tools, governance dashboards, structural audits. Each mechanism has its own tool — sold separately at $97–$197.</p>
+      </div>
+      <span class="layer-tag">Productized Revenue</span>
+    </div>
+    <div class="stack-layer">
+      <span class="layer-num">LAYER 04</span>
+      <div>
+        <p class="layer-name">Automation Layer</p>
+        <p class="layer-desc">SaaS diagnostics, automated governance checks, AI-driven compliance, structural monitoring, organizational telemetry.</p>
+      </div>
+      <span class="layer-tag">SaaS Revenue</span>
+    </div>
+    <div class="stack-layer">
+      <span class="layer-num">LAYER 05</span>
+      <div>
+        <p class="layer-name">Enterprise Layer</p>
+        <p class="layer-desc">Organizational transformation, governance architecture, anti-collapse systems, full-stack discipline installation. This is where the big checks come from.</p>
+      </div>
+      <span class="layer-tag">Enterprise + Retainer</span>
+    </div>
+  </div>
+</section>
+
+<!-- MECHANISMS -->
+<section class="section" id="mechanisms">
+  <p class="eyebrow reveal">Mechanism Portfolio</p>
+  <div class="mech-intro reveal">
+    <p>ARCHAI™ is the core framework. Each mechanism extends its governance reach into a specific domain — available separately, each with its own tooling product, framework, and enterprise engagement path.</p>
+  </div>
+  <div class="mech-grid">
+    <div class="mech-card reveal">
+      <p class="mech-index">01</p>
+      <h3 class="mech-name"><span class="g">AGENT</span>UM™</h3>
+      <p class="mech-role">Agentic AI Governance</p>
+      <p class="mech-desc">Structural discipline for organizations deploying autonomous AI agents. Enforces accountability, authority boundaries, and decision traceability at operational scale.</p>
+      <p class="mech-tool">Layer 3 Tool: <strong>Agentic AI Diagnostic — $97</strong></p>
+      <a class="mech-link" href="https://agentum.archai.pages.dev">Explore AGENTUM™</a>
+    </div>
+    <div class="mech-card reveal">
+      <p class="mech-index">02</p>
+      <h3 class="mech-name"><span class="g">ACCOUNT</span>UM™</h3>
+      <p class="mech-role">Algorithm Accountability</p>
+      <p class="mech-desc">Ensures every algorithmic system remains answerable to organizational governance. No algorithm operates outside the discipline — ever.</p>
+      <p class="mech-tool">Layer 3 Tool: <strong>Algorithm Accountability Audit — $147</strong></p>
+      <a class="mech-link" href="https://accountum.archai.pages.dev">Explore ACCOUNTUM™</a>
+    </div>
+    <div class="mech-card reveal">
+      <p class="mech-index">03</p>
+      <h3 class="mech-name"><span class="g">IDENT</span>ARCH™</h3>
+      <p class="mech-role">Digital Identity Governance</p>
+      <p class="mech-desc">Defines, enforces, and protects organizational identity across digital systems and public-facing interfaces. Structural coherence at every boundary.</p>
+      <p class="mech-tool">Layer 3 Tool: <strong>Identity Governance Checklist — $97</strong></p>
+      <a class="mech-link" href="https://identarch.archai.pages.dev">Explore IDENTARCH™</a>
+    </div>
+    <div class="mech-card reveal">
+      <p class="mech-index">04</p>
+      <h3 class="mech-name"><span class="g">MNEM</span>ARCH™</h3>
+      <p class="mech-role">Organizational Memory</p>
+      <p class="mech-desc">Architecture for institutional memory — how organizations capture, govern, and deploy knowledge as a structural asset rather than a fragile artifact.</p>
+      <p class="mech-tool">Layer 3 Tool: <strong>Organizational Memory Audit — $147</strong></p>
+      <a class="mech-link" href="https://mnemarch.archai.pages.dev">Explore MNEMARCH™</a>
+    </div>
+    <div class="mech-card reveal">
+      <p class="mech-index">05</p>
+      <h3 class="mech-name"><span class="g">INTENT</span>UM™</h3>
+      <p class="mech-role">Intent Architecture — Layer 2</p>
+      <p class="mech-desc">Governs how declared intent flows through the organization and binds decision-making at every tier. The bridge between principle and action.</p>
+      <p class="mech-tool">Layer 3 Tool: <strong>Intent Alignment Diagnostic — $97</strong></p>
+      <a class="mech-link" href="https://intentum.archai.pages.dev">Explore INTENTUM™</a>
+    </div>
+    <div class="mech-card reveal" style="background:var(--surface);justify-content:center;align-items:center;text-align:center;min-height:220px">
+      <p class="mech-index" style="margin-bottom:1rem">More mechanisms in development</p>
+      <p class="mech-desc" style="font-style:italic">Each new mechanism extends ARCHAI™ governance into an additional operational domain — with its own tooling product, framework, and enterprise path.</p>
+    </div>
+  </div>
+  <p class="mech-note reveal">Each mechanism is a separate product. Acquiring ARCHAI™ gives you the core framework. Mechanisms and their tooling products are purchased individually.</p>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <p class="eyebrow reveal">Engagement Tiers</p>
+  <div class="price-layout">
+    <div class="price-card reveal">
+      <p class="price-tier">Layer 1 — Entry</p>
+      <h3 class="price-name">Framework Acquisition</h3>
+      <p class="price-sub">ARCHAI™ AI Governance Framework</p>
+      <p class="price-amount">$1,500</p>
+      <p class="price-cadence">One-time · Launch price · Immediate delivery</p>
+      <ul class="price-features">
+        <li>Complete ARCHAI™ governance framework</li>
+        <li>EU AI Act, NIST RMF, ISO 42001, EO 14110 mapping</li>
+        <li>Constitutional governance architecture</li>
+        <li>14-domain governance structure</li>
+        <li>Immediate digital delivery via Gumroad</li>
+      </ul>
+      <a class="price-cta primary" href="https://archon79.gumroad.com/l/vneqi">Acquire Now</a>
+    </div>
+    <div class="price-card featured reveal">
+      <p class="price-tier">Layer 5 — Full Engagement</p>
+      <h3 class="price-name">Full Implementation</h3>
+      <p class="price-sub">ARCHAI™ deployed across your organization</p>
+      <p class="price-amount" style="font-size:1.6rem">$75K–200K</p>
+      <p class="price-cadence">12-week engagement · All four phases</p>
+      <ul class="price-features">
+        <li>Full 14-domain governance implementation</li>
+        <li>AI Authority Matrix and policy registry</li>
+        <li>Operational ethical constraint enforcement</li>
+        <li>Complete causal traceability per AI system</li>
+        <li>Audit-ready compliance package</li>
+        <li>Regulatory mapping for all applicable frameworks</li>
+      </ul>
+      <a class="price-cta primary" href="mailto:anastrophon@barkdale.co">Begin Implementation</a>
+    </div>
+    <div class="price-card reveal">
+      <p class="price-tier">Layer 5 — Ongoing</p>
+      <h3 class="price-name">Governance Retainer</h3>
+      <p class="price-sub">Continuous governance maintenance</p>
+      <p class="price-amount">$5K<span style="font-size:0.5em;color:var(--mist)">/mo</span></p>
+      <p class="price-cadence">Monthly · Post-implementation</p>
+      <ul class="price-features">
+        <li>Continuous governance maintenance</li>
+        <li>New AI system onboarding and classification</li>
+        <li>Regulatory update monitoring and adaptation</li>
+        <li>Incident governance support</li>
+        <li>Quarterly board-level governance report</li>
+        <li>Annual full governance audit</li>
+      </ul>
+      <a class="price-cta ghost" href="mailto:anastrophon@barkdale.co">Discuss Retainer</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-brand">ARCHAI™</span>
+  <span class="footer-copy">© 2026 ARCHONOMY™ — Barkdale &amp; Co. — All Rights Reserved</span>
+  <ul class="footer-nav">
+    <li><a href="https://archon79.gumroad.com/l/vneqi">Acquire</a></li>
+    <li><a href="https://archai.systems">archai.systems</a></li>
+    <li><a href="mailto:anastrophon@barkdale.co">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
