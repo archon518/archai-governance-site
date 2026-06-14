@@ -1,116 +1,734 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHAI – Agentic Governance Architecture</title>
-    <link rel="stylesheet" href="assets/style.css">
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ARCHAI — Agentic Governance Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --gold:        #c9a84c;
+      --gold-dim:    #9e7e33;
+      --gold-pale:   rgba(201,168,76,0.12);
+      --gold-glow:   rgba(201,168,76,0.25);
+      --black:       #0a0a0b;
+      --surface-1:   #111113;
+      --surface-2:   #17171a;
+      --surface-3:   #1e1e22;
+      --border:      rgba(201,168,76,0.18);
+      --text-primary:   #f0ead8;
+      --text-secondary: #9e9880;
+      --text-muted:     #5a5748;
+      --radius:      6px;
+      --transition:  0.35s cubic-bezier(0.4,0,0.2,1);
+    }
 
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--text-primary);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── BACKGROUND TEXTURE ─────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 0%, rgba(201,168,76,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(201,168,76,0.04) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NAVIGATION ─────────────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10,10,11,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .brand-glyph {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--gold);
+      transform: rotate(45deg);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .brand-glyph::after {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      background: var(--gold);
+      opacity: 0.3;
+    }
+    .brand-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+    }
+    .brand-tagline {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      display: block;
+      margin-top: 1px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+    .nav-link {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius);
+      transition: color var(--transition), background var(--transition);
+      white-space: nowrap;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--gold);
+      background: var(--gold-pale);
+    }
+    .nav-cta {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--gold);
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      transition: background var(--transition), opacity var(--transition);
+      white-space: nowrap;
+      margin-left: 0.5rem;
+    }
+    .nav-cta:hover { background: var(--gold-dim); }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 2rem 80px;
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 4rem;
+    }
+    .hero-content { flex: 1; min-width: 0; }
+    .hero-kicker {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-kicker::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+    }
+    .hero-title span { color: var(--gold); }
+    .hero-body {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: 2rem;
+      line-height: 1.75;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .tag-pill {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius);
+      transition: background var(--transition);
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: var(--gold-dim); }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius);
+      transition: border-color var(--transition), color var(--transition);
+      white-space: nowrap;
+    }
+    .btn-ghost:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ─── HERO VISUAL ────────────────────────────────────────── */
+    .hero-visual {
+      flex: 0 0 340px;
+      height: 340px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (max-width: 860px) { .hero-visual { display: none; } }
+    .hero-orbit {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      animation: spin 24s linear infinite;
+    }
+    .hero-orbit::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .hero-orbit-2 {
+      position: absolute;
+      inset: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.1);
+      animation: spin 16s linear infinite reverse;
+    }
+    .hero-core {
+      position: relative;
+      z-index: 2;
+      width: 110px;
+      height: 110px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .hero-core-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+    }
+    .hero-matrix {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .hero-matrix-item {
+      position: absolute;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.7rem;
+      border-radius: var(--radius);
+    }
+    .hero-matrix-item:nth-child(1) { top: 10px;  left: 50%; transform: translateX(-50%); }
+    .hero-matrix-item:nth-child(2) { right: -10px; top: 50%; transform: translateY(-50%); }
+    .hero-matrix-item:nth-child(3) { bottom: 10px; left: 50%; transform: translateX(-50%); }
+    .hero-matrix-item:nth-child(4) { left: -10px; top: 50%; transform: translateY(-50%); }
+
+    /* ─── DIVIDER ─────────────────────────────────────────────── */
+    .divider {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .divider-line {
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── SECTIONS ───────────────────────────────────────────── */
+    .section {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+    .section-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.75rem;
+    }
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.75;
+    }
+    .section-header {
+      margin-bottom: 3rem;
+    }
+
+    /* ─── MECHANISM GRID ─────────────────────────────────────── */
+    .mech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .mech-card {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: border-color var(--transition), background var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .mech-card:hover {
+      border-color: var(--gold);
+      background: var(--surface-2);
+    }
+    .mech-card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+    }
+    .mech-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      line-height: 1.35;
+    }
+    .mech-card-body {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      flex: 1;
+    }
+    .mech-card-link {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+      transition: gap var(--transition);
+    }
+    .mech-card:hover .mech-card-link { gap: 0.75rem; }
+    .mech-card-link::after { content: '→'; }
+
+    /* ─── LAYER ARCHITECTURE ─────────────────────────────────── */
+    .layer-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .layer-row {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition);
+    }
+    .layer-row:last-child { border-bottom: none; }
+    .layer-row:hover { background: var(--surface-2); }
+    .layer-number {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      padding: 1.25rem 1.5rem;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      min-width: 56px;
+      justify-content: center;
+      background: var(--surface-1);
+      flex-shrink: 0;
+    }
+    .layer-content {
+      padding: 1.25rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      justify-content: center;
+    }
+    .layer-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .layer-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .layer-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      align-self: flex-start;
+    }
+
+    /* ─── ACCOUNTABILITY BAND ────────────────────────────────── */
+    .accountum-band {
+      position: relative;
+      z-index: 1;
+      background: var(--surface-1);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .accountum-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    @media (max-width: 700px) {
+      .accountum-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    .accountum-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .accountum-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 1rem;
+    }
+    .accountum-body {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .accountum-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .pillar {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+    }
+    .pillar-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.45rem;
+    }
+    .pillar-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .pillar-text strong { color: var(--text-primary); font-weight: 600; }
+
+    /* ─── CERTIFICATION LADDER ───────────────────────────────── */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .cert-card {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: border-color var(--transition);
+    }
+    .cert-card:hover { border-color: var(--gold); }
+    .cert-badge {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      align-self: flex-start;
+      margin-bottom: 0.5rem;
+    }
+    .cert-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .cert-price {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+    }
+    .cert-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-top: 0.25rem;
+    }
+
+    /* ─── CTA BAND ───────────────────────────────────────────── */
+    .cta-band {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(135deg, var(--surface-2) 0%, var(--surface-1) 100%);
+      border-top: 1px solid var(--border);
+    }
+    .cta-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .cta-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .cta-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 1rem;
+    }
+    .cta-body {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+    .cta-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      background: var(--black);
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-brand {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+    }
+    .footer-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .footer-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ─── SCROLL REVEAL ──────────────────────────────────────── */
+    .motion {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .motion.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .motion-d1 { transition-delay: 0.05s; }
+    .motion-d2 { transition-delay: 0.15s; }
+    .motion-d3 { transition-delay: 0.25s; }
+    .motion-d4 { transition-delay: 0.35s; }
+    .motion-d5 { transition-delay: 0.45s; }
+    .motion-d6 { transition-delay: 0.55s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .motion { opacity: 1; transform: none; }
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 100px 1.25rem 60px; }
+      .section { padding: 3.5rem 1.25rem; }
+    }
+  </style>
+</head>
 <body>
 
-<!-- HEADER -->
-<header class="site-header">
-    <div class="logo">ARCHAI™</div>
-    <nav class="nav">
-        <a href="index.html">Overview</a>
-        <a href="archai.html">ARCHAI</a>
-        <a href="identarch.html">IDENTARCH</a>
-        <a href="agentum.html">AGENTUM</a>
-        <a href="intentum.html">INTENTUM</a>
-        <a href="mnemarch.html">MNEMARCH</a>
-        <a href="accountum.html">ACCOUNTUM</a>
-    </nav>
-    <a class="cta-button" href="archai.html">Enter Framework</a>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-    <h1>Agentic AI Governance System</h1>
-    <p class="subhead">A unified architecture for governing agentic AI in live environments.</p>
-    <p class="description">
-        ARCHAI is a composable governance stack that binds identity, intent, memory, agency, 
-        and accountability into a single operational system for real-world AI deployment.
-    </p>
-
-    <div class="tag-list">
-        <span>Architecture</span>
-        <span>Governance</span>
-        <span>Agentic AI</span>
-        <span>Operational Control</span>
-    </div>
-
-    <div class="hero-links">
-        <a href="archai.html" class="hero-link">Explore ARCHAI Core</a>
-        <a href="accountum.html" class="hero-link">Jump to Accountability Layer</a>
-    </div>
-</section>
-
-<!-- ARCHAI STACK -->
-<section class="stack">
-    <h2>ARCHAI Stack</h2>
-
-    <div class="stack-diagram">
-        <div class="quadrant identarch">IDENTARCH<br><span>Identity substrate</span></div>
-        <div class="quadrant intentum">INTENTUM<br><span>Intent binding</span></div>
-        <div class="quadrant mnemarch">MNEMARCH<br><span>Memory governance</span></div>
-        <div class="quadrant agentum">AGENTUM<br><span>Agent orchestration</span></div>
-    </div>
-</section>
-
-<!-- ARCHITECTURE OVERVIEW -->
-<section class="architecture-overview">
-    <h2>Architecture Overview</h2>
-    <p>The ARCHAI stack is designed as a modular, interoperable governance fabric.</p>
-</section>
-
-<!-- MECHANISM SECTIONS -->
-<section class="mechanisms">
-
-    <div class="mechanism-block">
-        <h3>IDENTARCH</h3>
-        <p>Identity as a first-class primitive. IDENTARCH defines how agents, humans, systems, and data are bound into a coherent identity model that can be governed, audited, and constrained in real time.</p>
-    </div>
-
-    <div class="mechanism-block">
-        <h3>INTENTUM</h3>
-        <p>Intent binding and constraint. INTENTUM captures, constrains, and operationalizes intent so that agentic systems act within explicit, inspectable boundaries instead of opaque heuristics.</p>
-    </div>
-
-    <div class="mechanism-block">
-        <h3>MNEMARCH</h3>
-        <p>Memory as governed infrastructure. MNEMARCH defines what can be remembered, for how long, and under which obligations.</p>
-    </div>
-
-    <div class="mechanism-block">
-        <h3>AGENTUM</h3>
-        <p>Orchestrated agency. AGENTUM governs how agents are instantiated, composed, and coordinated, ensuring that emergent behavior remains within accountable bounds.</p>
-    </div>
-
-</section>
-
-<!-- ACCOUNTABILITY SPINE -->
-<section class="accountability">
-    <h2>Accountability Spine</h2>
-    <p>ACCOUNTUM binds the entire stack into a traceable, enforceable accountability layer.</p>
-
-    <div class="mechanism-block">
-        <h3>ACCOUNTUM</h3>
-        <p>From obligation to enforcement. ACCOUNTUM defines how obligations are attached to actions, how those actions are recorded, and how enforcement can be triggered when governance boundaries are crossed.</p>
-    </div>
-</section>
-
-<!-- OPERATIONAL POSTURE -->
-<section class="operational">
-    <h2>Operational Posture</h2>
-    <p>Live governance, not static policy. Continuous evaluation, real-time controls, and feedback loops that keep agentic AI aligned with institutional intent.</p>
-</section>
-
-<!-- FOOTER -->
-<footer class="site-footer">
-    ARCHAI Governance Architecture · Experimental system specification<br>
-    Identity · Intent · Memory · Agency · Accountability
-</footer>
-
-</body>
-</html>
+  <!-- ─── NAVIGATION ─────────────────────────────────────── -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-glyph"></div>
+        <div>
+          <div class="brand-name">ARCHAI</div>
+          <span class="brand-tagline">Governance Architecture</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html"      class="nav-link active">Overview</a>
+        <a href="archai.html"     class="nav-link">ARCHAI</a>
+        <a href="identarch.html"  class="nav-link">IDENTARCH</a>
+        <a href="intentum.html"   class="nav-link">INTENTUM</a>
+        <a href="mnemarch.html"   class="nav-link">MNEMARCH</a>
+        <a href="agentum.html"    class="nav-link">AGENTUM</a>
