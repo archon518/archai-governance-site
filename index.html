@@ -1,400 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ARCHAI™ — AI Governance Framework | ARCHONOMY™</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCHAI™ — AI Governance Framework</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
-  --bg: #0B0A08;
-  --surface: #14120E;
-  --card: #1C1914;
-  --rule: #2E2A22;
-  --gold: #D8B44A;
-  --gold-soft: #C29A3A;
-  --ivory: #F2EBDD;
-  --mist: #B8B0A3;
-  --fog: #6A6254;
+  --void:    #050508;
+  --deep:    #08090F;
+  --navy:    #0A1628;
+  --ink:     #111827;
+  --gold:    #C9963A;
+  --gold-lt: #E8B96A;
+  --gold-dim: #8B6B2A;
+  --ice:     #A8C4DC;
+  --silver:  #6B7A8D;
+  --fog:     #2A3444;
+  --white:   #F8F6F1;
+  --cream:   #EDE8DF;
+  --danger:  #C0392B;
+  --safe:    #1A6B45;
 }
+
+html { scroll-behavior: smooth; }
+
 body {
-  background: var(--bg);
-  color: var(--ivory);
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Outfit', sans-serif;
+  background: var(--void);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: default;
 }
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.6rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(8,7,5,0.97) 0%,transparent 100%)}
-.nav-mark{font-family:'Cinzel',serif;font-weight:700;font-size:0.78rem;letter-spacing:0.5em;color:var(--gold);text-decoration:none}
-.nav-links{display:flex;gap:2.5rem;list-style:none}
-.nav-links a{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--mist);text-decoration:none;transition:color 0.25s}
-.nav-links a:hover{color:var(--gold)}
 
-/* HERO */
-.hero{position:relative;height:100vh;min-height:680px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 2rem;overflow:hidden}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 100%);opacity:0.5;pointer-events:none}
-.hero-disc{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.11) 0%,transparent 65%);animation:disc-pulse 7s ease-in-out infinite;pointer-events:none}
-@keyframes disc-pulse{0%,100%{transform:scale(1);opacity:0.7}50%{transform:scale(1.15);opacity:1}}
-.hero-content{position:relative;display:flex;flex-direction:column;align-items:center}
-.hero-kicker{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.65em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:2.8rem;opacity:0;animation:fade-up 0.8s 0.2s ease forwards}
-.hero-wordmark{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(5rem,18vw,11rem);letter-spacing:0.22em;line-height:1;color:var(--ivory);opacity:0;animation:fade-up 1s 0.4s ease forwards}
-.hero-wordmark .accent{color:var(--gold)}
-.hero-divider{width:48px;height:1px;background:var(--gold-soft);margin:2.4rem auto;opacity:0;animation:fade-in 0.8s 1s ease forwards}
-.hero-tagline{max-width:460px;font-size:0.88rem;font-style:italic;color:var(--mist);line-height:1.9;opacity:0;animation:fade-up 0.9s 1.2s ease forwards;margin-bottom:1.5rem}
-.hero-standards{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:3rem;opacity:0;animation:fade-in 0.8s 1.4s ease forwards}
-.std-pill{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--mist);border:1px solid var(--fog);padding:0.45em 0.9em}
-.hero-price-block{display:flex;flex-direction:column;align-items:center;gap:0.5rem;margin-bottom:2.5rem;opacity:0;animation:fade-up 0.8s 1.5s ease forwards}
-.hero-price{font-family:'Cinzel',serif;font-weight:700;font-size:2.8rem;color:var(--gold);line-height:1}
-.hero-price-label{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--mist)}
-.hero-cta{display:inline-flex;align-items:center;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:1.1rem 3rem;text-decoration:none;transition:background 0.25s,transform 0.2s;opacity:0;animation:fade-up 0.8s 1.7s ease forwards}
-.hero-cta:hover{background:var(--ivory);transform:translateY(-2px)}
-.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.6rem;opacity:0;animation:fade-in 1s 2.2s ease forwards}
-.hero-scroll span{font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--mist)}
-.scroll-bar{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold-soft),transparent);animation:scroll-pulse 2s ease-in-out infinite}
-@keyframes scroll-pulse{0%,100%{opacity:0.4}50%{opacity:1}}
-
-/* SECTIONS */
-.section{padding:7rem 3.5rem;max-width:1200px;margin:0 auto;border-top:1px solid var(--rule)}
-.eyebrow{font-family:'Cinzel',serif;font-size:0.53rem;letter-spacing:0.55em;text-transform:uppercase;color:var(--gold-soft);display:flex;align-items:center;gap:1.5rem;margin-bottom:4rem}
-.eyebrow::after{content:'';flex:1;height:1px;background:var(--rule)}
-
-/* FRAMEWORK */
-.what-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
-.what-headline{font-family:'Cinzel',serif;font-weight:600;font-size:clamp(1.5rem,2.8vw,2.2rem);line-height:1.3;color:var(--ivory);margin-bottom:2rem}
-.what-headline em{font-style:normal;color:var(--gold)}
-.what-body{font-size:0.87rem;color:var(--mist);line-height:2;margin-bottom:1.5rem}
-.compliance-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule)}
-.compliance-item{background:var(--card);padding:1.8rem 2rem}
-.compliance-name{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.15em;color:var(--ivory);margin-bottom:0.4rem}
-.compliance-desc{font-size:0.72rem;color:var(--mist);line-height:1.6}
-
-/* PROFIT STACK */
-.stack-intro{max-width:580px;margin-bottom:3.5rem}
-.stack-intro p{font-size:0.87rem;color:var(--mist);line-height:2}
-.stack-layers{display:flex;flex-direction:column;gap:1px;background:var(--rule)}
-.stack-layer{background:var(--card);padding:2rem 2.5rem;display:grid;grid-template-columns:9rem 1fr auto;align-items:center;gap:2.5rem;transition:background 0.25s}
-.stack-layer:hover{background:#1A1814}
-.layer-num{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.4em;color:var(--fog);white-space:nowrap}
-.layer-name{font-family:'Cinzel',serif;font-weight:600;font-size:0.9rem;letter-spacing:0.15em;color:var(--ivory);margin-bottom:0.25rem}
-.layer-desc{font-size:0.75rem;color:var(--mist);line-height:1.6}
-.layer-tag{font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--mist);white-space:nowrap;text-align:right}
-
-/* MECHANISMS */
-.mech-intro{max-width:620px;margin-bottom:3.5rem}
-.mech-intro p{font-size:0.87rem;color:var(--mist);line-height:2}
-.mech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule)}
-.mech-card{background:var(--card);padding:2.4rem 2rem;display:flex;flex-direction:column;gap:0.7rem;position:relative;overflow:hidden;transition:background 0.3s}
-.mech-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
-.mech-card:hover{background:#1A1814}
-.mech-card:hover::after{transform:scaleX(1)}
-.mech-index{font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.5em;color:var(--fog)}
-.mech-name{font-family:'Cinzel',serif;font-weight:600;font-size:0.95rem;letter-spacing:0.12em;color:var(--ivory)}
-.mech-name .g{color:var(--gold)}
-.mech-role{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-soft)}
-.mech-desc{font-size:0.78rem;color:var(--mist);line-height:1.8;flex:1}
-.mech-tool{font-size:0.7rem;color:var(--mist);border-top:1px solid var(--rule);padding-top:0.8rem;margin-top:0.3rem}
-.mech-tool strong{color:var(--gold);font-weight:400}
-.mech-link{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:0.6rem;transition:gap 0.3s;margin-top:auto}
-.mech-link::after{content:'→'}
-.mech-link:hover{gap:1.2rem}
-.mech-note{font-size:0.72rem;color:var(--fog);margin-top:3rem;font-style:italic}
-
-/* PRICING */
-.price-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:3rem}
-.price-card{background:var(--card);padding:3rem 2.4rem;display:flex;flex-direction:column}
-.price-card.featured{background:#1C1A10;border-top:2px solid var(--gold)}
-.price-tier{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--mist);margin-bottom:1.5rem}
-.price-name{font-family:'Cinzel',serif;font-weight:600;font-size:1.1rem;letter-spacing:0.1em;color:var(--ivory);margin-bottom:0.3rem}
-.price-sub{font-size:0.72rem;color:var(--mist);margin-bottom:2rem;line-height:1.5}
-.price-amount{font-family:'Cinzel',serif;font-weight:700;font-size:2.2rem;color:var(--gold);line-height:1;margin-bottom:0.4rem}
-.price-cadence{font-size:0.65rem;color:var(--mist);margin-bottom:2rem}
-.price-features{list-style:none;display:flex;flex-direction:column;gap:0.8rem;margin-bottom:2.5rem;padding-top:1.5rem;border-top:1px solid var(--rule);flex:1}
-.price-features li{font-size:0.78rem;color:var(--mist);line-height:1.6;padding-left:1.2rem;position:relative}
-.price-features li::before{content:'✓';position:absolute;left:0;color:var(--gold-soft);font-size:0.7rem}
-.price-cta{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.35em;text-transform:uppercase;text-decoration:none;padding:1rem 1.5rem;text-align:center;transition:background 0.25s,color 0.25s;margin-top:auto}
-.price-cta.primary{background:var(--gold);color:var(--bg)}
-.price-cta.primary:hover{background:var(--ivory)}
-.price-cta.ghost{border:1px solid var(--fog);color:var(--gold)}
-.price-cta.ghost:hover{border-color:var(--gold);color:var(--ivory)}
-
-/* FOOTER */
-footer{border-top:1px solid var(--rule);padding:2.4rem 3.5rem;max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-.footer-brand{font-family:'Cinzel',serif;font-weight:600;font-size:0.7rem;letter-spacing:0.4em;color:var(--gold-soft)}
-.footer-copy{font-size:0.68rem;color:var(--mist)}
-.footer-nav{display:flex;gap:2rem;list-style:none}
-.footer-nav a{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--mist);text-decoration:none;transition:color 0.25s}
-.footer-nav a:hover{color:var(--gold)}
-
-.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.75s ease,transform 0.75s ease}
-.reveal.visible{opacity:1;transform:none}
-@keyframes fade-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fade-in{from{opacity:0}to{opacity:1}}
-
-@media(max-width:960px){
-  nav{padding:1.2rem 1.8rem}
-  .section{padding:5rem 1.8rem}
-  .what-layout{grid-template-columns:1fr;gap:3rem}
-  .mech-grid{grid-template-columns:1fr 1fr}
-  .stack-layer{grid-template-columns:1fr;gap:0.6rem}
-  .layer-tag{text-align:left}
-  .price-layout{grid-template-columns:1fr}
-  footer{padding:2rem 1.8rem;flex-direction:column;align-items:flex-start}
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
 }
-@media(max-width:600px){
-  .nav-links{display:none}
-  .mech-grid{grid-template-columns:1fr}
-  .compliance-grid{grid-template-columns:1fr}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(201,150,58,0.12);
+  background: rgba(5,5,8,0.85);
+  backdrop-filter: blur(20px);
 }
-@media(prefers-reduced-motion:reduce){
-  .hero-disc,.scroll-bar{animation:none}
-  .hero-kicker,.hero-wordmark,.hero-divider,.hero-tagline,.hero-standards,.hero-price-block,.hero-cta,.hero-scroll{animation:none;opacity:1}
-  .reveal{opacity:1;transform:none;transition:none}
+
+.nav-wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.04em;
+}
+
+.nav-logo span { color: var(--gold); }
+
+.nav-tm {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: var(--gold-dim);
+  letter-spacing: 0.2em;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--silver);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+.nav-btn {
+  padding: 10px 28px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+
+.nav-btn:hover {
+  background: var(--gold);
+  color: var(--void);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 140px 60px 100px;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 120% 80% at 100% 50%, rgba(10,22,40,0.95) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 0% 100%, rgba(201,150,58,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(168,196,220,0.03) 0%, transparent 50%);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201,150,58,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,150,58,0.06) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 80% at 60% 50%, black 0%, transparent 70%);
+}
+
+.hero-orb {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,150,58,0.06) 0%, transparent 70%);
+  right: -100px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translateY(-50%) scale(1); opacity: 0.6; }
+  50% { transform: translateY(-52%) scale(1.05); opacity: 1; }
+}
+
+.hero-content {
+  position: relative;
+  max-width: 760px;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.2s;
+}
+
+.hero-eyebrow-line {
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.hero-eyebrow-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(56px, 7vw, 96px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.4s;
+}
+
+.hero-title-main { color: var(--white); display: block; }
+.hero-title-tm { color: var(--gold); font-size: 0.35em; vertical-align: super; }
+
+.hero-title-sub {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ice);
+  display: block;
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.55s;
+}
+
+.hero-divider {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(to right, var(--gold), transparent);
+  margin: 32px 0;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.65s;
+}
+
+.hero-body {
+  font-size: clamp(16px, 1.8vw, 19px);
+  font-weight: 300;
+  color: rgba(248,246,241,0.6);
+  line-height: 1.8;
+  max-width: 580px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.75s;
+}
+
+.hero-body strong {
+  color: var(--cream);
+  font-weight: 500;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.9s;
+}
+
+.btn-gold {
+  display: inline-block;
+  padding: 18px 48px;
+  background: var(--gold);
+  color: var(--void);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gold::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-gold:hover::before { left: 100%; }
+.btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 16px 48px rgba(201,150,58,0.3); }
+
+.btn-outline {
+  display: inline-block;
+  padding: 18px 48px;
+  background: transparent;
+  color: rgba(248,246,241,0.6);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid rgba(248,246,241,0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover { border-color: rgba(248,246,241,0.5); color: var(--white); }
+
+.hero-regs {
+  position: absolute;
+  bottom: 60px;
+  left: 60px;
+  right: 60px;
+  display: flex;
+  gap: 32px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 1.1s;
+  flex-wrap: wrap;
+}
+
+.reg-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--silver);
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid rgba(107,122,141,0.3);
+}
+
+/* ── URGENCY BAR ── */
+.urgency {
+  background: rgba(192,57,43,0.08);
+  border-top: 1px solid rgba(192,57,43,0.3);
+  border-bottom: 1px solid rgba(192,57,43,0.3);
+  padding: 20px 60px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.urgency-dot {
+  width: 8px; height: 8px;
+  background: var(--danger);
+  border-radius: 50%;
+  animation: blink 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.urgency-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(192,57,43,0.9);
+}
+
+.urgency-text strong { color: #E05A4A; }
+
+/* ── SECTION BASE ── */
+section { padding: 120px 60px; }
+.container { max-width: 1100px; margin: 0 auto; }
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.eyebrow-line { width: 32px; height: 1px; background: var(--gold); }
+
+.eyebrow-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+
+.section-title em { font-style: italic; color: var(--gold); }
+
+.section-body {
+  font-size: 17px;
+  font-weight: 300;
+  color: rgba(248,246,241,0.5);
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+/* ── PROBLEM ── */
+.problem { background: var(--deep); }
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--fog);
+  margin-top: 64px;
+  border: 1px solid var(--fog);
+}
+
+.problem-card {
+  background: var(--void);
+  padding: 48px 36px;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.problem-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+  transform-origin: left;
+}
+
+.problem-card:hover { background: rgba(201,150,58,0.03); }
+.problem-card:hover::before { transform: scaleX(1); }
+
+.problem-icon {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--gold-dim);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.problem-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 14px;
+  line-height: 1.3;
+}
+
+.problem-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--silver);
+  line-height: 1.75;
+}
+
+/* ── REGULATORY ── */
+.regulatory { background: var(--void); }
+
+.reg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(201,150,58,0.1);
+  margin-top: 64px;
+  border: 1px solid rgba(201,150,58,0.1);
+}
+
+.reg-card {
+  background: var(--void);
+  padding: 40px 36px;
+  display: flex;
+  gap: 24px;
+  transition: background 0.3s;
+}
+
+.reg-card:hover { background: rgba(201,150,58,0.03); }
+
+.reg-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  background: rgba(201,150,58,0.1);
+  border: 1px solid rgba(201,150,58,0.2);
+  padding: 6px 12px;
+  white-space: nowrap;
+  height: fit-content;
+  flex-shrink: 0;
+}
+
+.reg-content {}
+
+.reg-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 8px;
+}
+
+.reg-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--silver);
+  line-height: 1.7;
+}
+
+/* ── FRAMEWORK ── */
+.framework { background: var(--navy); }
+
+.domains-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: rgba(201,150,58,0.08);
+  margin-top: 64px;
+  border: 1px solid rgba(201,150,58,0.08);
+}
+
+.domain-cell {
+  background: var(--navy);
+  padding: 28px 20px;
+  text-align: center;
+  transition: background 0.3s, transform 0.2s;
+  cursor: default;
+}
+
+.domain-cell:hover {
+  background: rgba(201,150,58,0.08);
+  transform: translateY(-4px);
+  z-index: 10;
+  position: relative;
+}
+
+.domain-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: var(--gold-dim);
+  letter-spacing: 0.2em;
+  margin-bottom: 10px;
+}
+
+.domain-icon {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.domain-name {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(248,246,241,0.5);
+  line-height: 1.4;
+}
+
+.framework-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(201,150,58,0.08);
+  margin-top: 1px;
+  border: 1px solid rgba(201,150,58,0.08);
+  border-top: none;
+}
+
+.feature-card {
+  background: var(--navy);
+  padding: 40px 32px;
+  border-top: 2px solid transparent;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.feature-card:hover {
+  border-top-color: var(--gold);
+  background: rgba(201,150,58,0.04);
+}
+
+.feature-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+}
+
+.feature-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.feature-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--silver);
+  line-height: 1.75;
+}
+
+/* ── RISK ── */
+.risk { background: var(--void); }
+
+.risk-ladder {
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.risk-item {
+  display: grid;
+  grid-template-columns: 160px 200px 1fr auto;
+  gap: 0;
+  align-items: stretch;
+  background: var(--fog);
+  transition: background 0.3s;
+}
+
+.risk-item:hover { background: rgba(201,150,58,0.15); }
+
+.risk-level {
+  padding: 28px 24px;
+  display: flex;
+  align-items: center;
+  background: var(--void);
+}
+
+.risk-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  padding: 6px 14px;
+}
+
+.risk-badge.critical { background: rgba(192,57,43,0.15); color: #E05A4A; border: 1px solid rgba(192,57,43,0.4); }
+.risk-badge.high     { background: rgba(201,100,40,0.15); color: #D4824A; border: 1px solid rgba(201,100,40,0.4); }
+.risk-badge.sig      { background: rgba(201,150,58,0.15); color: var(--gold); border: 1px solid rgba(201,150,58,0.3); }
+.risk-badge.mod      { background: rgba(100,140,180,0.1); color: var(--ice); border: 1px solid rgba(100,140,180,0.2); }
+.risk-badge.low      { background: rgba(26,107,69,0.1); color: #4CA870; border: 1px solid rgba(26,107,69,0.2); }
+
+.risk-class {
+  padding: 28px 24px;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.02);
+}
+
+.risk-class-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--cream);
+}
+
+.risk-examples {
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  background: var(--void);
+}
+
+.risk-examples-text {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--silver);
+  line-height: 1.6;
+}
+
+.risk-gov {
+  padding: 28px 24px;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.02);
+  min-width: 200px;
+}
+
+.risk-gov-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--gold-dim);
+  line-height: 1.5;
+}
+
+/* ── ENGAGEMENT ── */
+.engagement { background: var(--navy); }
+
+.phases-track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(201,150,58,0.08);
+  margin-top: 64px;
+  border: 1px solid rgba(201,150,58,0.08);
+}
+
+.phase-card {
+  background: var(--navy);
+  padding: 40px 28px;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.phase-card:hover { background: rgba(201,150,58,0.05); }
+
+.phase-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.phase-duration {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: var(--silver);
+  letter-spacing: 0.15em;
+  margin-bottom: 20px;
+}
+
+.phase-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.phase-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.phase-items li {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--silver);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.phase-items li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--gold-dim);
+  font-size: 11px;
+}
+
+/* ── PRICING ── */
+.pricing-section { background: var(--void); }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(201,150,58,0.1);
+  margin-top: 64px;
+  border: 1px solid rgba(201,150,58,0.1);
+}
+
+.pricing-card {
+  background: var(--void);
+  padding: 52px 40px;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.pricing-card.featured {
+  background: rgba(201,150,58,0.05);
+  border: 1px solid rgba(201,150,58,0.25);
+  margin: -1px;
+}
+
+.pricing-card:hover { background: rgba(201,150,58,0.04); }
+.pricing-card.featured:hover { background: rgba(201,150,58,0.08); }
+
+.pricing-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: var(--silver);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.featured-badge {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: var(--gold);
+  color: var(--void);
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+}
+
+.pricing-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.pricing-price sup {
+  font-size: 24px;
+  color: var(--gold);
+  vertical-align: super;
+}
+
+.pricing-period {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--silver);
+  letter-spacing: 0.12em;
+  margin-bottom: 32px;
+}
+
+.pricing-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.pricing-features li {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(248,246,241,0.55);
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.pricing-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 11px;
+}
+
+.pricing-cta {
+  display: block;
+  text-align: center;
+  padding: 14px 24px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  transition: all 0.3s;
+}
+
+.pricing-cta:hover, .pricing-card.featured .pricing-cta {
+  background: var(--gold);
+  color: var(--void);
+}
+
+/* ── FINAL CTA ── */
+.final {
+  background: var(--deep);
+  text-align: center;
+  padding: 160px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.final::before {
+  content: 'ARCHAI';
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-size: 400px;
+  font-weight: 900;
+  color: rgba(201,150,58,0.03);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -0.05em;
+}
+
+.final-content { position: relative; }
+
+.final .section-title { max-width: 700px; margin: 0 auto 24px; }
+.final .section-body { margin: 0 auto 48px; text-align: center; }
+
+.final-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 32px auto;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--void);
+  padding: 48px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(201,150,58,0.1);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.footer-brand span { color: var(--gold); }
+
+.footer-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: var(--silver);
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+.footer-right {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: var(--silver);
+  letter-spacing: 0.15em;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links, .nav-btn { display: none; }
+  section { padding: 80px 24px; }
+  .hero { padding: 120px 24px 80px; }
+  .hero-regs { left: 24px; right: 24px; bottom: 32px; }
+  .urgency { padding: 16px 24px; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .reg-grid { grid-template-columns: 1fr; }
+  .domains-grid { grid-template-columns: repeat(4, 1fr); }
+  .framework-features { grid-template-columns: 1fr; }
+  .risk-item { grid-template-columns: 1fr 1fr; }
+  .risk-examples, .risk-gov { display: none; }
+  .phases-track { grid-template-columns: 1fr 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; text-align: center; }
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a class="nav-mark" href="#">ARCHAI<span style="font-size:0.6em;vertical-align:super;color:var(--gold-soft)">™</span></a>
+  <a href="#" class="nav-wordmark">
+    <span class="nav-logo">ARCHAI<span>™</span></span>
+    <span class="nav-tm">by Archonomy</span>
+  </a>
   <ul class="nav-links">
+    <li><a href="#problem">The Problem</a></li>
     <li><a href="#framework">Framework</a></li>
-    <li><a href="#stack">Profit Stack</a></li>
-    <li><a href="#mechanisms">Mechanisms</a></li>
-    <li><a href="#pricing">Engage</a></li>
+    <li><a href="#risk">Risk Levels</a></li>
+    <li><a href="#pricing">Pricing</a></li>
   </ul>
+  <div class="nav-right">
+    <a href="https://archon79.gumroad.com/l/vneqi" class="nav-btn">Request Assessment</a>
+  </div>
 </nav>
 
 <!-- HERO -->
-<header class="hero">
+<section class="hero">
+  <div class="hero-bg"></div>
   <div class="hero-grid"></div>
-  <div class="hero-disc"></div>
+  <div class="hero-orb"></div>
   <div class="hero-content">
-    <p class="hero-kicker">ARCHONOMY™ — by Barkdale &amp; Co.</p>
-    <h1 class="hero-wordmark">ARC<span class="accent">H</span>AI<span style="font-size:0.3em;vertical-align:super;color:var(--gold-soft);letter-spacing:0">™</span></h1>
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span class="hero-eyebrow-text">Barkdale & Co. · Starr Kennelly, Discipline Architect</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="hero-title-main">ARCHAI<span class="hero-title-tm">™</span></span>
+    </h1>
+    <span class="hero-title-sub">AI Governance Framework</span>
     <div class="hero-divider"></div>
-    <p class="hero-tagline">The AI Governance Framework built for organizations that refuse to govern blindly.</p>
-    <div class="hero-standards">
-      <span class="std-pill">EU AI Act</span>
-      <span class="std-pill">NIST RMF</span>
-      <span class="std-pill">ISO 42001</span>
-      <span class="std-pill">EO 14110</span>
+    <p class="hero-body">
+      Your AI systems are making <strong>consequential decisions right now</strong> — without formal governance, without traceable authority, without enforceable ethical constraints. Regulators are asking for evidence. <strong>ARCHAI™ is the answer.</strong>
+    </p>
+    <div class="hero-actions">
+      <a href="https://archon79.gumroad.com/l/vneqi" class="btn-gold">Request Governance Assessment</a>
+      <a href="#framework" class="btn-outline">View the Framework</a>
     </div>
-    <div class="hero-price-block">
-      <span class="hero-price">$1,500</span>
-      <span class="hero-price-label">Launch Price — Immediate Acquisition</span>
-    </div>
-    <a class="hero-cta" href="https://archon79.gumroad.com/l/vneqi">Acquire ARCHAI™</a>
   </div>
-  <div class="hero-scroll"><span>Scroll</span><div class="scroll-bar"></div></div>
-</header>
+  <div class="hero-regs">
+    <span class="reg-tag">EU AI Act</span>
+    <span class="reg-tag">NIST AI RMF</span>
+    <span class="reg-tag">ISO/IEC 42001</span>
+    <span class="reg-tag">EO 14110</span>
+    <span class="reg-tag">GDPR Art. 22</span>
+  </div>
+</section>
+
+<!-- URGENCY BAR -->
+<div class="urgency">
+  <div class="urgency-dot"></div>
+  <p class="urgency-text">
+    <strong>The EU AI Act is in force.</strong> High-risk AI systems without formal governance documentation face fines up to €30 million or 6% of global annual turnover. Most organizations are not compliant.
+  </p>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">The Problem</span></div>
+      <h2 class="section-title">Your AI systems are operating<br><em>without formal governance</em></h2>
+      <p class="section-body">Every organization deploying AI faces the same six failures. Any one of them is a regulatory liability. All six together is an existential risk.</p>
+    </div>
+    <div class="problem-grid reveal">
+      <div class="problem-card">
+        <span class="problem-icon">01 · TRACEABILITY</span>
+        <h3 class="problem-title">AI Decisions Are Not Traceable</h3>
+        <p class="problem-desc">When your AI system makes a consequential decision, can you produce the complete audit trail — model version, training data, parameters, human authorization? Regulators are asking. Most companies cannot answer.</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">02 · AUTHORITY</span>
+        <h3 class="problem-title">AI Authority Is Undefined</h3>
+        <p class="problem-desc">Who in your organization has the formal authority to deploy an AI system? Change its parameters? Expand its scope? Shut it down? If the answer is informal, you have no governance.</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">03 · ETHICS</span>
+        <h3 class="problem-title">Ethics Are Aspirational</h3>
+        <p class="problem-desc">Your AI ethics principles exist as a document. They do not constrain operational decisions. A principle that says "we will be fair" has no enforcement mechanism. That is not governance.</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">04 · RESILIENCE</span>
+        <h3 class="problem-title">AI Failures Are Not Managed</h3>
+        <p class="problem-desc">When an AI system produces a biased output or fails unexpectedly, what is your formal response? Most organizations improvise. That improvisation is what regulators classify as a governance failure.</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">05 · KNOWLEDGE</span>
+        <h3 class="problem-title">AI Knowledge Is Unvalidated</h3>
+        <p class="problem-desc">Most AI deployment decisions rest on vendor claims and internal assumptions. There is no formal system for distinguishing what is known about your AI system's behavior from what is assumed.</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">06 · COMPLIANCE</span>
+        <h3 class="problem-title">Compliance Is Retroactive</h3>
+        <p class="problem-desc">Most AI governance is documentation produced after the fact for an auditor. That is theater. ARCHAI™ builds governance into operations so compliance is a byproduct of running the system.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGULATORY -->
+<section class="regulatory">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">Regulatory Coverage</span></div>
+      <h2 class="section-title">Built to satisfy every<br><em>major AI regulation</em></h2>
+      <p class="section-body">ARCHAI™ is mapped to all current and emerging AI regulatory frameworks. Implementation produces compliance as a byproduct — not a separate exercise.</p>
+    </div>
+    <div class="reg-grid reveal">
+      <div class="reg-card">
+        <span class="reg-badge">EU AI Act</span>
+        <div class="reg-content">
+          <p class="reg-title">EU Artificial Intelligence Act (2024)</p>
+          <p class="reg-desc">Risk classification, conformity assessment, technical documentation, human oversight, incident reporting. ARCHAI™ addresses all high-risk AI system requirements under the Act.</p>
+        </div>
+      </div>
+      <div class="reg-card">
+        <span class="reg-badge">NIST RMF</span>
+        <div class="reg-content">
+          <p class="reg-title">NIST AI Risk Management Framework</p>
+          <p class="reg-desc">The four functions — Govern, Map, Measure, Manage — are operationalized across all 14 ARCHAI™ domains. ARCHAI™ is the implementation engine for NIST RMF compliance.</p>
+        </div>
+      </div>
+      <div class="reg-card">
+        <span class="reg-badge">ISO 42001</span>
+        <div class="reg-content">
+          <p class="reg-title">ISO/IEC 42001 AI Management System</p>
+          <p class="reg-desc">The enterprise AI governance certification standard. ARCHAI™ implementation satisfies ISO/IEC 42001 operational requirements. ARCHAI™ is the engine — ISO 42001 is the certification.</p>
+        </div>
+      </div>
+      <div class="reg-card">
+        <span class="reg-badge">EO 14110</span>
+        <div class="reg-content">
+          <p class="reg-title">US Executive Order 14110</p>
+          <p class="reg-desc">Federal AI governance requirements for safety testing, transparency, and risk management. ARCHAI™ satisfies federal contractor AI governance documentation requirements.</p>
+        </div>
+      </div>
+      <div class="reg-card">
+        <span class="reg-badge">GDPR</span>
+        <div class="reg-content">
+          <p class="reg-title">GDPR Article 22 — Automated Decision-Making</p>
+          <p class="reg-desc">Rights to explanation and human review for automated decisions. ARCHAI™ Causality and Phenomenology domains produce the explainability record Article 22 requires.</p>
+        </div>
+      </div>
+      <div class="reg-card">
+        <span class="reg-badge">UK AISF</span>
+        <div class="reg-content">
+          <p class="reg-title">UK AI Safety Institute Framework</p>
+          <p class="reg-desc">Evaluation, testing, and red-teaming requirements for advanced AI systems. ARCHAI™ Optimization and Resilience domains operationalize UK AISF requirements.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FRAMEWORK -->
-<section class="section" id="framework">
-  <p class="eyebrow reveal">What ARCHAI™ Is</p>
-  <div class="what-layout">
+<section class="framework" id="framework">
+  <div class="container">
     <div class="reveal">
-      <h2 class="what-headline">A constitutional <em>governance engine</em> — not a methodology, not a checklist</h2>
-      <p class="what-body">ARCHAI™ is a complete AI governance framework that enforces structural alignment across your organization's AI systems. It maps your obligations to four major regulatory frameworks and gives you the architecture to meet them — permanently, not periodically.</p>
-      <p class="what-body">Built on the ARCHONOMY™ discipline: the governing system for how organizations operate, make decisions, and enforce accountability at every structural layer.</p>
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">The Framework</span></div>
+      <h2 class="section-title">14 governance domains.<br><em>One complete system.</em></h2>
+      <p class="section-body">ARCHAI™ applies the complete Archonomy discipline architecture to AI governance. Every domain addresses a dimension of AI governance that existing frameworks leave undefined.</p>
     </div>
-    <div class="compliance-grid reveal">
-      <div class="compliance-item">
-        <p class="compliance-name">EU AI Act</p>
-        <p class="compliance-desc">Risk classification, conformity obligations, and high-risk system controls.</p>
+    <div class="domains-grid reveal">
+      <div class="domain-cell"><div class="domain-num">01</div><span class="domain-icon">Ω</span><span class="domain-name">AI System Registry</span></div>
+      <div class="domain-cell"><div class="domain-num">02</div><span class="domain-icon">⚙</span><span class="domain-name">Decision Mechanisms</span></div>
+      <div class="domain-cell"><div class="domain-num">03</div><span class="domain-icon">→</span><span class="domain-name">Decision Traceability</span></div>
+      <div class="domain-cell"><div class="domain-num">04</div><span class="domain-icon">◎</span><span class="domain-name">Workflow Governance</span></div>
+      <div class="domain-cell"><div class="domain-num">05</div><span class="domain-icon">△</span><span class="domain-name">Performance Governance</span></div>
+      <div class="domain-cell"><div class="domain-num">06</div><span class="domain-icon">⬡</span><span class="domain-name">Failure Management</span></div>
+      <div class="domain-cell"><div class="domain-num">07</div><span class="domain-icon">↑</span><span class="domain-name">Deployment Governance</span></div>
+      <div class="domain-cell"><div class="domain-num">08</div><span class="domain-icon">∞</span><span class="domain-name">AI Lifecycle</span></div>
+      <div class="domain-cell"><div class="domain-num">09</div><span class="domain-icon">◈</span><span class="domain-name">Knowledge Validation</span></div>
+      <div class="domain-cell"><div class="domain-num">10</div><span class="domain-icon">■</span><span class="domain-name">Foundational Principles</span></div>
+      <div class="domain-cell"><div class="domain-num">11</div><span class="domain-icon">◉</span><span class="domain-name">AI Observability</span></div>
+      <div class="domain-cell"><div class="domain-num">12</div><span class="domain-icon">▷</span><span class="domain-name">Goal Governance</span></div>
+      <div class="domain-cell"><div class="domain-num">13</div><span class="domain-icon">⊕</span><span class="domain-name">Authority & Accountability</span></div>
+      <div class="domain-cell"><div class="domain-num">14</div><span class="domain-icon">◆</span><span class="domain-name">Ethical Constraints</span></div>
+    </div>
+    <div class="framework-features reveal">
+      <div class="feature-card">
+        <div class="feature-num">WHAT MAKES IT DIFFERENT</div>
+        <h3 class="feature-title">Not a checklist. A system.</h3>
+        <p class="feature-desc">Every other AI governance framework produces documentation. ARCHAI™ produces operational governance — formal constraints that are enforced, decisions that are blocked, records that are immutable. Compliance is a byproduct of running the system.</p>
       </div>
-      <div class="compliance-item">
-        <p class="compliance-name">NIST RMF</p>
-        <p class="compliance-desc">Govern, Map, Measure, and Manage across your full AI portfolio.</p>
+      <div class="feature-card">
+        <div class="feature-num">THE AUDIT TRAIL</div>
+        <h3 class="feature-title">Every decision. Permanently traceable.</h3>
+        <p class="feature-desc">Every AI decision produces an immutable audit record. Every governance action is authorized and logged. Every ethical assessment is permanently stored. When a regulator asks, you produce the record in minutes — not weeks.</p>
       </div>
-      <div class="compliance-item">
-        <p class="compliance-name">ISO 42001</p>
-        <p class="compliance-desc">AI management system requirements and continuous improvement architecture.</p>
-      </div>
-      <div class="compliance-item">
-        <p class="compliance-name">EO 14110</p>
-        <p class="compliance-desc">Safe, secure, and trustworthy AI — structural enforcement, not policy theater.</p>
+      <div class="feature-card">
+        <div class="feature-num">THE ENFORCEMENT</div>
+        <h3 class="feature-title">Inadmissible outputs are blocked.</h3>
+        <p class="feature-desc">Ethical constraints in ARCHAI™ are not aspirational. They are operational. An AI output that violates a defined ethical constraint is blocked before downstream action. The block is logged. It cannot be overridden without governance authorization.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROFIT STACK -->
-<section class="section" id="stack">
-  <p class="eyebrow reveal">The 5-Layer Profit Stack</p>
-  <div class="stack-intro reveal">
-    <p>ARCHAI™ is the commercial engine of ARCHONOMY™. The discipline monetizes across five layers — from a $97 diagnostic tool to a $200K enterprise governance installation. Every layer feeds the next.</p>
-  </div>
-  <div class="stack-layers reveal">
-    <div class="stack-layer" style="border-left:2px solid var(--gold)">
-      <span class="layer-num">LAYER 01</span>
-      <div>
-        <p class="layer-name" style="color:var(--gold)">Framework Layer</p>
-        <p class="layer-desc">The governance discipline itself — ARCHAI™ / ARCHONOMY™. Licensing, certification, governance rights, structural authority. This is the core intellectual property.</p>
-      </div>
-      <span class="layer-tag" style="color:var(--gold)">Authority Revenue</span>
+<!-- RISK -->
+<section class="risk" id="risk">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">Risk Classification</span></div>
+      <h2 class="section-title">Every AI system classified.<br><em>Every risk governed.</em></h2>
+      <p class="section-body">ARCHAI™ classifies every AI system by risk level before deployment. Risk level determines governance requirements. No system operates without classification.</p>
     </div>
-    <div class="stack-layer">
-      <span class="layer-num">LAYER 02</span>
-      <div>
-        <p class="layer-name">Method Layer</p>
-        <p class="layer-desc">Modules, curriculum, certification tiers (CAP / MEC / ESC), operator training, governance playbooks. This is where recurring revenue begins.</p>
+    <div class="risk-ladder reveal">
+      <div class="risk-item">
+        <div class="risk-level"><span class="risk-badge critical">CRITICAL</span></div>
+        <div class="risk-class"><span class="risk-class-text">Unacceptable Risk</span></div>
+        <div class="risk-examples"><span class="risk-examples-text">Social scoring systems · Real-time biometric surveillance · Subliminal manipulation · Exploitation of vulnerable populations</span></div>
+        <div class="risk-gov"><span class="risk-gov-text">PROHIBITED<br>No deployment possible</span></div>
       </div>
-      <span class="layer-tag">Training &amp; Certification</span>
-    </div>
-    <div class="stack-layer">
-      <span class="layer-num">LAYER 03</span>
-      <div>
-        <p class="layer-name">Tooling Layer</p>
-        <p class="layer-desc">Templates, checklists, diagnostic tools, governance dashboards, structural audits. Each mechanism has its own tool — sold separately at $97–$197.</p>
+      <div class="risk-item">
+        <div class="risk-level"><span class="risk-badge high">LEVEL 4</span></div>
+        <div class="risk-class"><span class="risk-class-text">High Risk</span></div>
+        <div class="risk-examples"><span class="risk-examples-text">Credit scoring · Hiring decisions · Medical diagnosis · Criminal justice · Critical infrastructure</span></div>
+        <div class="risk-gov"><span class="risk-gov-text">FULL ARCHAI™<br>Human review required</span></div>
       </div>
-      <span class="layer-tag">Productized Revenue</span>
-    </div>
-    <div class="stack-layer">
-      <span class="layer-num">LAYER 04</span>
-      <div>
-        <p class="layer-name">Automation Layer</p>
-        <p class="layer-desc">SaaS diagnostics, automated governance checks, AI-driven compliance, structural monitoring, organizational telemetry.</p>
+      <div class="risk-item">
+        <div class="risk-level"><span class="risk-badge sig">LEVEL 3</span></div>
+        <div class="risk-class"><span class="risk-class-text">Significant Risk</span></div>
+        <div class="risk-examples"><span class="risk-examples-text">Customer segmentation · Content moderation · Fraud detection · Performance evaluation</span></div>
+        <div class="risk-gov"><span class="risk-gov-text">FULL ARCHAI™<br>Triggered human review</span></div>
       </div>
-      <span class="layer-tag">SaaS Revenue</span>
-    </div>
-    <div class="stack-layer">
-      <span class="layer-num">LAYER 05</span>
-      <div>
-        <p class="layer-name">Enterprise Layer</p>
-        <p class="layer-desc">Organizational transformation, governance architecture, anti-collapse systems, full-stack discipline installation. This is where the big checks come from.</p>
+      <div class="risk-item">
+        <div class="risk-level"><span class="risk-badge mod">LEVEL 2</span></div>
+        <div class="risk-class"><span class="risk-class-text">Moderate Risk</span></div>
+        <div class="risk-examples"><span class="risk-examples-text">Process optimization · Demand forecasting · Document classification · Internal analytics</span></div>
+        <div class="risk-gov"><span class="risk-gov-text">CORE ARCHAI™<br>Annual review</span></div>
       </div>
-      <span class="layer-tag">Enterprise + Retainer</span>
+      <div class="risk-item">
+        <div class="risk-level"><span class="risk-badge low">LEVEL 1</span></div>
+        <div class="risk-class"><span class="risk-class-text">Low Risk</span></div>
+        <div class="risk-examples"><span class="risk-examples-text">Spell checking · Image processing · Internal search · Basic automation</span></div>
+        <div class="risk-gov"><span class="risk-gov-text">REGISTRATION<br>Minimal governance</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- MECHANISMS -->
-<section class="section" id="mechanisms">
-  <p class="eyebrow reveal">Mechanism Portfolio</p>
-  <div class="mech-intro reveal">
-    <p>ARCHAI™ is the core framework. Each mechanism extends its governance reach into a specific domain — available separately, each with its own tooling product, framework, and enterprise engagement path.</p>
+<!-- ENGAGEMENT -->
+<section class="engagement">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">Implementation</span></div>
+      <h2 class="section-title">12 weeks to complete<br><em>AI governance.</em></h2>
+      <p class="section-body">ARCHAI™ is implemented through a structured advisory engagement. At the end of 12 weeks your organization has a running governance system — not a report.</p>
+    </div>
+    <div class="phases-track reveal">
+      <div class="phase-card">
+        <div class="phase-num">PHASE 01</div>
+        <div class="phase-duration">Weeks 1–2</div>
+        <h3 class="phase-title">AI System Inventory</h3>
+        <ul class="phase-items">
+          <li>Complete inventory of all AI systems in operation</li>
+          <li>Risk classification for each system</li>
+          <li>Identification of immediate governance gaps</li>
+          <li>Formal AI System Registry established</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 02</div>
+        <div class="phase-duration">Weeks 3–5</div>
+        <h3 class="phase-title">Governance Foundation</h3>
+        <ul class="phase-items">
+          <li>AI Authority Matrix defined</li>
+          <li>Foundational AI principles canonicalized</li>
+          <li>Ethical constraints operationalized</li>
+          <li>Policy registry established</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 03</div>
+        <div class="phase-duration">Weeks 6–10</div>
+        <h3 class="phase-title">Operational Governance</h3>
+        <ul class="phase-items">
+          <li>Decision mechanism specs per AI system</li>
+          <li>Causal traceability implemented</li>
+          <li>Failure management protocols defined</li>
+          <li>Human oversight workflows established</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 04</div>
+        <div class="phase-duration">Weeks 11–12</div>
+        <h3 class="phase-title">Compliance Package</h3>
+        <ul class="phase-items">
+          <li>Full regulatory mapping produced</li>
+          <li>Audit-ready documentation package</li>
+          <li>Incident response runbook</li>
+          <li>Board-level governance report</li>
+        </ul>
+      </div>
+    </div>
   </div>
-  <div class="mech-grid">
-    <div class="mech-card reveal">
-      <p class="mech-index">01</p>
-      <h3 class="mech-name"><span class="g">AGENT</span>UM™</h3>
-      <p class="mech-role">Agentic AI Governance</p>
-      <p class="mech-desc">Structural discipline for organizations deploying autonomous AI agents. Enforces accountability, authority boundaries, and decision traceability at operational scale.</p>
-      <p class="mech-tool">Layer 3 Tool: <strong>Agentic AI Diagnostic — $97</strong></p>
-      <a class="mech-link" href="https://agentum.archai.pages.dev">Explore AGENTUM™</a>
-    </div>
-    <div class="mech-card reveal">
-      <p class="mech-index">02</p>
-      <h3 class="mech-name"><span class="g">ACCOUNT</span>UM™</h3>
-      <p class="mech-role">Algorithm Accountability</p>
-      <p class="mech-desc">Ensures every algorithmic system remains answerable to organizational governance. No algorithm operates outside the discipline — ever.</p>
-      <p class="mech-tool">Layer 3 Tool: <strong>Algorithm Accountability Audit — $147</strong></p>
-      <a class="mech-link" href="https://accountum.archai.pages.dev">Explore ACCOUNTUM™</a>
-    </div>
-    <div class="mech-card reveal">
-      <p class="mech-index">03</p>
-      <h3 class="mech-name"><span class="g">IDENT</span>ARCH™</h3>
-      <p class="mech-role">Digital Identity Governance</p>
-      <p class="mech-desc">Defines, enforces, and protects organizational identity across digital systems and public-facing interfaces. Structural coherence at every boundary.</p>
-      <p class="mech-tool">Layer 3 Tool: <strong>Identity Governance Checklist — $97</strong></p>
-      <a class="mech-link" href="https://identarch.archai.pages.dev">Explore IDENTARCH™</a>
-    </div>
-    <div class="mech-card reveal">
-      <p class="mech-index">04</p>
-      <h3 class="mech-name"><span class="g">MNEM</span>ARCH™</h3>
-      <p class="mech-role">Organizational Memory</p>
-      <p class="mech-desc">Architecture for institutional memory — how organizations capture, govern, and deploy knowledge as a structural asset rather than a fragile artifact.</p>
-      <p class="mech-tool">Layer 3 Tool: <strong>Organizational Memory Audit — $147</strong></p>
-      <a class="mech-link" href="https://mnemarch.archai.pages.dev">Explore MNEMARCH™</a>
-    </div>
-    <div class="mech-card reveal">
-      <p class="mech-index">05</p>
-      <h3 class="mech-name"><span class="g">INTENT</span>UM™</h3>
-      <p class="mech-role">Intent Architecture — Layer 2</p>
-      <p class="mech-desc">Governs how declared intent flows through the organization and binds decision-making at every tier. The bridge between principle and action.</p>
-      <p class="mech-tool">Layer 3 Tool: <strong>Intent Alignment Diagnostic — $97</strong></p>
-      <a class="mech-link" href="https://intentum.archai.pages.dev">Explore INTENTUM™</a>
-    </div>
-    <div class="mech-card reveal" style="background:var(--surface);justify-content:center;align-items:center;text-align:center;min-height:220px">
-      <p class="mech-index" style="margin-bottom:1rem">More mechanisms in development</p>
-      <p class="mech-desc" style="font-style:italic">Each new mechanism extends ARCHAI™ governance into an additional operational domain — with its own tooling product, framework, and enterprise path.</p>
-    </div>
-  </div>
-  <p class="mech-note reveal">Each mechanism is a separate product. Acquiring ARCHAI™ gives you the core framework. Mechanisms and their tooling products are purchased individually.</p>
 </section>
 
 <!-- PRICING -->
-<section class="section" id="pricing">
-  <p class="eyebrow reveal">Engagement Tiers</p>
-  <div class="price-layout">
-    <div class="price-card reveal">
-      <p class="price-tier">Layer 1 — Entry</p>
-      <h3 class="price-name">Framework Acquisition</h3>
-      <p class="price-sub">ARCHAI™ AI Governance Framework</p>
-      <p class="price-amount">$1,500</p>
-      <p class="price-cadence">One-time · Launch price · Immediate delivery</p>
-      <ul class="price-features">
-        <li>Complete ARCHAI™ governance framework</li>
-        <li>EU AI Act, NIST RMF, ISO 42001, EO 14110 mapping</li>
-        <li>Constitutional governance architecture</li>
-        <li>14-domain governance structure</li>
-        <li>Immediate digital delivery via Gumroad</li>
-      </ul>
-      <a class="price-cta primary" href="https://archon79.gumroad.com/l/vneqi">Acquire Now</a>
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">Investment</span></div>
+      <h2 class="section-title">Three ways to engage<br><em>with ARCHAI™</em></h2>
     </div>
-    <div class="price-card featured reveal">
-      <p class="price-tier">Layer 5 — Full Engagement</p>
-      <h3 class="price-name">Full Implementation</h3>
-      <p class="price-sub">ARCHAI™ deployed across your organization</p>
-      <p class="price-amount" style="font-size:1.6rem">$75K–200K</p>
-      <p class="price-cadence">12-week engagement · All four phases</p>
-      <ul class="price-features">
-        <li>Full 14-domain governance implementation</li>
-        <li>AI Authority Matrix and policy registry</li>
-        <li>Operational ethical constraint enforcement</li>
-        <li>Complete causal traceability per AI system</li>
-        <li>Audit-ready compliance package</li>
-        <li>Regulatory mapping for all applicable frameworks</li>
-      </ul>
-      <a class="price-cta primary" href="mailto:anastrophon@barkdale.co">Begin Implementation</a>
-    </div>
-    <div class="price-card reveal">
-      <p class="price-tier">Layer 5 — Ongoing</p>
-      <h3 class="price-name">Governance Retainer</h3>
-      <p class="price-sub">Continuous governance maintenance</p>
-      <p class="price-amount">$5K<span style="font-size:0.5em;color:var(--mist)">/mo</span></p>
-      <p class="price-cadence">Monthly · Post-implementation</p>
-      <ul class="price-features">
-        <li>Continuous governance maintenance</li>
-        <li>New AI system onboarding and classification</li>
-        <li>Regulatory update monitoring and adaptation</li>
-        <li>Incident governance support</li>
-        <li>Quarterly board-level governance report</li>
-        <li>Annual full governance audit</li>
-      </ul>
-      <a class="price-cta ghost" href="mailto:anastrophon@barkdale.co">Discuss Retainer</a>
+    <div class="pricing-grid reveal">
+      <div class="pricing-card">
+        <div class="pricing-tag">AI Governance Diagnostic</div>
+        <div class="pricing-price"><sup>$</sup>15,000</div>
+        <div class="pricing-period">Two-week assessment · Standalone deliverable</div>
+        <ul class="pricing-features">
+          <li>Complete inventory of all AI systems</li>
+          <li>Risk classification per system</li>
+          <li>14-domain governance gap analysis</li>
+          <li>Regulatory exposure assessment</li>
+          <li>Formal Gap Report with prioritized roadmap</li>
+          <li>Credited toward full implementation</li>
+        </ul>
+        <a href="https://archon79.gumroad.com/l/vneqi" class="pricing-cta">Schedule Diagnostic</a>
+      </div>
+      <div class="pricing-card featured">
+        <span class="featured-badge">Most Complete</span>
+        <div class="pricing-tag">Full ARCHAI™ Implementation</div>
+        <div class="pricing-price"><sup>$</sup>75K<span style="font-size:24px;color:var(--silver)">–200K</span></div>
+        <div class="pricing-period">12-week engagement · All four phases</div>
+        <ul class="pricing-features">
+          <li>Everything in Diagnostic</li>
+          <li>Full 14-domain governance implementation</li>
+          <li>AI Authority Matrix and policy registry</li>
+          <li>Operational ethical constraint enforcement</li>
+          <li>Complete causal traceability per AI system</li>
+          <li>Audit-ready compliance package</li>
+          <li>Regulatory mapping for all applicable frameworks</li>
+        </ul>
+        <a href="https://archon79.gumroad.com/l/vneqi" class="pricing-cta">Begin Implementation</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tag">Governance Retainer</div>
+        <div class="pricing-price"><sup>$</sup>5K<span style="font-size:24px;color:var(--silver)">/mo</span></div>
+        <div class="pricing-period">Ongoing · Post-implementation</div>
+        <ul class="pricing-features">
+          <li>Continuous governance maintenance</li>
+          <li>New AI system onboarding and classification</li>
+          <li>Regulatory update monitoring and adaptation</li>
+          <li>Incident governance support</li>
+          <li>Quarterly board-level governance report</li>
+          <li>Annual full governance audit</li>
+        </ul>
+        <a href="https://archon79.gumroad.com/l/vneqi" class="pricing-cta">Discuss Retainer</a>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- FINAL CTA -->
+<section class="final" id="contact">
+  <div class="final-content reveal">
+    <div class="eyebrow" style="justify-content:center"><div class="eyebrow-line"></div><span class="eyebrow-text">Get Started</span><div class="eyebrow-line"></div></div>
+    <h2 class="section-title">Your AI systems need governance.<br><em>Regulators are not waiting.</em></h2>
+    <div class="final-divider"></div>
+    <p class="section-body">The first step is a 30-minute conversation. We will tell you exactly which of your AI systems are at risk, what regulators would find if they looked today, and what ARCHAI™ implementation would look like for your organization. No obligation beyond that conversation.</p>
+    <a href="https://archon79.gumroad.com/l/vneqi" class="btn-gold">Request Your Assessment — anastrophon@barkdale.co</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <span class="footer-brand">ARCHAI™</span>
-  <span class="footer-copy">© 2026 ARCHONOMY™ — Barkdale &amp; Co. — All Rights Reserved</span>
-  <ul class="footer-nav">
-    <li><a href="https://archon79.gumroad.com/l/vneqi">Acquire</a></li>
-    <li><a href="https://archai.systems">archai.systems</a></li>
-    <li><a href="mailto:anastrophon@barkdale.co">Contact</a></li>
-  </ul>
+  <div class="footer-brand">ARCHAI<span>™</span></div>
+  <div class="footer-meta">Built on Archonomy™ · Barkdale & Co. · Starr Kennelly, Discipline Architect · All rights reserved</div>
+  <div class="footer-right">archai.systems</div>
 </footer>
 
 <script>
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
