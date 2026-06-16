@@ -3,8 +3,9 @@
 body {
     margin: 0;
     padding: 0;
-    background: #000;
-    color: #e6e6e6;
+background-color: #111111;
+color: #f5d98c;
+
     font-family: "Inter", sans-serif;
     line-height: 1.6;
 }
