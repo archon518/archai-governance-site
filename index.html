@@ -1,717 +1,868 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ARCHONOMY — The Meta-Discipline</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --bg:#06060a;--surface:#09090f;--surface2:#0c0c16;
-      --border:#141420;--border2:#1e1e30;
-      --gold:#c9a84c;--gold-dim:rgba(201,168,76,.1);--gold-glow:rgba(201,168,76,.055);
-      --muted:#4a4a60;--text:#b8b8cc;--heading:#e8e8f4;--white:#f4f4ff;
-    }
-    html{scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;line-height:1.7;overflow-x:hidden;cursor:none}
-    #cd{position:fixed;top:0;left:0;z-index:9999;width:6px;height:6px;border-radius:50%;background:var(--gold);pointer-events:none;transform:translate(-50%,-50%)}
-    #cr{position:fixed;top:0;left:0;z-index:9998;width:28px;height:28px;border-radius:50%;border:1px solid rgba(201,168,76,.3);pointer-events:none;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
-    body::before{content:'';position:fixed;inset:0;z-index:0;opacity:.03;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
-    /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.3rem 3rem;background:rgba(6,6,10,.88);backdrop-filter:blur(22px);border-bottom:1px solid var(--border)}
-    .nav-logo{font-family:'Cinzel',serif;font-size:1.05rem;font-weight:600;letter-spacing:.28em;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:.6rem}
-    .nav-logo .a{color:var(--gold)}
-    .nav-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.6}
-    .nav-links{display:flex;gap:2rem;list-style:none}
-    .nav-links a{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .22s}
-    .nav-links a:hover{color:var(--gold)}
-    .nav-cta{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:.5rem 1.4rem;text-decoration:none;transition:opacity .2s,transform .14s}
-    .nav-cta:hover{opacity:.87;transform:translateY(-1px)}
-    /* HERO */
-    .hero{position:relative;min-height:100vh;display:grid;place-items:center;padding:8rem 3rem 6rem;overflow:hidden}
-    .hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,var(--gold-glow) 0%,transparent 65%);pointer-events:none}
-    .hero-rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
-    .hr{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid;border-radius:50%}
-    .hr:nth-child(1){width:280px;height:280px;border-color:rgba(201,168,76,.07)}
-    .hr:nth-child(2){width:480px;height:480px;border-color:rgba(201,168,76,.05)}
-    .hr:nth-child(3){width:680px;height:680px;border-color:rgba(201,168,76,.03)}
-    .hr:nth-child(4){width:900px;height:900px;border-color:rgba(201,168,76,.018)}
-    .hero-inner{position:relative;z-index:1;text-align:center;max-width:860px}
-    .hero-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:2.2rem;opacity:0;animation:fadeUp .7s .2s forwards}
-    .hero-title{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(3.2rem,9vw,7.5rem);line-height:1;letter-spacing:.12em;color:var(--white);opacity:0;animation:fadeUp .9s .4s forwards}
-    .hero-title .a{color:var(--gold)}
-    .hero-rule{display:flex;align-items:center;justify-content:center;gap:1.2rem;margin:2.2rem auto;opacity:0;animation:fadeIn .8s .75s forwards}
-    .hr-line{flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-    .hr-diamond{width:7px;height:7px;border:1px solid var(--gold);transform:rotate(45deg)}
-    .hero-sub{font-size:clamp(.95rem,1.5vw,1.2rem);font-style:italic;color:var(--text);line-height:1.8;max-width:600px;margin:0 auto;opacity:0;animation:fadeUp .8s .9s forwards}
-    .hero-actions{display:flex;gap:1.1rem;align-items:center;justify-content:center;margin-top:3.2rem;opacity:0;animation:fadeUp .75s 1.1s forwards}
-    .btn-p{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:.88rem 2.2rem;text-decoration:none;display:inline-flex;align-items:center;gap:.55rem;transition:opacity .2s,transform .14s}
-    .btn-p:hover{opacity:.87;transform:translateY(-2px)}
-    .btn-s{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.32);padding:.88rem 2.2rem;text-decoration:none;display:inline-flex;align-items:center;gap:.55rem;transition:border-color .2s,transform .14s}
-    .btn-s:hover{border-color:var(--gold);transform:translateY(-2px)}
-    .hero-five{margin-top:4.5rem;display:flex;justify-content:center;gap:0;opacity:0;animation:fadeIn 1s 1.4s forwards}
-    .hf{padding:.65rem 1.1rem;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);border-right:1px solid var(--border);transition:color .22s}
-    .hf:first-child{border-left:1px solid var(--border)}
-    .hf:hover{color:var(--gold)}
-    /* MARQUEE */
-    .mq{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);padding:.85rem 0;position:relative;z-index:1}
-    .mq-track{display:flex;animation:mqs 30s linear infinite;white-space:nowrap}
-    .mq-item{display:inline-flex;align-items:center;gap:1.5rem;padding:0 2.2rem;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
-    .mq-gem{color:var(--gold);font-size:.48rem}
-    /* PRIMITIVES */
-    section{position:relative;z-index:1}
-    .bt{border-top:1px solid var(--border)}
-    .c{padding:7rem 3rem}
-    .slabel{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;display:flex;align-items:center;gap:.7rem}
-    .slabel::before{content:'';display:block;width:18px;height:1px;background:var(--gold)}
-    .sh{font-family:'Cinzel',serif;font-weight:600;font-size:clamp(1.9rem,3.8vw,3.2rem);letter-spacing:.08em;line-height:1.05;color:var(--white)}
-    .body-p{font-size:1rem;color:var(--muted);line-height:1.8;margin-top:1.2rem}
-    /* INTRO BAND */
-    .intro-band{background:var(--surface);padding:3.5rem 3rem;display:flex;align-items:center;gap:4rem;border-top:1px solid var(--border)}
-    .ib-stat{flex-shrink:0}
-    .ib-num{font-family:'Cinzel',serif;font-size:3.2rem;font-weight:600;color:var(--gold);line-height:1}
-    .ib-lbl{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
-    .ib-div{width:1px;height:70px;background:var(--border2);flex-shrink:0}
-    .ib-text{flex:1;font-size:1rem;color:var(--muted);line-height:1.8}
-    .ib-text strong{color:var(--heading)}
-    /* FIVE DISCIPLINES */
-    .disc-intro{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:end;margin-bottom:4.5rem}
-    .disc-grid{display:flex;flex-direction:column;gap:1px}
-    .disc-card{display:grid;grid-template-columns:72px 1fr 1fr;border:1px solid var(--border);background:var(--bg);transition:background .28s;overflow:hidden;position:relative;margin-bottom:1px}
-    .disc-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:top;transition:transform .38s}
-    .disc-card:hover{background:#0b0b14}
-    .disc-card:hover::before{transform:scaleY(1)}
-    .disc-num-col{display:flex;align-items:center;justify-content:center;border-right:1px solid var(--border);padding:2.5rem 0}
-    .disc-rom{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:400;color:rgba(201,168,76,.18);writing-mode:vertical-lr;text-orientation:mixed;transform:rotate(180deg)}
-    .disc-content{padding:2.4rem 2rem 2.4rem 2.2rem;border-right:1px solid var(--border)}
-    .disc-name{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;color:var(--white);letter-spacing:.08em;margin-bottom:.6rem}
-    .disc-def{font-size:.9rem;color:var(--muted);line-height:1.75;font-style:italic}
-    .disc-aspects{padding:2.4rem 2.2rem}
-    .disc-asp-lbl{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
-    .disc-asp-list{list-style:none}
-    .disc-asp-list li{font-size:.84rem;color:var(--muted);line-height:1.6;padding:.3rem 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:.55rem}
-    .disc-asp-list li:last-child{border-bottom:none}
-    .disc-asp-list li::before{content:'◈';color:var(--gold);font-size:.52rem;flex-shrink:0;margin-top:5px}
-    /* PRIME ENGINE */
-    .pe-wrap{border:1px solid var(--border);padding:3rem;margin-top:4rem}
-    .pe-lbl{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:2.2rem;padding-bottom:.7rem;border-bottom:1px solid var(--border)}
-    .pe-flow{display:flex;align-items:stretch;gap:0}
-    .pe-phase{flex:1;padding:1.8rem 1.4rem;border:1px solid var(--border);text-align:center;transition:background .25s;cursor:default}
-    .pe-phase:hover{background:var(--surface2)}
-    .pe-n{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.18em;color:var(--muted);margin-bottom:.7rem}
-    .pe-name{font-family:'Cinzel',serif;font-size:1.1rem;letter-spacing:.08em;color:var(--white);margin-bottom:.5rem}
-    .pe-desc{font-size:.78rem;color:var(--muted);line-height:1.6}
-    .pe-arr{font-family:'DM Mono',monospace;font-size:.85rem;color:var(--gold);padding:0 .3rem;flex-shrink:0;display:flex;align-items:center}
-    /* INTEGRATION */
-    .intg-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
-    .intg-diagram{padding:2.8rem;border:1px solid var(--border)}
-    .intg-diag-lbl{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:2.2rem;padding-bottom:.7rem;border-bottom:1px solid var(--border)}
-    .int-step{display:flex;align-items:stretch;gap:0;margin-bottom:1px}
-    .int-step-l{width:110px;flex-shrink:0;padding:1.1rem .9rem;border:1px solid var(--border);text-align:right;display:flex;flex-direction:column;justify-content:center}
-    .int-step-n{font-family:'Cinzel',serif;font-size:.78rem;color:var(--gold);margin-bottom:.2rem}
-    .int-step-nm{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-    .int-conn{width:28px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
-    .int-line{flex:1;width:1px;background:var(--border2)}
-    .int-arr{color:var(--gold);font-size:.65rem;padding:.25rem 0}
-    .int-body{flex:1;padding:1.1rem 1.3rem;border:1px solid var(--border);font-size:.86rem;color:var(--muted);line-height:1.65}
-    .int-body strong{color:var(--text)}
-    .intg-pillar{padding:1rem 1.3rem;border:1px solid var(--border);background:var(--surface);font-size:.88rem;color:var(--muted);display:flex;gap:.75rem;align-items:flex-start;margin-bottom:1px}
-    .intg-pillar span.gem{color:var(--gold);flex-shrink:0}
-    .intg-pillar strong{color:var(--text)}
-    /* LICENSING */
-    .lic-bg{background:var(--surface)}
-    .lic-arch{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid var(--border);margin-top:4rem}
-    .lic-card{padding:2.2rem 1.8rem;border-right:1px solid var(--border);position:relative;transition:background .25s;background:var(--bg)}
-    .lic-card:last-child{border-right:none}
-    .lic-card:hover{background:#0b0b14}
-    .lic-card.feat{background:var(--surface2)}
-    .lic-feat-tag{position:absolute;top:.9rem;right:.9rem;font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;background:var(--gold);color:var(--bg);padding:.15rem .55rem}
-    .lic-tier{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
-    .lic-name{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;color:var(--white);letter-spacing:.06em;margin-bottom:.45rem;line-height:1.2}
-    .lic-inv{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:var(--gold);margin-bottom:1.2rem}
-    .lic-desc{font-size:.85rem;color:var(--muted);line-height:1.65;margin-bottom:1.4rem}
-    .lic-feats{list-style:none;margin-bottom:1.8rem}
-    .lic-feats li{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.07em;color:var(--muted);padding:.38rem 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:.5rem}
-    .lic-feats li::before{content:'→';color:var(--gold);flex-shrink:0}
-    .lic-feats li:last-child{border-bottom:none}
-    .lic-note{margin-top:3rem;padding:1.6rem 2rem;border:1px solid var(--border);background:var(--bg);display:flex;gap:1.2rem;align-items:flex-start}
-    .lic-note-icon{color:var(--gold);flex-shrink:0;margin-top:2px}
-    .lic-note-text{font-family:'DM Mono',monospace;font-size:.64rem;letter-spacing:.07em;color:var(--muted);line-height:1.7}
-    .lic-note-text strong{color:var(--text)}
-    /* CERTIFICATION TABS */
-    .cert-tabs{display:flex;gap:0;margin-top:3.5rem;border:1px solid var(--border);border-bottom:none}
-    .cert-tab{flex:1;padding:1.1rem 1.4rem;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);background:var(--bg);border:none;cursor:pointer;border-right:1px solid var(--border);transition:background .2s,color .2s;text-align:left;line-height:1.5}
-    .cert-tab:last-child{border-right:none}
-    .cert-tab.active{background:var(--surface2);color:var(--gold)}
-    .cert-tab:hover:not(.active){background:var(--surface);color:var(--text)}
-    .cert-panel{display:none;border:1px solid var(--border)}
-    .cert-panel.active{display:grid;grid-template-columns:1fr 1fr}
-    .cert-panel-left{padding:3rem;border-right:1px solid var(--border)}
-    .cert-panel-right{padding:3rem;background:var(--surface)}
-    .cert-abbr{font-family:'Cinzel',serif;font-size:2.2rem;color:var(--gold);letter-spacing:.08em;line-height:1;margin-bottom:.4rem}
-    .cert-full{font-family:'Cinzel',serif;font-size:.95rem;font-weight:600;color:var(--white);letter-spacing:.08em;margin-bottom:1rem;line-height:1.3}
-    .cert-scope{font-size:.9rem;color:var(--muted);line-height:1.75;font-style:italic;margin-bottom:1.8rem}
-    .cert-prereq{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--muted);padding:.7rem 1rem;border-left:2px solid var(--gold);background:var(--gold-dim);margin-bottom:2rem;line-height:1.6}
-    .mod-list{display:flex;flex-direction:column;gap:1px}
-    .mod-item{padding:1rem 1.2rem;border:1px solid var(--border);background:var(--bg);transition:background .22s;margin-bottom:1px}
-    .mod-item:hover{background:#0b0b14}
-    .mod-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.3rem}
-    .mod-code{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.15em;color:var(--gold)}
-    .mod-title{font-family:'Cinzel',serif;font-size:.88rem;font-weight:600;color:var(--white);letter-spacing:.06em}
-    .mod-desc{font-size:.83rem;color:var(--muted);line-height:1.6}
-    .exam-box{padding:2rem;border:1px solid var(--border);background:var(--bg);margin-bottom:1.8rem}
-    .exam-lbl{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
-    .exam-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-bottom:1.4rem}
-    .exam-cell{padding:.75rem .9rem;border:1px solid var(--border)}
-    .exam-cell-lbl{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
-    .exam-cell-val{font-size:.86rem;color:var(--text);line-height:1.5}
-    .exam-w-row{display:flex;align-items:center;border:1px solid var(--border);margin-bottom:1px}
-    .exam-w-section{flex:1;padding:.55rem .8rem;font-size:.82rem;color:var(--muted)}
-    .exam-w-pct{width:52px;flex-shrink:0;padding:.55rem .7rem;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--gold);border-left:1px solid var(--border);text-align:right}
-    .tl-lbl{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;margin-top:1.8rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
-    .tl-row{display:grid;grid-template-columns:90px 1fr;border:1px solid var(--border);margin-bottom:1px}
-    .tl-weeks{padding:.8rem 1rem;border-right:1px solid var(--border);font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:var(--gold);display:flex;align-items:center}
-    .tl-content{padding:.8rem 1.1rem}
-    .tl-focus{font-family:'Cinzel',serif;font-size:.84rem;font-weight:600;color:var(--white);margin-bottom:.2rem}
-    .tl-act{font-size:.8rem;color:var(--muted);line-height:1.6}
-    /* MATRIX */
-    .matrix-wrap{overflow-x:auto;margin-top:2rem}
-    .matrix-table{width:100%;border-collapse:collapse}
-    .matrix-table th{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:.6rem .8rem;border:1px solid var(--border);background:var(--surface);text-align:center}
-    .matrix-table th:first-child{text-align:left}
-    .matrix-table td{padding:.55rem .8rem;border:1px solid var(--border);color:var(--muted);font-size:.8rem}
-    .matrix-table td:first-child{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:var(--text)}
-    .matrix-table td.p{text-align:center;color:var(--gold);font-size:.9rem}
-    .matrix-table td.s{text-align:center;color:var(--muted);font-size:.82rem;opacity:.55}
-    .matrix-table td.e{text-align:center}
-    .matrix-table tr:hover td{background:var(--surface2)}
-    /* AUDIENCE */
-    .aud-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid var(--border);margin-top:4rem}
-    .aud-card{padding:2.2rem 1.8rem;border-right:1px solid var(--border);transition:background .25s}
-    .aud-card:last-child{border-right:none}
-    .aud-card:hover{background:var(--surface)}
-    .aud-rom{font-family:'Cinzel',serif;font-size:2rem;color:rgba(201,168,76,.18);line-height:1;margin-bottom:1.1rem}
-    .aud-title{font-family:'Cinzel',serif;font-size:.88rem;font-weight:600;color:var(--white);letter-spacing:.07em;margin-bottom:.55rem;line-height:1.3}
-    .aud-desc{font-size:.86rem;color:var(--muted);line-height:1.65}
-    /* ACTION PLAN */
-    .act-bg{background:var(--surface)}
-    .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--border);margin-top:4rem}
-    .act-item{padding:2rem 2.2rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .25s;background:var(--bg)}
-    .act-item:nth-child(2n){border-right:none}
-    .act-item:nth-last-child(-n+2){border-bottom:none}
-    .act-item:hover{background:#0b0b14}
-    .act-step{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
-    .act-title{font-family:'Cinzel',serif;font-size:.92rem;font-weight:600;color:var(--white);letter-spacing:.05em;margin-bottom:.5rem}
-    .act-desc{font-size:.88rem;color:var(--muted);line-height:1.7}
-    /* CTA */
-    .cta-s{padding:8.5rem 3rem;text-align:center;position:relative;overflow:hidden}
-    .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--gold-glow) 0%,transparent 68%);pointer-events:none}
-    .cta-ey{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem;position:relative}
-    .cta-title{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(2.4rem,6vw,5.5rem);letter-spacing:.1em;color:var(--white);line-height:1.02;position:relative}
-    .cta-sub{max-width:500px;margin:1.8rem auto 0;font-size:1.05rem;font-style:italic;color:var(--muted);line-height:1.8;position:relative}
-    .cta-actions{display:flex;gap:1.1rem;align-items:center;justify-content:center;margin-top:3.2rem;position:relative}
-    .cta-seal{margin-top:3.5rem;position:relative;font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-    .cta-rule{display:flex;align-items:center;justify-content:center;gap:.9rem;margin-bottom:.5rem}
-    .cta-rule-line{width:36px;height:1px}
-    .cta-rule-d{width:5px;height:5px;border:1px solid var(--muted);transform:rotate(45deg)}
-    /* FOOTER */
-    footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
-    .foot-logo{font-family:'Cinzel',serif;font-size:.95rem;font-weight:600;letter-spacing:.26em;color:var(--muted);text-decoration:none}
-    .foot-logo span{color:var(--gold)}
-    .foot-copy{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:var(--muted)}
-    .foot-links{display:flex;gap:1.8rem;list-style:none}
-    .foot-links a{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
-    .foot-links a:hover{color:var(--gold)}
-    /* ANIMATIONS */
-    @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    @keyframes mqs{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    .reveal{opacity:0;transform:translateY(22px);transition:opacity .72s,transform .72s}
-    .reveal.in{opacity:1;transform:translateY(0)}
-    .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
-    /* RESPONSIVE */
-    @media(max-width:1100px){
-      .disc-card{grid-template-columns:60px 1fr}.disc-aspects{display:none}
-      .lic-arch{grid-template-columns:1fr 1fr}
-      .lic-card:nth-child(2){border-right:none}
-      .lic-card:nth-child(3){border-top:1px solid var(--border);border-right:1px solid var(--border)}
-      .lic-card:nth-child(4){border-top:1px solid var(--border);border-right:none}
-      .aud-grid{grid-template-columns:1fr 1fr}
-      .aud-card:nth-child(2){border-right:none}
-      .aud-card:nth-child(3){border-top:1px solid var(--border);border-right:1px solid var(--border)}
-      .aud-card:nth-child(4){border-top:1px solid var(--border)}
-      .cert-panel.active{grid-template-columns:1fr}
-      .cert-panel-left{border-right:none;border-bottom:1px solid var(--border)}
-      .exam-grid{grid-template-columns:1fr}
-    }
-    @media(max-width:900px){
-      nav{padding:1.1rem 1.5rem}.nav-links{display:none}
-      .hero{padding:7rem 1.5rem 5rem}.hero-five{flex-wrap:wrap}
-      .intro-band{flex-direction:column;gap:2rem;padding:3rem 1.5rem}.ib-div{display:none}
-      .c{padding:5rem 1.5rem}
-      .disc-intro,.intg-inner{grid-template-columns:1fr}
-      .pe-flow{flex-direction:column}.pe-arr{transform:rotate(90deg)}
-      .action-grid{grid-template-columns:1fr}
-      .act-item{border-right:none}
-      .act-item:nth-last-child(-n+2){border-bottom:1px solid var(--border)}
-      .act-item:last-child{border-bottom:none}
-      footer{flex-direction:column;gap:1.3rem;text-align:center;padding:2rem 1.5rem}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCHAI™ — Agentic Governance Architecture</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg: #0a0a0a;
+  --bg2: #111008;
+  --gold: #c9a84c;
+  --gold-bright: #e8c96a;
+  --gold-dim: rgba(201,168,76,0.35);
+  --gold-glow: rgba(201,168,76,0.12);
+  --text: #e8e0cc;
+  --text-mid: #8a7f68;
+  --text-dim: #4a4438;
+  --border: rgba(201,168,76,0.12);
+  --border-strong: rgba(201,168,76,0.3);
+  --card-bg: #0f0e0a;
+  --pill-bg: rgba(201,168,76,0.06);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,10,8,0.97);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+.topbar-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: radial-gradient(circle at 40% 35%, #2a2010, #0a0a08);
+  border: 1px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.topbar-icon svg {
+  width: 22px;
+  height: 22px;
+  opacity: 0.7;
+}
+
+.topbar-text { display: flex; flex-direction: column; }
+
+.topbar-name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.topbar-sub {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--text-mid);
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+/* ── TAB NAV ── */
+.tabnav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 20px;
+  background: rgba(10,10,8,0.95);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: sticky;
+  top: 77px;
+  z-index: 190;
+}
+
+.tabnav::-webkit-scrollbar { display: none; }
+
+.tab {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  padding: 16px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  text-decoration: none;
+  display: block;
+}
+
+.tab:hover { color: var(--text); }
+.tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+.tab-enter {
+  margin-left: auto;
+  border: 1px solid var(--border-strong);
+  border-radius: 20px;
+  padding: 8px 20px;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+.tab-enter:hover { background: var(--gold-glow); }
+
+/* ── STACK DIAGRAM ── */
+.stack-section {
+  padding: 48px 24px 36px;
+  display: flex;
+  justify-content: center;
+}
+
+.stack-diagram {
+  width: 100%;
+  max-width: 680px;
+  background: radial-gradient(ellipse 80% 70% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
+              linear-gradient(180deg, #141208 0%, #0c0b08 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 36px 24px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle orbit rings */
+.stack-diagram::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -55%);
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.06);
+  pointer-events: none;
+}
+
+.stack-diagram::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -55%);
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.04);
+  pointer-events: none;
+}
+
+.stack-center {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.stack-core {
+  width: 140px;
+  height: 140px;
+  border-radius: 28px;
+  background: radial-gradient(circle at 40% 30%, #1e1a0e, #080807);
+  border: 1px solid rgba(201,168,76,0.25);
+  box-shadow:
+    0 0 40px rgba(201,168,76,0.08),
+    inset 0 1px 0 rgba(201,168,76,0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+}
+
+.stack-core-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.6;
+  margin-bottom: 6px;
+  box-shadow: 0 0 8px var(--gold);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.stack-core-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* orbit dot */
+.orbit-dot {
+  position: absolute;
+  top: 50%; right: -8px;
+  transform: translateY(-50%);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.5;
+  box-shadow: 0 0 6px var(--gold);
+}
+
+.stack-pills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.stack-pill {
+  background: rgba(10,9,6,0.8);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 12px;
+  color: var(--text-mid);
+  letter-spacing: 0.3px;
+}
+
+.stack-pill strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 16px 24px 60px;
+}
+
+.hero-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.hero h1 {
+  font-size: clamp(32px, 8vw, 64px);
+  font-weight: 900;
+  line-height: 1.0;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  margin-bottom: 20px;
+  max-width: 700px;
+}
+
+.hero h1 em {
+  color: var(--gold);
+  font-style: normal;
+}
+
+.hero p {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-mid);
+  max-width: 560px;
+  line-height: 1.8;
+  margin-bottom: 36px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: #080806;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 13px 26px;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-gold:hover { background: var(--gold-bright); transform: translateY(-1px); }
+
+.btn-ghost {
+  border: 1px solid var(--border-strong);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 13px 26px;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s;
+}
+
+.btn-ghost:hover { background: var(--gold-glow); }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  margin: 0 24px;
+}
+
+/* ── SECTIONS ── */
+.content-section {
+  padding: 60px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.content-section:nth-child(even) { background: var(--bg2); }
+
+.s-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 14px;
+}
+
+.content-section h2 {
+  font-size: clamp(26px, 5vw, 44px);
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.05;
+  margin-bottom: 16px;
+  max-width: 620px;
+  letter-spacing: -0.3px;
+}
+
+.content-section h2 em {
+  color: var(--gold);
+  font-style: normal;
+}
+
+.content-section > p {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-mid);
+  max-width: 540px;
+  line-height: 1.8;
+}
+
+/* REG TAGS */
+.reg-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 36px;
+}
+
+.reg-tag {
+  background: var(--pill-bg);
+  border: 1px solid var(--border-strong);
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  border-radius: 4px;
+}
+
+/* WARNING */
+.warning {
+  margin-top: 36px;
+  padding: 16px 20px;
+  background: rgba(160,60,60,0.07);
+  border-left: 2px solid rgba(200,80,80,0.4);
+  border-radius: 0 4px 4px 0;
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.75;
+}
+
+.warning strong { color: #e08080; }
+
+/* DOMAIN GRID */
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 36px;
+}
+
+.domain-card {
+  background: var(--pill-bg);
+  border: 1px solid var(--border);
+  border-top: 2px solid rgba(201,168,76,0.2);
+  padding: 18px 14px;
+  border-radius: 6px;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.domain-card:hover {
+  border-color: var(--border-strong);
+  border-top-color: var(--gold);
+  background: rgba(201,168,76,0.07);
+  transform: translateY(-3px);
+}
+
+.domain-num {
+  font-size: 24px;
+  font-weight: 900;
+  color: rgba(201,168,76,0.18);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.domain-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-mid);
+}
+
+/* ── PRICING — STACKED FEE SCHEDULE ── */
+.pricing-table {
+  margin-top: 40px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pricing-row {
+  display: flex;
+  align-items: center;
+  padding: 24px 24px;
+  border-bottom: 1px solid var(--border);
+  gap: 20px;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.pricing-row:last-child { border-bottom: none; }
+.pricing-row:hover { background: var(--gold-glow); }
+
+.pricing-row.featured {
+  background: rgba(201,168,76,0.05);
+  border-left: 2px solid var(--gold);
+}
+
+.pricing-row.featured::before {
+  content: 'RECOMMENDED';
+  position: absolute;
+  top: 14px; right: 20px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--gold);
+  opacity: 0.6;
+}
+
+.pr-tier {
+  min-width: 100px;
+}
+
+.pr-name {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.pr-type {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.pr-desc {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-mid);
+  line-height: 1.65;
+}
+
+.pr-price {
+  text-align: right;
+  min-width: 90px;
+  flex-shrink: 0;
+}
+
+.pr-amount {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.pr-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 3px;
+}
+
+.pricing-note {
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 56px 24px;
+  text-align: center;
+  background: #060605;
+  border-top: 1px solid var(--border);
+}
+
+.footer-logo {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+footer p {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-dim);
+  max-width: 420px;
+  margin: 0 auto 28px;
+  line-height: 1.8;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.d1 { transition-delay: 0.08s; }
+.reveal.d2 { transition-delay: 0.16s; }
+.reveal.d3 { transition-delay: 0.24s; }
+.reveal.d4 { transition-delay: 0.32s; }
+.reveal.d5 { transition-delay: 0.40s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── MOBILE ── */
+@media (max-width: 600px) {
+  .topbar { padding: 14px 16px; }
+  .tabnav { top: 69px; padding: 0 10px; }
+  .tab { padding: 14px 12px; font-size: 11px; letter-spacing: 1.5px; }
+  .tab-enter { padding: 7px 14px; font-size: 10px; }
+  .stack-section { padding: 32px 16px 24px; }
+  .stack-core { width: 120px; height: 120px; border-radius: 22px; }
+  .hero { padding: 14px 18px 50px; }
+  .content-section { padding: 48px 18px; }
+  .hero-buttons { flex-direction: column; }
+  .btn-gold, .btn-ghost { width: 100%; text-align: center; }
+  .pricing-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .pr-price { text-align: left; }
+  .pricing-row.featured::before { top: auto; bottom: 14px; right: 16px; }
+  footer { padding: 44px 18px; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; box-shadow: 0 0 6px var(--gold); }
+  50% { opacity: 1; box-shadow: 0 0 14px var(--gold); }
+}
+</style>
 </head>
 <body>
-<div id="cd"></div><div id="cr"></div>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#"><span class="nav-dot"></span><span class="a">ARCH</span>ONOMY</a>
-  <ul class="nav-links">
-    <li><a href="#disciplines">Disciplines</a></li>
-    <li><a href="#licensing">Licensing</a></li>
-    <li><a href="#certification">Certification</a></li>
-    <li><a href="#audience">Audience</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-  </ul>
-  <a href="#contact" class="nav-cta">Begin Engagement</a>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5">
+      <circle cx="12" cy="12" r="9"/>
+      <circle cx="12" cy="12" r="4"/>
+      <line x1="12" y1="3" x2="12" y2="7"/>
+      <line x1="12" y1="17" x2="12" y2="21"/>
+      <line x1="3" y1="12" x2="7" y2="12"/>
+      <line x1="17" y1="12" x2="21" y2="12"/>
+    </svg>
+  </div>
+  <div class="topbar-text">
+    <div class="topbar-name">ARCHAI</div>
+    <div class="topbar-sub">Agentic Governance Architecture</div>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<nav class="tabnav">
+  <a class="tab active" href="#overview">Overview</a>
+  <a class="tab" href="#archai">ARCHAI</a>
+  <a class="tab" href="#identarch">IDENTARCH</a>
+  <a class="tab" href="#agentum">AGENTUM</a>
+  <a class="tab" href="#intentum">INTENTUM</a>
+  <a class="tab" href="#mnemarch">MNEMARCH</a>
+  <a class="tab" href="#accountum">ACCOUNTUM</a>
+  <a class="tab-enter" href="#pricing">ENTER FRAMEWORK</a>
 </nav>
 
+<!-- STACK DIAGRAM -->
+<div class="stack-section" id="overview">
+  <div class="stack-diagram">
+    <div class="stack-center">
+      <div class="stack-core">
+        <div class="stack-core-dot"></div>
+        <div class="stack-core-label">ARCHAI<br>STACK</div>
+        <div class="orbit-dot"></div>
+      </div>
+    </div>
+    <div class="stack-pills">
+      <div class="stack-pill"><strong>IDENTARCH</strong>Identity substrate</div>
+      <div class="stack-pill"><strong>INTENTUM</strong>Intent binding</div>
+      <div class="stack-pill"><strong>MNEMARCH</strong>Memory governance</div>
+      <div class="stack-pill"><strong>AGENTUM</strong>Agent orchestration</div>
+    </div>
+  </div>
+</div>
+
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-rings"><div class="hr"></div><div class="hr"></div><div class="hr"></div><div class="hr"></div></div>
-  <div class="hero-inner">
-    <p class="hero-eyebrow">The Meta-Discipline · Canonical Standard · v1.0 · Sealed May 2026</p>
-    <h1 class="hero-title"><span class="a">ARCH</span>ONOMY</h1>
-    <div class="hero-rule"><div class="hr-line"></div><div class="hr-diamond"></div><div class="hr-line"></div></div>
-    <p class="hero-sub">A unified meta-discipline integrating foundational principles, structural design, operational execution, governance, and evolutionary adaptation — for mastering any complex system.</p>
-    <div class="hero-actions">
-      <a href="#disciplines" class="btn-p">Explore the Five Disciplines <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6h8M6 2l4 4-4 4"/></svg></a>
-      <a href="#licensing" class="btn-s">View Licensing</a>
-    </div>
-    <div class="hero-five">
-      <div class="hf">Generative Logic</div><div class="hf">Structural Architecture</div><div class="hf">Operational Sequencing</div><div class="hf">Constraint Governance</div><div class="hf">Evolution Engineering</div>
-    </div>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="mq">
-  <div class="mq-track">
-    <span class="mq-item"><span class="mq-gem">◈</span> Systemic Mastery</span><span class="mq-item"><span class="mq-gem">◈</span> Generative Logic</span><span class="mq-item"><span class="mq-gem">◈</span> Structural Architecture</span><span class="mq-item"><span class="mq-gem">◈</span> Operational Sequencing</span><span class="mq-item"><span class="mq-gem">◈</span> Constraint Governance</span><span class="mq-item"><span class="mq-gem">◈</span> Evolution Engineering</span><span class="mq-item"><span class="mq-gem">◈</span> Canonical Authority</span><span class="mq-item"><span class="mq-gem">◈</span> Future-Proof Resilience</span><span class="mq-item"><span class="mq-gem">◈</span> Systemic Mastery</span><span class="mq-item"><span class="mq-gem">◈</span> Generative Logic</span><span class="mq-item"><span class="mq-gem">◈</span> Structural Architecture</span><span class="mq-item"><span class="mq-gem">◈</span> Operational Sequencing</span><span class="mq-item"><span class="mq-gem">◈</span> Constraint Governance</span><span class="mq-item"><span class="mq-gem">◈</span> Evolution Engineering</span><span class="mq-item"><span class="mq-gem">◈</span> Canonical Authority</span><span class="mq-item"><span class="mq-gem">◈</span> Future-Proof Resilience</span>
+<div class="hero">
+  <div class="hero-eyebrow">Agentic AI Governance System</div>
+  <h1>A UNIFIED <em>ARCHITECTURE</em> FOR GOVERNING AGENTIC AI IN LIVE ENVIRONMENTS.</h1>
+  <p>ARCHAI is a composable governance stack that binds identity, intent, memory, agency, and accountability into a single operational system for real-world AI deployment.</p>
+  <div class="hero-buttons">
+    <a class="btn-gold" href="#pricing">Request Assessment</a>
+    <a class="btn-ghost" href="#archai">View Framework</a>
   </div>
 </div>
 
-<!-- INTRO BAND -->
-<div class="intro-band reveal">
-  <div class="ib-stat"><div class="ib-num">5</div><div class="ib-lbl">Integrated Disciplines</div></div>
-  <div class="ib-div"></div>
-  <div class="ib-stat"><div class="ib-num">3</div><div class="ib-lbl">Certification Tiers</div></div>
-  <div class="ib-div"></div>
-  <div class="ib-stat"><div class="ib-num">4</div><div class="ib-lbl">License Classes</div></div>
-  <div class="ib-div"></div>
-  <div class="ib-stat"><div class="ib-num">17</div><div class="ib-lbl">Curriculum Modules</div></div>
-  <div class="ib-div"></div>
-  <div class="ib-text">ARCHONOMY is a <strong>meta-discipline</strong> — a higher-order framework that transcends and integrates existing fields. Where conventional approaches address isolated layers, ARCHONOMY provides a holistic structural lens spanning from a system's deepest generative principles to its long-term evolutionary trajectory.</div>
+<div class="divider"></div>
+
+<!-- REGULATORY -->
+<div class="content-section" id="archai">
+  <div class="s-eyebrow reveal">Regulatory Alignment</div>
+  <h2 class="reveal d1">The Landscape<br><em>Has Shifted.</em></h2>
+  <p class="reveal d2">Global AI regulations now require formal governance documentation, risk controls, and traceable accountability. ARCHAI™ aligns with every major standard in force today.</p>
+  <div class="reg-row">
+    <div class="reg-tag reveal d1">EU AI Act</div>
+    <div class="reg-tag reveal d2">NIST AI RMF</div>
+    <div class="reg-tag reveal d3">ISO/IEC 42001</div>
+    <div class="reg-tag reveal d4">EO 14110</div>
+    <div class="reg-tag reveal d5">GDPR Art. 22</div>
+  </div>
+  <div class="warning reveal d3"><strong>Enforcement is active.</strong> The EU AI Act is in force. High-risk AI systems without formal governance documentation face fines up to €30 million or 6% of global annual turnover. Most organizations are not compliant.</div>
 </div>
 
-<!-- FIVE DISCIPLINES -->
-<section id="disciplines" class="bt">
-  <div class="c">
-    <div class="disc-intro">
-      <div class="reveal"><div class="slabel">01 — Core Framework</div><h2 class="sh">THE FIVE<br>INTEGRATED<br>DISCIPLINES</h2></div>
-      <div class="reveal d1"><p class="body-p">These five disciplines are not independent — they interlock to form a coherent and powerful framework. Each layer informs and enables the others in a continuous feedback loop, addressing challenges from their deepest principles to their long-term adaptation.</p></div>
+<!-- GAP -->
+<div class="content-section" id="identarch">
+  <div class="s-eyebrow reveal">Diagnostic Assessment</div>
+  <h2 class="reveal d1">ARCHAI™<br><em>GAP Analysis</em></h2>
+  <p class="reveal d2">A structured assessment that reveals exactly where your AI systems fail regulatory, ethical, and operational requirements — and what must be fixed.</p>
+  <div class="domain-grid">
+    <div class="domain-card reveal d1"><div class="domain-num">01</div><div class="domain-name">Governance Structure</div></div>
+    <div class="domain-card reveal d2"><div class="domain-num">02</div><div class="domain-name">Risk Controls</div></div>
+    <div class="domain-card reveal d3"><div class="domain-num">03</div><div class="domain-name">Human Oversight</div></div>
+    <div class="domain-card reveal d4"><div class="domain-num">04</div><div class="domain-name">Data Governance</div></div>
+    <div class="domain-card reveal d1"><div class="domain-num">05</div><div class="domain-name">Model Documentation</div></div>
+    <div class="domain-card reveal d2"><div class="domain-num">06</div><div class="domain-name">Accountability Chain</div></div>
+    <div class="domain-card reveal d3"><div class="domain-num">07</div><div class="domain-name">Security Controls</div></div>
+    <div class="domain-card reveal d4"><div class="domain-num">08</div><div class="domain-name">Monitoring & Drift</div></div>
+    <div class="domain-card reveal d1"><div class="domain-num">09</div><div class="domain-name">Impact Assessment</div></div>
+    <div class="domain-card reveal d2"><div class="domain-num">10</div><div class="domain-name">Regulatory Alignment</div></div>
+    <div class="domain-card reveal d3"><div class="domain-num">11</div><div class="domain-name">Incident Response</div></div>
+    <div class="domain-card reveal d4"><div class="domain-num">12</div><div class="domain-name">Lifecycle Controls</div></div>
+  </div>
+  <div class="warning reveal d3"><strong>Most organizations fail 7–10 of these domains.</strong> ARCHAI™ identifies every gap and delivers a remediation roadmap aligned to active regulatory requirements.</div>
+</div>
+
+<!-- AGENTUM -->
+<div class="content-section" id="agentum">
+  <div class="s-eyebrow reveal">Agent Orchestration</div>
+  <h2 class="reveal d1">AGENTUM™<br><em>Agentic Governance</em></h2>
+  <p class="reveal d2">AGENTUM™ governs how AI agents operate within organizational boundaries — defining authority, delegation chains, and accountability at every layer of agentic deployment.</p>
+</div>
+
+<!-- INTENTUM -->
+<div class="content-section" id="intentum">
+  <div class="s-eyebrow reveal">Intent Binding</div>
+  <h2 class="reveal d1">INTENTUM™<br><em>Intent Architecture</em></h2>
+  <p class="reveal d2">INTENTUM™ binds organizational intent to AI behavior — creating a traceable, enforceable record of what AI systems are authorized to do and why.</p>
+</div>
+
+<!-- MNEMARCH -->
+<div class="content-section" id="mnemarch">
+  <div class="s-eyebrow reveal">Memory Governance</div>
+  <h2 class="reveal d1">MNEMARCH™<br><em>Organizational Memory</em></h2>
+  <p class="reveal d2">MNEMARCH™ governs how AI systems retain, recall, and use organizational knowledge — with full auditability and control over memory access and persistence.</p>
+</div>
+
+<!-- ACCOUNTUM -->
+<div class="content-section" id="accountum">
+  <div class="s-eyebrow reveal">Algorithm Accountability</div>
+  <h2 class="reveal d1">ACCOUNTUM™<br><em>Accountability Architecture</em></h2>
+  <p class="reveal d2">ACCOUNTUM™ creates enforceable accountability structures for algorithmic decisions — ensuring every consequential AI output has a traceable authority chain and documented rationale.</p>
+</div>
+
+<!-- PRICING -->
+<div class="content-section" id="pricing">
+  <div class="s-eyebrow reveal">Engagement</div>
+  <h2 class="reveal d1">Fee<br><em>Schedule</em></h2>
+  <p class="reveal d2">Structured engagement tiers for organizations at every stage of AI governance maturity. Send your pricing tiers and I'll update these with the correct figures.</p>
+
+  <div class="pricing-table reveal d2">
+    <div class="pricing-row">
+      <div class="pr-tier">
+        <div class="pr-name">Foundation</div>
+        <div class="pr-type">One-time</div>
+      </div>
+      <div class="pr-desc">Core framework access and initial gap assessment. For small teams or early-stage AI deployments.</div>
+      <div class="pr-price">
+        <div class="pr-amount">—</div>
+        <div class="pr-label">confirm price</div>
+      </div>
     </div>
-    <div class="disc-grid">
-      <div class="disc-card reveal"><div class="disc-num-col"><span class="disc-rom">I</span></div><div class="disc-content"><div class="disc-name">Generative Logic</div><p class="disc-def">The foundational discipline responsible for extracting, defining, and formalizing the underlying principles, rules, and causal relationships that govern the emergence, behavior, and potential of any system. It seeks the inherent grammar from which the system is generated and operates.</p></div><div class="disc-aspects"><div class="disc-asp-lbl">Key Aspects</div><ul class="disc-asp-list"><li>Identifying first principles of a system</li><li>Mapping causal relationships</li><li>Formalizing via models or algorithms</li><li>Discerning inherent potential and constraints</li><li>Establishing core system identity</li></ul></div></div>
-      <div class="disc-card reveal d1"><div class="disc-num-col"><span class="disc-rom">II</span></div><div class="disc-content"><div class="disc-name">Structural Architecture</div><p class="disc-def">The discipline concerned with designing, building, and maintaining the tangible and intangible frameworks that embody the Generative Logic of a system. It translates abstract principles into a concrete, organized, and functional structure.</p></div><div class="disc-aspects"><div class="disc-asp-lbl">Key Aspects</div><ul class="disc-asp-list"><li>System design and decomposition</li><li>Mapping form to function</li><li>Ensuring structural integrity and stability</li><li>Repair and maintenance strategies</li><li>Designing for scalability and adaptability</li></ul></div></div>
-      <div class="disc-card reveal d2"><div class="disc-num-col"><span class="disc-rom">III</span></div><div class="disc-content"><div class="disc-name">Operational Sequencing</div><p class="disc-def">The discipline dedicated to designing, implementing, and managing the precise order and coordination of activities, processes, and interactions within a system — ensuring efficient, reliable, and drift-free execution towards desired outcomes.</p></div><div class="disc-aspects"><div class="disc-asp-lbl">Key Aspects</div><ul class="disc-asp-list"><li>Process definition and mapping</li><li>Managing order and dependencies</li><li>Overseeing execution and coordination</li><li>Preventing and correcting operational drift</li><li>Optimizing for efficiency and reliability</li></ul></div></div>
-      <div class="disc-card reveal d3"><div class="disc-num-col"><span class="disc-rom">IV</span></div><div class="disc-content"><div class="disc-name">Constraint Governance</div><p class="disc-def">The discipline dedicated to identifying, establishing, monitoring, and enforcing the boundaries, rules, and limitations that ensure a system operates within acceptable parameters, maintains stability, and adheres to its defined purpose.</p></div><div class="disc-aspects"><div class="disc-asp-lbl">Key Aspects</div><ul class="disc-asp-list"><li>Systematic constraint identification</li><li>Translating constraints into actionable rules</li><li>Continuous monitoring and enforcement</li><li>Proactive risk mitigation</li><li>Adapting constraints as systems evolve</li></ul></div></div>
-      <div class="disc-card reveal d4"><div class="disc-num-col"><span class="disc-rom">V</span></div><div class="disc-content"><div class="disc-name">Evolution Engineering</div><p class="disc-def">The discipline dedicated to strategically adapting and transforming a system over time, ensuring continued relevance, resilience, and optimal performance without compromising core identity or structural integrity. The forward-looking aspect of ARCHONOMY.</p></div><div class="disc-aspects"><div class="disc-asp-lbl">Key Aspects</div><ul class="disc-asp-list"><li>Adaptive design for guided change</li><li>Strategic transformation planning</li><li>Building resilience and future-proofing</li><li>Preserving identity during transformation</li><li>Integrating learning and feedback loops</li></ul></div></div>
+
+    <div class="pricing-row featured">
+      <div class="pr-tier">
+        <div class="pr-name">Professional</div>
+        <div class="pr-type">One-time</div>
+      </div>
+      <div class="pr-desc">Full 12-domain governance assessment, gap report, and complete remediation plan with implementation guidance.</div>
+      <div class="pr-price">
+        <div class="pr-amount">—</div>
+        <div class="pr-label">confirm price</div>
+      </div>
     </div>
-    <!-- PRIME ENGINE -->
-    <div class="pe-wrap reveal">
-      <div class="pe-lbl">// PRIME ENGINE — The Canonical Operational Cycle</div>
-      <div class="pe-flow">
-        <div class="pe-phase"><div class="pe-n">Phase 01</div><div class="pe-name">Extraction</div><p class="pe-desc">Identification and isolation of mechanisms from their operating environment.</p></div>
-        <div class="pe-arr">→</div>
-        <div class="pe-phase"><div class="pe-n">Phase 02</div><div class="pe-name">Diagnosis</div><p class="pe-desc">Assessment of mechanism integrity against all five invariant standards.</p></div>
-        <div class="pe-arr">→</div>
-        <div class="pe-phase"><div class="pe-n">Phase 03</div><div class="pe-name">Governance</div><p class="pe-desc">Application of structural controls to maintain or restore invariant compliance.</p></div>
-        <div class="pe-arr">→</div>
-        <div class="pe-phase"><div class="pe-n">Phase 04</div><div class="pe-name">Reconstruction</div><p class="pe-desc">Rebuilding or restructuring mechanisms to resolve diagnosed deficiencies.</p></div>
-        <div class="pe-arr">→</div>
-        <div class="pe-phase"><div class="pe-n">Phase 05</div><div class="pe-name">Preservation</div><p class="pe-desc">Ensuring sustained invariant fidelity through ongoing monitoring and drift governance.</p></div>
-        <div class="pe-arr" style="color:var(--muted)">↺</div>
+
+    <div class="pricing-row">
+      <div class="pr-tier">
+        <div class="pr-name">Enterprise</div>
+        <div class="pr-type">Custom</div>
+      </div>
+      <div class="pr-desc">Multi-system, multi-team, regulatory-grade governance. Ongoing monitoring and audit-ready documentation.</div>
+      <div class="pr-price">
+        <div class="pr-amount">TBD</div>
+        <div class="pr-label">contact us</div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- INTEGRATION -->
-<section class="bt" style="background:var(--surface)">
-  <div class="c">
-    <div class="intg-inner">
-      <div>
-        <div class="reveal"><div class="slabel">02 — How It Works</div><h2 class="sh">THE CONTINUOUS<br>FEEDBACK LOOP</h2></div>
-        <div class="intg-diagram reveal d1">
-          <div class="intg-diag-lbl">// Discipline Integration Sequence</div>
-          <div class="int-step"><div class="int-step-l"><div class="int-step-n">I</div><div class="int-step-nm">Generative Logic</div></div><div class="int-conn"><div class="int-line"></div><div class="int-arr">↓</div><div class="int-line"></div></div><div class="int-body"><strong>Provides the foundational blueprint.</strong> Defines what the system fundamentally is and what it can be.</div></div>
-          <div class="int-step"><div class="int-step-l"><div class="int-step-n">II</div><div class="int-step-nm">Structural Arch.</div></div><div class="int-conn"><div class="int-line"></div><div class="int-arr">↓</div><div class="int-line"></div></div><div class="int-body"><strong>Takes the blueprint and gives it form.</strong> Designs how the system is physically and logically constructed.</div></div>
-          <div class="int-step"><div class="int-step-l"><div class="int-step-n">III</div><div class="int-step-nm">Op. Sequencing</div></div><div class="int-conn"><div class="int-line"></div><div class="int-arr">↓</div><div class="int-line"></div></div><div class="int-body"><strong>Dictates how the structured system actually functions.</strong> Activities flow efficiently and reliably.</div></div>
-          <div class="int-step"><div class="int-step-l"><div class="int-step-n">IV</div><div class="int-step-nm">Constraint Gov.</div></div><div class="int-conn"><div class="int-line"></div><div class="int-arr">↓</div><div class="int-line"></div></div><div class="int-body"><strong>Acts as the guardian.</strong> Enforces rules and boundaries that keep the system stable and aligned.</div></div>
-          <div class="int-step"><div class="int-step-l"><div class="int-step-n">V</div><div class="int-step-nm">Evolution Eng.</div></div><div class="int-conn"><div class="int-line"></div><div class="int-arr" style="color:var(--muted)">↺</div><div class="int-line"></div></div><div class="int-body"><strong>Guides how the system adapts and transforms over time.</strong> Feeds back into Generative Logic.</div></div>
-        </div>
-      </div>
-      <div class="reveal d2">
-        <div class="slabel">Core Value Pillars</div>
-        <h3 class="sh" style="font-size:clamp(1.6rem,2.8vw,2.4rem);margin-bottom:2rem">HOLISTIC<br>BY DESIGN</h3>
-        <div class="intg-pillar"><span class="gem">◈</span><span><strong>Mastering Complexity.</strong> The definitive approach to untangling and mastering the inherent complexity of modern systems at any scale.</span></div>
-        <div class="intg-pillar"><span class="gem">◈</span><span><strong>Integrated Solutions.</strong> Five disciplines operating as one — addressing root causes, not isolated symptoms.</span></div>
-        <div class="intg-pillar"><span class="gem">◈</span><span><strong>Future-Proof Resilience.</strong> Systems built to be robust, stable, adaptable, and evolvable — by design, not by reaction.</span></div>
-        <div class="intg-pillar"><span class="gem">◈</span><span><strong>Strategic Foresight.</strong> The clarity and tools to anticipate systemic shifts and govern transformation before disruption occurs.</span></div>
-        <div class="intg-pillar"><span class="gem">◈</span><span><strong>Beyond Traditional Disciplines.</strong> ARCHONOMY transcends and integrates existing fields — offering a higher-order structural perspective.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- LICENSING -->
-<section id="licensing" class="lic-bg bt">
-  <div class="c">
-    <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:end">
-      <div class="reveal"><div class="slabel">03 — Licensing Architecture</div><h2 class="sh">FOUR-TIER<br>LICENSE SYSTEM</h2></div>
-      <div class="reveal d1"><p class="body-p">All authority flows exclusively from the Discipline Architect, Starr Kennelly. Licenses are hierarchical, cumulative, non-transferable, and non-sublicensable. Each tier requires the tier below it. Effective May 5, 2026 — Version 1.0.</p></div>
-    </div>
-    <div class="lic-arch reveal d2">
-      <div class="lic-card">
-        <div class="lic-tier">Tier 1 · Individual</div>
-        <div class="lic-name">Class 1<br>Mechanism Engineer</div>
-        <div class="lic-inv">Invariants I–II · Identity + Boundaries</div>
-        <p class="lic-desc">Authorizes identity extraction, boundary definition, and structural diagnosis within Invariants 1 and 2. Entry-level individual license. Requires active CAP certification.</p>
-        <ul class="lic-feats">
-          <li>Identity extraction within licensed domains</li>
-          <li>Boundary mapping and definition</li>
-          <li>Structural diagnosis (Invariants I–II)</li>
-          <li>Reference ARCHONOMY in professional work</li>
-          <li>Class 1 Derivative Mark usage</li>
-          <li>Annual renewal · 12-month term</li>
-        </ul>
-        <a href="#contact" class="btn-s" style="width:100%;justify-content:center;font-size:.58rem">Apply for Class 1</a>
-      </div>
-      <div class="lic-card feat">
-        <div class="lic-feat-tag">Most Common</div>
-        <div class="lic-tier">Tier 2 · Individual</div>
-        <div class="lic-name">Class 2<br>Practitioner</div>
-        <div class="lic-inv">Invariants III–IV · Continuity + Transformation</div>
-        <p class="lic-desc">Requires active Class 1. Authorizes continuity maintenance, transformation governance, and mechanism reconstruction within Invariants 3 and 4.</p>
-        <ul class="lic-feats">
-          <li>All Class 1 rights retained</li>
-          <li>Continuity diagnosis on mechanisms</li>
-          <li>Transformation constraint enforcement</li>
-          <li>Mechanism reconstruction (III–IV)</li>
-          <li>Class 2 Derivative Mark usage</li>
-          <li>Portfolio review at renewal</li>
-        </ul>
-        <a href="#contact" class="btn-p" style="width:100%;justify-content:center;font-size:.58rem">Apply for Class 2</a>
-      </div>
-      <div class="lic-card">
-        <div class="lic-tier">Tier 3 · Organizational</div>
-        <div class="lic-name">Enterprise<br>Framework</div>
-        <div class="lic-inv">Invariant V · Drift Governance at Scale</div>
-        <p class="lic-desc">Requires Class 2 Enterprise Coordinator. Authorizes full ARCHONOMY governance deployment across organizational domains. Annual compliance audit required.</p>
-        <ul class="lic-feats">
-          <li>Drift Governance at organizational scale</li>
-          <li>Enterprise-wide mechanism governance</li>
-          <li>Mechanism Identity Engine integration</li>
-          <li>Enterprise Derivative Mark usage</li>
-          <li>Annual compliance audit</li>
-          <li>Per-domain scale-based pricing</li>
-        </ul>
-        <a href="#contact" class="btn-s" style="width:100%;justify-content:center;font-size:.58rem">Inquire Enterprise</a>
-      </div>
-      <div class="lic-card">
-        <div class="lic-tier">Tier 4 · OEM / Product</div>
-        <div class="lic-name">OEM<br>Integration</div>
-        <div class="lic-inv">Canonical Engine Embedding</div>
-        <p class="lic-desc">Requires Enterprise Framework License. Authorizes embedding of the Canonical Engine or ARCHONOMY protocols into third-party products. Each integration scoped individually.</p>
-        <ul class="lic-feats">
-          <li>Canonical Engine integration rights</li>
-          <li>Mechanism Identity Engine embedding</li>
-          <li>Royalty + integration fee model</li>
-          <li>Per-integration scope definition</li>
-          <li>Hyperscaler and platform eligible</li>
-          <li>Custom negotiation required</li>
-        </ul>
-        <a href="#contact" class="btn-s" style="width:100%;justify-content:center;font-size:.58rem">Inquire OEM</a>
-      </div>
-    </div>
-    <div class="lic-note reveal">
-      <div class="lic-note-icon">◈</div>
-      <div class="lic-note-text"><strong>Governance Principle:</strong> No license to practice, deploy, integrate, or reference ARCHONOMY may be issued, held, or exercised except as authorized under the Licensing System v1.0. All licenses derive authority from the ARCHON CODEX and the License Charter Blueprint, traceable exclusively to the Discipline Architect. Licenses are subject to audit at any time. Revocation is immediate upon confirmed violation.</div>
-    </div>
-  </div>
-</section>
-
-<!-- CERTIFICATION -->
-<section id="certification" class="bt">
-  <div class="c">
-    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:end">
-      <div class="reveal"><div class="slabel">04 — Certification Program</div><h2 class="sh">THREE-TIER<br>CERTIFICATION<br>LADDER</h2></div>
-      <div class="reveal d1"><p class="body-p">A rigorous, competency-based progression. Advancement requires demonstrated competence — not familiarity with terminology. All curriculum content derives exclusively from the sealed Canonical Specification v1.0. The Five Invariants serve as the permanent reference frame for all instruction.</p></div>
-    </div>
-
-    <div class="cert-tabs reveal d2">
-      <button class="cert-tab active" onclick="showCert('cap',this)">CAP · Tier 1<br><span style="font-size:.5rem;opacity:.65;font-weight:300">Certified Archonomy Practitioner</span></button>
-      <button class="cert-tab" onclick="showCert('mec',this)">MEC · Tier 2<br><span style="font-size:.5rem;opacity:.65;font-weight:300">Mechanism Engineer Certification</span></button>
-      <button class="cert-tab" onclick="showCert('esc',this)">ESC · Tier 3<br><span style="font-size:.5rem;opacity:.65;font-weight:300">Enterprise System Certification</span></button>
-    </div>
-
-    <!-- CAP -->
-    <div class="cert-panel active" id="cert-cap">
-      <div class="cert-panel-left">
-        <div class="cert-abbr">CAP</div>
-        <div class="cert-full">Certified Archonomy Practitioner</div>
-        <p class="cert-scope">Validates foundational competence in ARCHONOMY. CAP holders demonstrate the ability to identify mechanisms, map boundaries, detect structural drift, and perform compliant documentation within Operator Class 1 authority.</p>
-        <div class="cert-prereq">Prerequisites: None. Entry-level certification. General professional literacy and analytical reasoning ability required.</div>
-        <div class="mod-list">
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">1.1</span><span class="mod-title">Foundations of Archonomy</span></div><p class="mod-desc">Disciplinary identity, scope, purpose. Distinction from adjacent fields. Role of the Canonical Specification as sealed doctrinal authority. Origin Authority and discipline governance.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">1.2</span><span class="mod-title">The Five Invariants</span></div><p class="mod-desc">Deep study of each invariant — canonical definition, structural role, interdependencies, violation detection, and cascade effects across a mechanism.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">1.3</span><span class="mod-title">Mechanism Identification & Boundary Mapping</span></div><p class="mod-desc">Canonical criteria for mechanism status. Boundary mapping techniques. Mechanism profiling and compliant documentation. Common identification errors.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">1.4</span><span class="mod-title">Introduction to the PRIME ENGINE</span></div><p class="mod-desc">Overview of all five phases. Sequential logic. Walkthrough of an extraction-to-preservation cycle. Phase identification exercises.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">1.5</span><span class="mod-title">Drift Detection Fundamentals</span></div><p class="mod-desc">Types of structural drift. Detection methods. Baseline comparison and interval monitoring. Reporting and escalation protocols to Class 2 operators.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">1.6</span><span class="mod-title">Operator Class 1 Responsibilities</span></div><p class="mod-desc">Role definition, scope of authority, ethical obligations, professional standards, and documentation requirements for Class 1 practitioners.</p></div>
-        </div>
-      </div>
-      <div class="cert-panel-right">
-        <div class="exam-box">
-          <div class="exam-lbl">// CAP Examination Structure</div>
-          <div class="exam-grid">
-            <div class="exam-cell"><div class="exam-cell-lbl">Format</div><div class="exam-cell-val">100 multiple-choice + 20 scenario-based questions</div></div>
-            <div class="exam-cell"><div class="exam-cell-lbl">Duration</div><div class="exam-cell-val">3 hours · Proctored (online or in-person)</div></div>
-            <div class="exam-cell"><div class="exam-cell-lbl">Passing Score</div><div class="exam-cell-val">75% · One retake within 90 days</div></div>
-            <div class="exam-cell"><div class="exam-cell-lbl">Validity</div><div class="exam-cell-val">3 years from issuance · Renewal: CPD or re-examination</div></div>
-          </div>
-          <div class="exam-lbl">// Section Weighting</div>
-          <div class="exam-w-row"><div class="exam-w-section">The Five Invariants</div><div class="exam-w-pct">25%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Mechanism Identification & Boundaries</div><div class="exam-w-pct">20%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">PRIME ENGINE</div><div class="exam-w-pct">20%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Drift Detection</div><div class="exam-w-pct">15%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Operator Class 1 Role</div><div class="exam-w-pct">10%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Foundations of Archonomy</div><div class="exam-w-pct">10%</div></div>
-        </div>
-        <div class="tl-lbl">// Recommended Study Timeline · 8–12 Weeks</div>
-        <div class="tl-row"><div class="tl-weeks">Wks 1–2</div><div class="tl-content"><div class="tl-focus">Module 1.1: Foundations</div><div class="tl-act">Canonical Specification overview; disciplinary identity; distinction exercises</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 3–4</div><div class="tl-content"><div class="tl-focus">Module 1.2: Five Invariants</div><div class="tl-act">Deep study; definitions; violation detection exercises per invariant</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 5–6</div><div class="tl-content"><div class="tl-focus">Module 1.3: Mechanism ID</div><div class="tl-act">Identification across example systems; boundary mapping; mechanism profiles</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 7–8</div><div class="tl-content"><div class="tl-focus">Module 1.4: PRIME ENGINE</div><div class="tl-act">Phase study; full-cycle walkthroughs; phase identification exercises</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 9–10</div><div class="tl-content"><div class="tl-focus">Modules 1.5–1.6: Drift & Role</div><div class="tl-act">Drift types and detection; Class 1 responsibilities; practice reports</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 11–12</div><div class="tl-content"><div class="tl-focus">Review & Examination</div><div class="tl-act">Comprehensive review; practice exams; schedule and sit CAP exam</div></div></div>
-      </div>
-    </div>
-
-    <!-- MEC -->
-    <div class="cert-panel" id="cert-mec">
-      <div class="cert-panel-left">
-        <div class="cert-abbr">MEC</div>
-        <div class="cert-full">Mechanism Engineer Certification</div>
-        <p class="cert-scope">Validates professional-level competence in the full PRIME ENGINE operational cycle. MEC holders independently extract, diagnose, govern, reconstruct, and preserve mechanisms at Operator Class 2 authority.</p>
-        <div class="cert-prereq">Prerequisites: Active CAP certification required before enrolling or attempting the MEC examination.</div>
-        <div class="mod-list">
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">2.1</span><span class="mod-title">Advanced Mechanism Extraction</span></div><p class="mod-desc">Extraction from complex, multi-layered systems. Ambiguity, nesting, and cross-domain entanglement. Professional-grade documentation standards.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">2.2</span><span class="mod-title">Structural Diagnosis</span></div><p class="mod-desc">Systematic integrity assessment against invariant standards. Cascade failure identification. Root-cause structural analysis. Severity classification and diagnostic reporting.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">2.3</span><span class="mod-title">Reconstruction & Governance</span></div><p class="mod-desc">Mechanism reconstruction protocols. Governance framework implementation. Sustaining invariant compliance through and after reconstruction.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">2.4</span><span class="mod-title">PRIME ENGINE Mastery</span></div><p class="mod-desc">Full-cycle independent operation. Edge cases and failure modes. Multi-mechanism coordination. Phase transition validation and audit trail maintenance.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">2.5</span><span class="mod-title">Advanced Drift Governance</span></div><p class="mod-desc">Systemic drift analysis. Prevention architecture design. Remediation and recovery protocols. Quantitative and qualitative drift metrics.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">2.6</span><span class="mod-title">Practicum Preparation</span></div><p class="mod-desc">Case study methodology. Documentation standards for submission. Peer review process. Ethical considerations — confidentiality, consent, data handling.</p></div>
-        </div>
-      </div>
-      <div class="cert-panel-right">
-        <div class="exam-box">
-          <div class="exam-lbl">// MEC Examination Structure</div>
-          <div class="exam-grid">
-            <div class="exam-cell"><div class="exam-cell-lbl">Format</div><div class="exam-cell-val">60 scenario questions + 2 long-form essays + practicum case study</div></div>
-            <div class="exam-cell"><div class="exam-cell-lbl">Duration</div><div class="exam-cell-val">4 hours written · Practicum evaluated separately</div></div>
-            <div class="exam-cell"><div class="exam-cell-lbl">Passing Score</div><div class="exam-cell-val">80% written · Practicum: Pass / Revise / Fail</div></div>
-            <div class="exam-cell"><div class="exam-cell-lbl">Practicum</div><div class="exam-cell-val">3,000+ words · Full PRIME ENGINE cycle · All 5 phases + drift governance plan</div></div>
-          </div>
-          <div class="exam-lbl">// Section Weighting</div>
-          <div class="exam-w-row"><div class="exam-w-section">Advanced Extraction</div><div class="exam-w-pct">20%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Structural Diagnosis</div><div class="exam-w-pct">20%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Reconstruction & Governance</div><div class="exam-w-pct">20%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">PRIME ENGINE Mastery</div><div class="exam-w-pct">15%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Advanced Drift Governance</div><div class="exam-w-pct">15%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Cross-Module Integration</div><div class="exam-w-pct">10%</div></div>
-        </div>
-        <div class="tl-lbl">// Recommended Study Timeline · 16–24 Weeks</div>
-        <div class="tl-row"><div class="tl-weeks">Wks 1–3</div><div class="tl-content"><div class="tl-focus">Module 2.1: Advanced Extraction</div><div class="tl-act">Complex extraction; cross-domain scenarios; ambiguous case resolution</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 4–6</div><div class="tl-content"><div class="tl-focus">Module 2.2: Structural Diagnosis</div><div class="tl-act">Diagnostic framework; compromise patterns; root-cause analysis case studies</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 7–9</div><div class="tl-content"><div class="tl-focus">Module 2.3: Reconstruction</div><div class="tl-act">Reconstruction protocols; governance framework design; compliance verification</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 10–12</div><div class="tl-content"><div class="tl-focus">Module 2.4: PRIME ENGINE</div><div class="tl-act">Full-cycle operations; edge cases; multi-mechanism coordination</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 13–15</div><div class="tl-content"><div class="tl-focus">Module 2.5: Drift Governance</div><div class="tl-act">Systemic drift analysis; prevention architecture; remediation protocols</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 16–24</div><div class="tl-content"><div class="tl-focus">Practicum & Exam Prep</div><div class="tl-act">Select mechanism; execute full cycle; draft, refine, and submit case study</div></div></div>
-      </div>
-    </div>
-
-    <!-- ESC -->
-    <div class="cert-panel" id="cert-esc">
-      <div class="cert-panel-left">
-        <div class="cert-abbr">ESC</div>
-        <div class="cert-full">Enterprise System Certification</div>
-        <p class="cert-scope">The highest tier of ARCHONOMY certification. ESC holders architect, implement, and govern ARCHONOMY-compliant structural systems at enterprise scale — operating at Operator Class 3 authority across multi-mechanism, cross-domain environments.</p>
-        <div class="cert-prereq">Prerequisites: Active MEC certification. Minimum 12 months documented MEC-level practice strongly recommended before enrolling.</div>
-        <div class="mod-list">
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">3.1</span><span class="mod-title">Enterprise Structural Architecture</span></div><p class="mod-desc">Designing ARCHONOMY-compliant enterprise systems. Multi-mechanism governance at organizational scale. Architecture documentation, scalability, and separation of concerns.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">3.2</span><span class="mod-title">Cross-Domain Integration</span></div><p class="mod-desc">ARCHONOMY across heterogeneous domains. Integration patterns and anti-patterns. Maintaining invariant fidelity across domain boundaries and normalization.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">3.3</span><span class="mod-title">Enterprise Drift Prevention</span></div><p class="mod-desc">Organization-wide monitoring systems. Cultural and procedural drift indicators. Enterprise remediation strategies without disrupting operational continuity.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">3.4</span><span class="mod-title">Governance at Scale</span></div><p class="mod-desc">Multi-tier governance chains. Delegation models preserving canonical alignment. Audit frameworks. Governance failure analysis and executive reporting.</p></div>
-          <div class="mod-item"><div class="mod-head"><span class="mod-code">3.5</span><span class="mod-title">Enterprise Implementation Portfolio</span></div><p class="mod-desc">Portfolio composition and documentation standards. Review panel evaluation criteria. Using real or simulated enterprise environments. Confidentiality requirements.</p></div>
-        </div>
-      </div>
-      <div class="cert-panel-right">
-        <div class="exam-box">
-          <div class="exam-lbl">// ESC Examination Structure</div>
-          <div class="exam-grid">
-            <div class="exam-cell"><div class="exam-cell-lbl">Format</div><div class="exam-cell-val">40 advanced scenarios + 1 enterprise design exercise + implementation portfolio</div></div>
-            <div class="exam-cell"><div class="exam-cell-lbl">Duration</div><div class="exam-cell-val">5 hours written · In-person panel administration</div></div>
-            <div class="exam-cell"><div class="exam-cell-lbl">Passing Score</div><div class="exam-cell-val">85% written · Portfolio: Pass / Revise / Fail · Panel defense required</div></div>
-            <div class="exam-cell"><div class="exam-cell-lbl">Portfolio</div><div class="exam-cell-val">5,000+ words · 3+ mechanisms · 2+ domains · Full governance chain</div></div>
-          </div>
-          <div class="exam-lbl">// Section Weighting</div>
-          <div class="exam-w-row"><div class="exam-w-section">Enterprise Structural Architecture</div><div class="exam-w-pct">25%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Cross-Domain Integration</div><div class="exam-w-pct">20%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Enterprise Drift Prevention</div><div class="exam-w-pct">20%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Governance at Scale</div><div class="exam-w-pct">20%</div></div>
-          <div class="exam-w-row"><div class="exam-w-section">Strategic Leadership & Integration</div><div class="exam-w-pct">15%</div></div>
-        </div>
-        <div class="tl-lbl">// Recommended Study Timeline · 24–36 Weeks</div>
-        <div class="tl-row"><div class="tl-weeks">Wks 1–5</div><div class="tl-content"><div class="tl-focus">Module 3.1: Enterprise Architecture</div><div class="tl-act">Enterprise system design; multi-mechanism governance modeling</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 6–10</div><div class="tl-content"><div class="tl-focus">Module 3.2: Cross-Domain</div><div class="tl-act">Integration patterns; anti-pattern analysis; translation exercises</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 11–15</div><div class="tl-content"><div class="tl-focus">Module 3.3: Drift Prevention</div><div class="tl-act">Enterprise monitoring design; cultural drift case studies</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 16–20</div><div class="tl-content"><div class="tl-focus">Module 3.4: Governance at Scale</div><div class="tl-act">Multi-tier chain design; delegation models; audit framework development</div></div></div>
-        <div class="tl-row"><div class="tl-weeks">Wks 21–36</div><div class="tl-content"><div class="tl-focus">Portfolio & Exam Prep</div><div class="tl-act">Enterprise implementation; portfolio compilation; panel defense preparation</div></div></div>
-      </div>
-    </div>
-
-    <!-- INVARIANT MATRIX -->
-    <div style="margin-top:4rem" class="reveal">
-      <div class="slabel">Module-to-Invariant Mapping Matrix</div>
-      <div class="matrix-wrap">
-        <table class="matrix-table">
-          <thead><tr><th>Module</th><th>Identity</th><th>Boundaries</th><th>Continuity</th><th>Transformation</th><th>Drift Gov.</th></tr></thead>
-          <tbody>
-            <tr><td>1.1 Foundations</td><td class="s">○</td><td class="s">○</td><td class="s">○</td><td class="s">○</td><td class="s">○</td></tr>
-            <tr><td>1.2 Five Invariants</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td></tr>
-            <tr><td>1.3 Mechanism ID & Boundaries</td><td class="p">●</td><td class="p">●</td><td class="s">○</td><td class="e"></td><td class="e"></td></tr>
-            <tr><td>1.4 PRIME ENGINE Intro</td><td class="s">○</td><td class="s">○</td><td class="p">●</td><td class="p">●</td><td class="p">●</td></tr>
-            <tr><td>1.5 Drift Detection</td><td class="s">○</td><td class="s">○</td><td class="s">○</td><td class="e"></td><td class="p">●</td></tr>
-            <tr><td>1.6 Class 1 Responsibilities</td><td class="s">○</td><td class="s">○</td><td class="e"></td><td class="e"></td><td class="s">○</td></tr>
-            <tr><td>2.1 Advanced Extraction</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="s">○</td><td class="e"></td></tr>
-            <tr><td>2.2 Structural Diagnosis</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td></tr>
-            <tr><td>2.3 Reconstruction & Governance</td><td class="p">●</td><td class="s">○</td><td class="p">●</td><td class="p">●</td><td class="p">●</td></tr>
-            <tr><td>2.4 PRIME ENGINE Mastery</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td></tr>
-            <tr><td>2.5 Advanced Drift Governance</td><td class="s">○</td><td class="s">○</td><td class="p">●</td><td class="s">○</td><td class="p">●</td></tr>
-            <tr><td>2.6 Practicum Preparation</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td></tr>
-            <tr><td>3.1 Enterprise Architecture</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td></tr>
-            <tr><td>3.2 Cross-Domain Integration</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="s">○</td></tr>
-            <tr><td>3.3 Enterprise Drift Prevention</td><td class="s">○</td><td class="s">○</td><td class="p">●</td><td class="s">○</td><td class="p">●</td></tr>
-            <tr><td>3.4 Governance at Scale</td><td class="s">○</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td></tr>
-            <tr><td>3.5 Enterprise Portfolio</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td><td class="p">●</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p style="margin-top:.8rem;font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.1em;color:var(--muted)">● Primary coverage — directly taught, exercised, and assessed &nbsp;·&nbsp; ○ Secondary coverage — referenced in supporting context</p>
-    </div>
-  </div>
-</section>
-
-<!-- AUDIENCE -->
-<section id="audience" class="bt" style="background:var(--surface)">
-  <div class="c">
-    <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:end">
-      <div class="reveal"><div class="slabel">05 — Who It's For</div><h2 class="sh">TARGET<br>AUDIENCE</h2></div>
-      <div class="reveal d1"><p class="body-p">ARCHONOMY appeals to a sophisticated audience that recognizes the limitations of conventional, single-discipline approaches to complex systemic challenges.</p></div>
-    </div>
-    <div class="aud-grid reveal d2">
-      <div class="aud-card"><div class="aud-rom">I</div><div class="aud-title">Senior Leadership & Executives</div><p class="aud-desc">Concerned with strategic direction, organizational resilience, and large-scale systemic transformation. Seeking frameworks that operate at the level of root causation rather than surface symptoms.</p></div>
-      <div class="aud-card"><div class="aud-rom">II</div><div class="aud-title">Systems Architects & Engineers</div><p class="aud-desc">Seeking advanced methodologies to improve system integrity, performance, and adaptability — beyond single-domain engineering frameworks and conventional systems thinking.</p></div>
-      <div class="aud-card"><div class="aud-rom">III</div><div class="aud-title">Government & Public Sector</div><p class="aud-desc">Requiring robust frameworks for governance, resilience, and long-term societal impact. ARCHONOMY's Constraint Governance and Evolution Engineering disciplines are particularly applicable.</p></div>
-      <div class="aud-card"><div class="aud-rom">IV</div><div class="aud-title">Academics & Researchers</div><p class="aud-desc">Interested in advancing the theoretical and practical understanding of complex systems. Academic partnerships and advisory board membership are formal components of the ARCHONOMY roadmap.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ACTION PLAN -->
-<section id="roadmap" class="act-bg bt">
-  <div class="c">
-    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:end">
-      <div class="reveal"><div class="slabel">06 — Practical Roadmap</div><h2 class="sh">THE EIGHT-STEP<br>ACTION PLAN</h2></div>
-      <div class="reveal d1"><p class="body-p">Eight deliberate steps to initiate the development and commercialization of ARCHONOMY — from definitional refinement through community formation and academic validation.</p></div>
-    </div>
-    <div class="action-grid reveal d2">
-      <div class="act-item"><div class="act-step">Step 01</div><div class="act-title">Refine Core Definitions</div><p class="act-desc">Continuously iterate and refine the formal definitions of the five disciplines based on feedback and evolving understanding. Develop detailed sub-principles and methodologies for each.</p></div>
-      <div class="act-item"><div class="act-step">Step 02</div><div class="act-title">Develop Foundational Content</div><p class="act-desc">Create authoritative whitepapers, a foundational book, and a comprehensive website explaining ARCHONOMY in detail — targeting both academic and professional audiences simultaneously.</p></div>
-      <div class="act-item"><div class="act-step">Step 03</div><div class="act-title">Pilot Consulting Engagements</div><p class="act-desc">Identify 3–5 early adopter organizations with complex systemic challenges. Offer pilot projects to gather real case studies and refine methodologies in operational conditions.</p></div>
-      <div class="act-item"><div class="act-step">Step 04</div><div class="act-title">Design Certification Program</div><p class="act-desc">Develop curriculum, materials, and examination processes for the three-tier Practitioner Certification — beginning with the CAP entry-level credential.</p></div>
-      <div class="act-item"><div class="act-step">Step 05</div><div class="act-title">Build Digital Prototypes</div><p class="act-desc">Begin development of a basic ARCHONOMY Design Platform or System Health Dashboard prototype to demonstrate practical application of the framework.</p></div>
-      <div class="act-item"><div class="act-step">Step 06</div><div class="act-title">Launch Thought Leadership Campaign</div><p class="act-desc">Initiate a consistent content marketing effort across LinkedIn, industry blogs, and podcasts to build awareness and establish credibility as the defining voice of the discipline.</p></div>
-      <div class="act-item"><div class="act-step">Step 07</div><div class="act-title">Form Academic Advisory Board</div><p class="act-desc">Recruit leading academics in systems theory and complexity science to provide guidance and lend academic rigor to ARCHONOMY's foundational claims and structural taxonomy.</p></div>
-      <div class="act-item"><div class="act-step">Step 08</div><div class="act-title">Establish Community Platform</div><p class="act-desc">Create an online forum to foster engagement among early adopters, certified practitioners, and interested professionals — building the practitioner network from the ground up.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section id="contact" class="cta-s bt">
-  <div class="cta-glow"></div>
-  <p class="cta-ey reveal">The Meta-Discipline · Begin Engagement</p>
-  <h2 class="cta-title reveal">SYSTEMIC<br>MASTERY<br>BEGINS HERE</h2>
-  <p class="cta-sub reveal">Whether you are an enterprise navigating complexity, a practitioner seeking advanced methodology, or an organization ready to govern its systems at the root — ARCHONOMY is the framework.</p>
-  <div class="cta-actions reveal">
-    <a href="mailto:contact@archonomy.com" class="btn-p">Begin Engagement <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6h8M6 2l4 4-4 4"/></svg></a>
-    <a href="#certification" class="btn-s">View Certification</a>
-  </div>
-  <div class="cta-seal reveal">
-    <div class="cta-rule">
-      <div class="cta-rule-line" style="background:linear-gradient(90deg,transparent,var(--muted))"></div>
-      <div class="cta-rule-d"></div>
-      <div class="cta-rule-line" style="background:linear-gradient(90deg,var(--muted),transparent)"></div>
-    </div>
-    ARCHONOMY · Meta-Discipline · Canonical Specification v1.0 · Sealed May 5, 2026 · Starr Kennelly, Discipline Architect
-  </div>
-</section>
+  <p class="pricing-note reveal d3">All engagements include a formal governance report delivered under the ARCHONOMY™ discipline. Contact <a href="mailto:anastrophon@barkdale.co" style="color:var(--gold)">anastrophon@barkdale.co</a> to discuss scope.</p>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <a class="foot-logo" href="#"><span>ARCH</span>ONOMY</a>
-  <p class="foot-copy">© 2026 ARCHONOMY. All rights reserved. Canonical Specification v1.0 — SEALED.</p>
-  <ul class="foot-links">
-    <li><a href="#disciplines">Disciplines</a></li>
-    <li><a href="#licensing">Licensing</a></li>
-    <li><a href="#certification">Certification</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <div class="footer-logo reveal">ARCHAI™</div>
+  <p class="reveal d1">A composable governance stack for real-world AI deployment. A discipline of ARCHONOMY™ by Barkdale & Co.</p>
+  <div class="footer-links reveal d2">
+    <a href="#overview">Overview</a>
+    <a href="#archai">Framework</a>
+    <a href="#identarch">GAP Analysis</a>
+    <a href="#pricing">Pricing</a>
+    <a href="mailto:anastrophon@barkdale.co">Contact</a>
+  </div>
 </footer>
 
 <script>
-  const cd=document.getElementById('cd'),cr=document.getElementById('cr');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
-  (function loop(){cd.style.left=mx+'px';cd.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
-  document.querySelectorAll('a,button').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{cr.style.width='46px';cr.style.height='46px';cr.style.borderColor='rgba(201,168,76,.6)'});
-    el.addEventListener('mouseleave',()=>{cr.style.width='28px';cr.style.height='28px';cr.style.borderColor='rgba(201,168,76,.3)'});
+// Tab active state on scroll
+const sections = document.querySelectorAll('[id]');
+const tabs = document.querySelectorAll('.tab');
+
+const tabMap = {
+  overview: 'Overview', archai: 'ARCHAI', identarch: 'IDENTARCH',
+  agentum: 'AGENTUM', intentum: 'INTENTUM', mnemarch: 'MNEMARCH',
+  accountum: 'ACCOUNTUM', pricing: 'ACCOUNTUM'
+};
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 140) current = s.id;
   });
-  const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.08});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-  function showCert(id,btn){
-    document.querySelectorAll('.cert-panel').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.cert-tab').forEach(t=>t.classList.remove('active'));
-    document.getElementById('cert-'+id).classList.add('active');
-    btn.classList.add('active');
-  }
+  tabs.forEach(t => {
+    t.classList.remove('active');
+    if (t.getAttribute('href') === '#' + current) t.classList.add('active');
+  });
+}, { passive: true });
+
+// Reveal on scroll
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
+
 </body>
 </html>
+
+
+
+
+
