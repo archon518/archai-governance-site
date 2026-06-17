@@ -1,4 +1,4 @@
-FLOW LAYER (OVERWRITTEN)
+FLOW LAYER
 
 DEFINITION
 Flow is the propagation of features, states, or signals through system mechanisms along deterministic, constrained pathways.

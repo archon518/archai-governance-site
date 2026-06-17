@@ -1,0 +1,48 @@
+SYSTEM MAP: MECHANISM INVARIANT
+
+1. INVARIANT
+A mechanism is the deterministic transformation engine of a system: an organized pattern of entities and activities that reliably produces a phenomenon through constrained, rule‑bound interaction.
+
+2. STRUCTURAL COMPONENTS
+- Entities — the structural units
+- Activities — the operations performed
+- Organization — the relational ordering
+- Phenomenon — the produced output
+
+3. MECHANISM TYPES
+- Complex‑systems mechanisms — stable, repeatable, hierarchical
+- Mechanistic processes — spatio‑temporal propagation
+- Hybrid mechanisms — combined structural + processual
+
+4. FUNCTIONAL ROLES
+- Explain — reveal how the phenomenon is produced
+- Predict — anticipate outcomes under new conditions
+- Justify — support causal claims and decisions
+
+5. CONSTRAINT RULES
+A mechanism is valid only if:
+- its entities are bounded
+- its activities are deterministic
+- its organization is coherent
+- its output is reproducible
+
+6. DRIFT MAPPING
+Mechanism drift occurs when:
+- entities degrade
+- activities distort
+- organization collapses
+
+7. FAILURE MAPPING
+A mechanism fails when:
+- it cannot produce its phenomenon
+- its constraints are violated
+- its organization becomes incoherent
+
+8. ADAPTATION MAPPING
+Mechanisms adapt through:
+- reconfiguration
+- compensation
+- replacement
+
+UNIFIED ARCHONOMY MECHANISM NODE
+Mechanism = the invariant, constrained, organized transformation engine that produces system phenomena, governs flows, shapes drift, determines failure, and enables adaptation.

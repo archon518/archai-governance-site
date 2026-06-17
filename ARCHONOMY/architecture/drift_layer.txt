@@ -1,0 +1,26 @@
+DRIFT LAYER
+
+DEFINITION
+Drift is the gradual, cumulative deviation of system mechanisms, entities, or activities away from their intended structure, constraints, or operational behavior.
+
+DRIFT PRINCIPLES
+1. Drift accumulates over time unless corrected.
+2. Drift emerges from micro‑variations in mechanisms, entities, or activities.
+3. Drift is detectable through divergence from expected flow patterns.
+4. Drift is reversible only when structural integrity remains intact.
+
+TYPES OF DRIFT
+- Structural Drift — slow deformation of mechanism organization.
+- Constraint Drift — weakening or shifting of operational limits.
+- Activity Drift — misalignment in timing, magnitude, or coordination.
+- Entity Drift — degradation or mutation of system components.
+
+DRIFT TRIGGERS
+- repeated micro-failures,
+- environmental pressure,
+- entropy accumulation,
+- uncorrected flow distortions.
+
+UNIFIED DRIFT RULE
+Drift is the system’s natural tendency toward disorder unless stabilized by corrective mechanisms.
+

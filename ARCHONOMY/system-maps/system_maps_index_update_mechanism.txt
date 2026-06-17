@@ -1,0 +1,17 @@
+SYSTEM MAP INDEX UPDATE: MECHANISM NODE
+
+NEW NODE
+mechanism_invariant
+
+NODE PATH
+ARCHONOMY/system-maps/system_maps_mechanism_invariant.txt
+
+NODE DESCRIPTION
+Defines the mechanism as the deterministic transformation engine of the system, mapping its structure, constraints, drift, failure, and adaptation roles.
+
+NODE LINKS
+- Governing Law: ARCHONOMY/governing-laws/mechanism_governing_law.txt
+- Generative Mechanism: ARCHONOMY/generative-mechanisms/mechanism_generative_mechanism.txt
+
+STATUS
+Integrated and indexed.

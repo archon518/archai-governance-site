@@ -1,0 +1,21 @@
+GOVERNING LAW: MECHANISMS
+
+LAW STATEMENT
+A mechanism must transform inputs into outputs through a deterministic, constrained, and organized interaction pattern that preserves system identity and produces a reproducible phenomenon.
+
+LAW CONDITIONS
+1. Structural Determinacy — entities must be bounded and identifiable.
+2. Activity Determinacy — operations must follow invariant rules.
+3. Organizational Coherence — relations must maintain causal order.
+4. Phenomenal Reproducibility — outputs must be consistent under identical conditions.
+
+LAW CONSEQUENCES
+- If determinacy fails → drift.
+- If coherence fails → failure.
+- If reproducibility fails → invalid mechanism.
+
+LAW DOMAIN
+Applies to all system layers: structural, functional, flow, drift, failure, adaptation.
+
+UNIFIED FORM
+A mechanism is lawful only when its transformation pattern remains invariant under its constraints.

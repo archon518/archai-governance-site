@@ -1,0 +1,22 @@
+GENERATIVE MECHANISM: MECHANISMS
+
+CORE GENERATOR
+Mechanisms arise when entities capable of activity become organized under constraints that force deterministic transformation patterns.
+
+GENERATIVE STEPS
+1. Entity Formation — structural units emerge or are defined.
+2. Activity Assignment — operations become possible between entities.
+3. Constraint Imposition — boundaries restrict possible interactions.
+4. Organizational Binding — relations lock into a stable pattern.
+5. Phenomenon Emergence — the mechanism produces a reproducible output.
+
+GENERATIVE PROPERTIES
+- Self‑limiting: constraints prevent chaotic behavior.
+- Self‑stabilizing: organization maintains coherence.
+- Self‑propagating: outputs can feed into higher‑order mechanisms.
+
+META‑INVARIANT
+A mechanism is generated when constraint + organization + activity converge into a stable transformation engine.
+
+ARCHONOMY POSITION
+This is the root generator for all mechanism nodes in the system.

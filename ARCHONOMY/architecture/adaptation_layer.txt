@@ -1,0 +1,25 @@
+ADAPTATION LAYER
+
+DEFINITION
+Adaptation is the system’s capacity to modify mechanisms, constraints, entities, or activities in response to drift, failure, or environmental change while preserving overall coherence.
+
+ADAPTATION PRINCIPLES
+1. Adaptation restores stability by counteracting drift.
+2. Adaptation restructures mechanisms without collapsing organization.
+3. Adaptation modifies constraints to re‑establish valid flow.
+4. Adaptation is successful only when it preserves system identity.
+
+TYPES OF ADAPTATION
+- Mechanism Adaptation — reorganization of structural pathways.
+- Constraint Adaptation — recalibration of operational limits.
+- Activity Adaptation — retiming, rescaling, or re‑coordinating processes.
+- Entity Adaptation — upgrading, repairing, or replacing components.
+
+ADAPTATION TRIGGERS
+- accumulated drift approaching failure thresholds,
+- repeated flow distortions,
+- environmental pressure requiring reconfiguration,
+- internal instability demanding correction.
+
+UNIFIED ADAPTATION RULE
+Adaptation is the system’s corrective restructuring process that restores functional coherence without losing identity.

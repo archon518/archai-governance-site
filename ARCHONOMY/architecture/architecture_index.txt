@@ -1,0 +1,24 @@
+ARCHITECTURE INDEX
+
+PURPOSE
+The architecture index defines the canonical ordering, relationships, and functional roles of the four core layers: Flow, Drift, Failure, and Adaptation. It serves as the reference map for how system behavior emerges, degrades, and restores itself.
+
+LAYER ORDERING
+1. Flow Layer — baseline propagation of system behavior.
+2. Drift Layer — gradual deviation from intended behavior.
+3. Failure Layer — breakdown when drift exceeds tolerance.
+4. Adaptation Layer — corrective restructuring to restore coherence.
+
+RELATIONSHIPS
+- Drift modifies Flow.
+- Failure emerges from accumulated Drift.
+- Adaptation responds to Failure.
+- Adaptation restores Flow.
+
+SYSTEM DYNAMICS
+Flow → Drift → Failure → Adaptation → restored Flow
+
+This cycle defines the living behavior of any complex mechanism‑based system.
+
+UNIFIED ARCHITECTURE RULE
+The four layers form a continuous loop of propagation, deviation, collapse, and correction. Together they define the system’s identity, resilience, and long‑term stability.
