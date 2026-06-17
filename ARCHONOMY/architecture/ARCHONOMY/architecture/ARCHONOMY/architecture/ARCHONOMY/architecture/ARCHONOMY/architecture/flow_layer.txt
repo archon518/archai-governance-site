@@ -1,0 +1,25 @@
+FLOW LAYER (OVERWRITTEN)
+
+DEFINITION
+Flow is the propagation of features, states, or signals through system mechanisms along deterministic, constrained pathways.
+
+MECHANISM-ALIGNED FLOW PRINCIPLES
+1. Flow occurs only through valid mechanisms.
+2. Flow direction is determined by organizational ordering.
+3. Flow magnitude is limited by entity and activity constraints.
+4. Flow reproducibility depends on mechanism stability.
+
+FLOW TYPES
+- Mechanistic Process Flow — spatio-temporal propagation.
+- Complex-System Flow — multi-entity coordinated transformation.
+- Hybrid Flow — combined structural + processual propagation.
+
+FLOW FAILURE CONDITIONS
+Flow breaks when:
+- mechanism organization collapses,
+- constraints are violated,
+- activities distort,
+- entities degrade.
+
+UNIFIED FLOW RULE
+Flow is the expression of mechanism behavior across time and structure.

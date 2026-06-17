@@ -1,0 +1,24 @@
+DRIFT LAYER (OVERWRITTEN)
+
+DEFINITION
+Drift is the deviation of a mechanism from its invariant transformation pattern.
+
+MECHANISM-ALIGNED DRIFT PRINCIPLES
+1. Drift originates from entity degradation.
+2. Drift emerges from activity distortion.
+3. Drift increases when organizational coherence weakens.
+4. Drift accumulates when constraints loosen or fail.
+
+DRIFT TYPES
+- Structural Drift — entity-level degradation.
+- Operational Drift — activity-level distortion.
+- Organizational Drift — relational breakdown.
+- Phenomenal Drift — inconsistent outputs.
+
+DRIFT CONSEQUENCES
+- Reduced reproducibility.
+- Increased failure probability.
+- Loss of system stability.
+
+UNIFIED DRIFT RULE
+Drift is the erosion of mechanistic determinacy.
