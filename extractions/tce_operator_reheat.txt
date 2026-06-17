@@ -1,0 +1,15 @@
+OPERATOR: Reheat Operator (TCE-OP4)
+
+PURPOSE:
+Reverses drift direction to re-enter chaotic regimes.
+
+SOURCE:
+"Reverse diode... drift towards higher values of Ψ."
+
+BEHAVIOR:
+- Increases Ψ(t) instead of decreasing it.
+- Reopens chaotic exploration window.
+
+ARCHAI USE:
+- Reheating.
+- Re-exploration when stuck.

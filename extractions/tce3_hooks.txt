@@ -1,0 +1,22 @@
+TCE-3 HOOKS: Integration Points
+
+PURPOSE:
+Defines how TCE-3 connects to other ARCHAI subsystems.
+
+HOOKS:
+- State Machine Layer: regime transitions
+- Governance Layer: policy selection
+- Invariant Layer: Φ and Ψ enforcement
+- Drift Layer: monotone drift control
+- Operator Layer: OP1–OP4 invocation
+
+EVENT HOOKS:
+- onChaosEnter()
+- onChaosExit()
+- onCollapse()
+- onConverge()
+- onReheat()
+
+ARCHAI USE:
+- Modular integration.
+- Predictable lifecycle events.

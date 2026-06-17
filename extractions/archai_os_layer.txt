@@ -1,0 +1,74 @@
+ARCHAI OS LAYER MODULE
+
+PURPOSE:
+Provides system-level coordination, module lifecycle management, and unified operational behavior across all ARCHAI subsystems. Functions as the operating system layer for the architecture.
+
+COMPONENTS:
+- Module Loader
+- Module Registry
+- System Event Router
+- OS Scheduler Interface
+- OS Safety Hooks
+- OS Policy Integrator
+
+MODULE LOADER:
+- Loads and initializes ARCHAI modules.
+- Ensures dependency order is respected.
+- Verifies module integrity before activation.
+
+MODULE REGISTRY:
+- Tracks all active modules.
+- Stores module metadata (version, state, capabilities).
+- Provides lookup for cross-module communication.
+
+SYSTEM EVENT ROUTER:
+- Central routing hub for system-wide events.
+- Dispatches events to Kernel, TCE stack, Safety Shell, and Policy Layer.
+- Supports priority channels and emergency overrides.
+
+OS SCHEDULER INTERFACE:
+- Connects TCE-6 Global Scheduler with system-level timing.
+- Allows OS to pause, resume, or override scheduler cycles.
+- Enforces global cycle boundaries.
+
+OS SAFETY HOOKS:
+- Integrates with Safety Shell for:
+  - Emergency halt
+  - Containment mode
+  - Hard invariant enforcement
+- Ensures no module bypasses safety constraints.
+
+OS POLICY INTEGRATOR:
+- Applies Policy Layer rules at system level.
+- Ensures module behavior aligns with global policies.
+- Blocks forbidden transitions or unsafe operations.
+
+LIFECYCLE STATES:
+- INIT
+- LOADING
+- ACTIVE
+- DEGRADED
+- SAFE_MODE
+- HALTED
+
+EVENTS:
+- onModuleLoad(name)
+- onModuleFail(name)
+- onSystemDegrade()
+- onSystemRecover()
+- onSafeModeEnter()
+- onSafeModeExit()
+
+API:
+- os.init()
+- os.loadModule(name)
+- os.getModuleState(name)
+- os.emit(event)
+- os.pauseSystem()
+- os.resumeSystem()
+- os.enterSafeMode()
+- os.exitSafeMode()
+- os.getStatus()
+
+ARCHAI USE:
+Provides unified system behavior, module coordination, and safe operational control across the entire architecture.

@@ -1,0 +1,61 @@
+ARCHAI KERNEL MODULE
+
+PURPOSE:
+Defines the foundational execution model, primitives, and core rules that all ARCHAI subsystems rely on. This is the lowest-level logic above raw hardware or simulation substrate.
+
+COMPONENTS:
+- Kernel Primitives
+- Kernel State Model
+- Kernel Messaging Bus
+- Kernel Safety Constraints
+- Kernel Execution Loop
+
+KERNEL PRIMITIVES:
+- state.read(key)
+- state.write(key, value)
+- signal.emit(event)
+- signal.listen(event)
+- time.tick(dt)
+- invariant.check(name)
+- invariant.enforce(name)
+
+STATE MODEL:
+- Global state store with typed keys.
+- Immutable snapshots for safety-critical reads.
+- Transactional writes for multi-step updates.
+
+MESSAGING BUS:
+- Asynchronous event dispatch.
+- Synchronous command routing.
+- Priority channels for safety and governance.
+
+EXECUTION LOOP:
+1. Process incoming events.
+2. Apply state transitions.
+3. Run invariant checks.
+4. Dispatch lifecycle hooks.
+5. Advance time.
+6. Yield to higher layers (TCE, governance, etc.)
+
+SAFETY CONSTRAINTS:
+- No state mutation allowed during invariant violation.
+- No cross-module writes without kernel authorization.
+- No bypass of transactional boundaries.
+- Hard stop on forbidden transitions.
+
+INTEGRATION POINTS:
+- TCE stack uses kernel primitives for drift, timing, and regime transitions.
+- Governance layer uses kernel messaging for policy enforcement.
+- Safety shell uses kernel invariants for containment.
+
+API:
+- kernel.init()
+- kernel.step(dt)
+- kernel.getState()
+- kernel.setState(key, value)
+- kernel.registerInvariant(name, rule)
+- kernel.registerHook(event, handler)
+- kernel.getSnapshot()
+
+ARCHAI USE:
+Provides the stable, deterministic foundation required for all higher-level behavior, ensuring consistency, safety, and predictable execution across the entire architecture.

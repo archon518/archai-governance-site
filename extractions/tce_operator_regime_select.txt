@@ -1,0 +1,15 @@
+OPERATOR: Regime Selector (TCE-OP3)
+
+PURPOSE:
+Selects system regime based on Ψ(t) position in bifurcation map.
+
+SOURCE:
+"Different dynamics... for different values of Φ₀."
+
+BEHAVIOR:
+- Maps Ψ(t) to regime: convergent / periodic / chaotic.
+- Deterministic lookup.
+
+ARCHAI USE:
+- Governance mode selection.
+- Behavior classification.

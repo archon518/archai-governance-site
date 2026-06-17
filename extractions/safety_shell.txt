@@ -1,0 +1,56 @@
+ARCHAI SAFETY SHELL MODULE
+
+PURPOSE:
+Provides the outermost containment layer for the entire ARCHAI system. Enforces hard boundaries, invariant protection, emergency shutdown, and safe-mode behavior.
+
+COMPONENTS:
+- Boundary Enforcement Layer
+- Hard Invariant Guard
+- Emergency Halt System
+- Containment Mode
+- Safety Event Bus
+
+BOUNDARY ENFORCEMENT:
+- Blocks forbidden transitions.
+- Prevents unauthorized drift reversal.
+- Prevents cross-module writes without kernel authorization.
+- Enforces maximum chaos window limits regardless of scheduler mode.
+
+HARD INVARIANT GUARD:
+- Monitors Φ invariants continuously.
+- Monitors Ψ drift monotonicity.
+- Monitors bifurcation-aligned regime ordering.
+- Triggers lockdown on violation.
+
+EMERGENCY HALT SYSTEM:
+Triggers immediate system freeze when:
+- Hard invariant violation occurs.
+- Governance layer issues critical alert.
+- Kernel detects forbidden state mutation.
+- External safety signal demands halt.
+
+CONTAINMENT MODE:
+- Disables TCE chaotic and reheat phases.
+- Forces system into stable, convergent behavior.
+- Locks scheduler into SAFE mode.
+- Blocks all non-essential signals.
+
+SAFETY EVENT BUS:
+Events:
+- onViolation(invariant)
+- onEmergencyHalt()
+- onContainmentEnter()
+- onContainmentExit()
+- onRecovery()
+
+API:
+- safety.enable()
+- safety.disable()
+- safety.lockdown()
+- safety.release()
+- safety.getStatus()
+- safety.triggerEmergency(reason)
+- safety.registerInvariant(name, rule)
+
+ARCHAI USE:
+Ensures the entire architecture remains within safe operational bounds, preventing runaway behavior, invalid transitions, or unsafe exploration.

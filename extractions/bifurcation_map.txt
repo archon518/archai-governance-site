@@ -1,0 +1,4 @@
+INVARIANT: Bifurcation Map (Φ₀ → regime)
+SOURCE: "Different dynamics... for different values of Φ₀."
+MEANING: Φ₀ determines convergent/periodic/chaotic regime.
+ARCHAI USE: Regime transitions; behavior classification.

@@ -1,0 +1,4 @@
+TCE-4: Bifurcation-Aligned Behavior Map
+SOURCE: "Runs dynamically through the bifurcation diagram."
+MEANING: Behavior follows known bifurcation path.
+ARCHAI USE: Predictable attractor sequencing.

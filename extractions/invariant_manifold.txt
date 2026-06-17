@@ -1,0 +1,4 @@
+INVARIANT: Φ (Phi) — Invariant Manifold Index (MCC)
+SOURCE: "The time derivative of Φ along the solutions of (1) vanishes for all time."
+MEANING: Φ is conserved; defines 3D invariant manifolds.
+ARCHAI USE: State-space foliation; regime partitioning; attractor routing.

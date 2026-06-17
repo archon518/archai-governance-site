@@ -1,0 +1,4 @@
+INVARIANT: Transient Chaos Mechanism
+SOURCE: "Eventually transforms into a periodic attractor."
+MEANING: Chaos exists only for a finite window.
+ARCHAI USE: Exploration → convergence; optimization; routing.

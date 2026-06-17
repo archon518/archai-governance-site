@@ -1,0 +1,25 @@
+TCE-3 MODULE: Transient Chaos Engine (Core Specification)
+
+PURPOSE:
+Implements the full transient-chaos-driven exploration → convergence cycle
+based on Ψ(t) drift and bifurcation-aligned behavior.
+
+COMPONENTS:
+- Drift Operator (TCE-OP1)
+- Chaos Window Operator (TCE-OP2)
+- Regime Selector (TCE-OP3)
+- Reheat Operator (TCE-OP4)
+
+BEHAVIOR:
+1. Initialize Ψ(t) from Φ₀ or prior state.
+2. Enter chaotic regime for exploration.
+3. Allow monotone drift to move Ψ(t) downward.
+4. Pass through inverse period-doubling collapse.
+5. Enter periodic regime for refinement.
+6. Enter convergent regime for finalization.
+7. Optional: invoke reheat operator to reverse drift and re-explore.
+
+ARCHAI USE:
+- Autonomous exploration cycles.
+- Self-stabilizing decision processes.
+- Drift-driven governance transitions.

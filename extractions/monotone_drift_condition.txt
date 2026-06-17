@@ -1,0 +1,4 @@
+INVARIANT: Monotone Drift Condition
+SOURCE: "Charge is monotonically increasing... causing a decrease of Ψ."
+MEANING: Drift direction fixed; no oscillation.
+ARCHAI USE: Safe transitions; predictable evolution.

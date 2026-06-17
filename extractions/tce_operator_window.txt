@@ -1,0 +1,15 @@
+OPERATOR: Chaos Window Operator (TCE-OP2)
+
+PURPOSE:
+Encapsulates the finite-duration chaotic phase.
+
+SOURCE:
+"Displays a single-scroll chaotic dynamics... eventually periodic."
+
+BEHAVIOR:
+- Activates chaotic exploration.
+- Automatically collapses into periodic regime as Ψ drifts.
+
+ARCHAI USE:
+- Exploration → convergence pipeline.
+- Search diversification.

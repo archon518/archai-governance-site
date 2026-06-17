@@ -1,0 +1,21 @@
+TCE-3 API: External Interface
+
+PURPOSE:
+Defines how other modules call into the Transient Chaos Engine.
+
+API:
+- tce.init(Φ0)
+- tce.step(dt)
+- tce.getPsi()
+- tce.getRegime()
+- tce.reheat()
+- tce.cool()
+- tce.getState()
+
+REGIME ENUM:
+- CHAOTIC
+- PERIODIC
+- CONVERGENT
+
+ARCHAI USE:
+- Clean interface for governance and decision modules.

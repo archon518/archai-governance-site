@@ -1,0 +1,59 @@
+ARCHAI MEMORY ENGINE MODULE
+
+PURPOSE:
+Provides structured, multi-tier memory for the entire ARCHAI system. Supports short-term, long-term, and invariant-bound memory with safety and governance integration.
+
+MEMORY TIERS:
+- STM (Short-Term Memory)
+  - Volatile
+  - Cycle-bound
+  - Used by TCE runtime and scheduler
+
+- LTM (Long-Term Memory)
+  - Persistent
+  - Kernel-backed
+  - Stores stable patterns, learned structures, and historical states
+
+- IMM (Invariant Memory Map)
+  - Stores Φ invariants
+  - Stores Ψ drift constraints
+  - Stores hard safety rules
+
+MEMORY OPERATIONS:
+- mem.read(key)
+- mem.write(key, value)
+- mem.snapshot()
+- mem.rollback(snapshot_id)
+- mem.lock(key)
+- mem.unlock(key)
+
+SAFETY RULES:
+- IMM cannot be modified without Safety Shell authorization.
+- No writes allowed during invariant violation.
+- STM auto-clears on emergency halt.
+- LTM writes require kernel transaction boundaries.
+
+MEMORY EVENTS:
+- onWrite(key)
+- onRead(key)
+- onSnapshot()
+- onRollback()
+- onViolation(memory_region)
+
+INTEGRATION:
+- TCE stack uses STM for phase-local data.
+- Kernel uses LTM for global state persistence.
+- Safety Shell uses IMM for hard constraints.
+- Governance layer uses LTM for policy history.
+
+API:
+- memory.init()
+- memory.get(key)
+- memory.set(key, value)
+- memory.createSnapshot()
+- memory.restoreSnapshot(id)
+- memory.getRegionStatus(region)
+- memory.registerGuard(region, rule)
+
+ARCHAI USE:
+Provides stable, structured, and safe memory for all subsystems, enabling learning, persistence, and invariant protection across the entire architecture.

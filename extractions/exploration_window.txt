@@ -1,0 +1,4 @@
+TCE-1: Exploration Window Invariant
+SOURCE: "Displays a single-scroll chaotic dynamics... eventually periodic."
+MEANING: Chaos exists only for a finite window.
+ARCHAI USE: Controlled exploration; automatic convergence.

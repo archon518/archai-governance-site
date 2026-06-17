@@ -1,0 +1,16 @@
+GOV-L2: Regime Policies (Φ₀/Ψ-Based)
+
+PURPOSE:
+Assigns governance behaviors to each dynamical regime.
+
+SOURCE:
+"Different dynamics... for different values of Φ₀."
+
+POLICIES:
+- Chaotic regime → high exploration, high variability.
+- Periodic regime → structured iteration, refinement.
+- Convergent regime → finalization, commitment.
+
+ARCHAI USE:
+- Behavior modulation based on system state.
+- Policy selection without parameter changes.

@@ -1,0 +1,4 @@
+TCE-2: Drift-Controlled Regime Transition
+SOURCE: "Slow drift of the index Ψ... sequence of bifurcations."
+MEANING: Regime changes driven by internal slow variables.
+ARCHAI USE: Self-regulating transitions.

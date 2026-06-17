@@ -1,0 +1,17 @@
+OPERATOR: Drift Operator (TCE-OP1)
+
+PURPOSE:
+Implements Ψ(t) drift as a controllable internal evolution mechanism.
+
+SOURCE:
+"Charge causes a slow drift of the index Ψ."
+
+BEHAVIOR:
+- Applies monotone drift to Ψ(t).
+- Direction determined by diode polarity.
+- Rate determined by q_R(t) accumulation.
+
+ARCHAI USE:
+- Internal regime evolution.
+- Annealing schedules.
+- Controlled destabilization or stabilization.

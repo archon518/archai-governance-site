@@ -1,0 +1,55 @@
+TCE-6 MODULE: Global Scheduler
+
+PURPOSE:
+Provides top-level timing, pacing, and cycle management for the entire TCE stack (TCE-1 through TCE-5). Controls when phases begin, how long they last, and when resets or pauses occur.
+
+FUNCTIONS:
+- Phase timing control
+- Chaos window duration enforcement
+- Collapse timing thresholds
+- Convergence timeout
+- Reheat cooldown periods
+- Global pause/resume
+- Full-cycle reset
+
+SCHEDULER MODES:
+- AUTO:
+  Automatically manages all timing based on Ψ(t) drift and regime transitions.
+- SEMI:
+  Allows manual overrides for phase durations.
+- MANUAL:
+  Human operator controls all timing; scheduler only enforces safety limits.
+
+TIMING PARAMETERS:
+- chaos_window_max
+- collapse_threshold_time
+- periodic_refinement_cycles
+- convergence_lock_time
+- reheat_cooldown
+- global_cycle_timeout
+
+EVENTS:
+- onPhaseStart(phase)
+- onPhaseEnd(phase)
+- onTimeout(phase)
+- onReset()
+- onPause()
+- onResume()
+
+INTERACTIONS:
+- Works above TCE-5 Meta-Controller.
+- Enforces timing constraints on TCE-4 Orchestrator.
+- Provides pacing signals to TCE-3 Runtime.
+- Controls activation windows for TCE-2 and TCE-1 operators.
+
+API:
+- tce.scheduler.setMode(mode)
+- tce.scheduler.setTiming(param, value)
+- tce.scheduler.pause()
+- tce.scheduler.resume()
+- tce.scheduler.reset()
+- tce.scheduler.getStatus()
+- tce.scheduler.getPhaseTimeRemaining()
+
+ARCHAI USE:
+Ensures predictable, bounded, and controllable execution cycles across the entire architecture.

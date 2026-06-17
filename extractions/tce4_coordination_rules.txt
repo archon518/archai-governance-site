@@ -1,0 +1,22 @@
+TCE-4: Coordination Rules
+
+PURPOSE:
+Defines how TCE interacts with other ARCHAI subsystems.
+
+RULES:
+- Governance Layer must follow regime transitions.
+- Invariant Layer must enforce Φ and Ψ constraints.
+- Drift Layer must maintain monotonicity unless reheat invoked.
+- Operator Layer must expose OP1–OP4 to orchestrator.
+- State Machine Layer must update on lifecycle events.
+
+EVENTS:
+- onPhaseEnter(phase)
+- onPhaseExit(phase)
+- onCollapse()
+- onReheat()
+- onFinalize()
+
+ARCHAI USE:
+- Cross-module synchronization.
+- Predictable global behavior.

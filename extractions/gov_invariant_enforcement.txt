@@ -1,0 +1,17 @@
+GOV-L3: Invariant Enforcement Layer
+
+PURPOSE:
+Ensures system behavior respects extracted invariants.
+
+SOURCE:
+"Φ is an invariant of motion... Ψ plays the role of a dynamic manifold index."
+
+ENFORCEMENT:
+- Φ must remain constant in MCC-mode subsystems.
+- Ψ drift must remain monotone unless reheat operator is invoked.
+- Regime transitions must follow bifurcation-aligned path.
+
+ARCHAI USE:
+- Structural integrity.
+- Predictable evolution.
+- Safety guarantees.

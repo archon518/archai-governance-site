@@ -1,0 +1,24 @@
+TCE-4: Supervisor API
+
+PURPOSE:
+External interface for controlling and querying the TCE orchestrator.
+
+API:
+- tce.supervisor.init(Φ0)
+- tce.supervisor.step(dt)
+- tce.supervisor.getPhase()
+- tce.supervisor.getPsi()
+- tce.supervisor.authorizeReheat()
+- tce.supervisor.forceConverge()
+- tce.supervisor.getLifecycleState()
+
+PHASE ENUM:
+- CHAOTIC
+- COLLAPSE
+- PERIODIC
+- CONVERGENT
+- REHEAT
+
+ARCHAI USE:
+- High-level control.
+- Integration with governance and decision modules.

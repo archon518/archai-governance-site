@@ -1,0 +1,16 @@
+GOV-L4: Drift Policy (Directional Control)
+
+PURPOSE:
+Defines governance rules for selecting drift direction.
+
+SOURCE:
+"Reverse diode... drift towards higher values of Ψ."
+
+POLICY:
+- Downward drift → cooling → convergence.
+- Upward drift → reheating → re-exploration.
+- Drift direction must be explicitly authorized.
+
+ARCHAI USE:
+- Controlled destabilization.
+- Recovery from stagnation.

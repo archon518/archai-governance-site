@@ -1,0 +1,4 @@
+INVARIANT: Drift Direction Reversal
+SOURCE: "Reverse diode... drift towards higher values of Ψ."
+MEANING: Drift direction selectable.
+ARCHAI USE: Heat-up/cool-down; bidirectional exploration.

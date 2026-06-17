@@ -1,0 +1,81 @@
+TCE-5 MODULE: Global Meta-Controller
+
+PURPOSE:
+Sits above TCE-4 Orchestrator and governs:
+- When TCE is allowed to run
+- How regimes are chosen at a meta-level
+- Which invariants are hard vs soft
+- When to override, halt, or reset the whole TCE stack
+
+ROLE:
+Final supervisory layer. It does not explore; it decides whether exploration is appropriate at all.
+
+META-REGIMES:
+- META_SAFE:
+  - TCE runs only in constrained modes.
+  - Reheat disabled.
+  - Drift allowed only toward convergence.
+- META_EXPERIMENTAL:
+  - Full TCE stack enabled (chaos → collapse → convergence → reheat).
+  - Suitable for low-risk, sandbox, R&D domains.
+- META_RESTRICTED:
+  - TCE allowed only up to PERIODIC; CHAOTIC truncated or skipped.
+  - Exploration allowed, chaos limited.
+- META_LOCKDOWN:
+  - TCE disabled.
+  - No drift, no reheat, no regime transitions.
+  - Static, policy-fixed behavior.
+
+INVARIANT TIERS:
+- Hard invariants (must never be violated):
+  - Φ invariants in MCC-like subsystems.
+  - Monotone drift unless explicitly reversed under META_EXPERIMENTAL.
+  - Bifurcation-aligned regime ordering (no CHAOTIC → CONVERGENT jump).
+- Soft invariants (relaxable under META_EXPERIMENTAL):
+  - Chaos window length.
+  - Number of refinement cycles in PERIODIC.
+  - Reheat frequency.
+
+META-REGIME SELECTION:
+- If domain_risk = HIGH or CRITICAL → META_SAFE or META_LOCKDOWN.
+- If domain_risk = MEDIUM → META_RESTRICTED.
+- If domain_risk = LOW → META_EXPERIMENTAL allowed.
+
+OVERRIDE CONDITIONS:
+- Force META_LOCKDOWN when:
+  - Hard invariant violation detected.
+  - Governance layer raises critical alert.
+  - External safety signal demands halt.
+- Force META_SAFE when:
+  - System exits high-risk incident.
+  - Human operator requests stabilization-only mode.
+
+INTERACTION WITH LOWER TCE LAYERS:
+- Configures TCE-4/TCE-3 via policies:
+  - Allowed regimes (CHAOTIC allowed? REHEAT allowed?).
+  - Max chaos window duration.
+  - Max number of reheat cycles.
+  - Whether drift direction reversal is permitted.
+- Can veto:
+  - Any call to tce.reheat().
+  - Any attempt to extend chaos window beyond bounds.
+  - Any attempt to bypass collapse or convergence phases.
+
+TCE-5 API:
+- tce.meta.setDomainRisk(level)
+  - level ∈ {LOW, MEDIUM, HIGH, CRITICAL}
+- tce.meta.setMetaRegime(regime)
+  - regime ∈ {META_SAFE, META_EXPERIMENTAL, META_RESTRICTED, META_LOCKDOWN}
+- tce.meta.getMetaRegime()
+- tce.meta.authorizeReheat()
+- tce.meta.blockReheat()
+- tce.meta.forceConverge()
+- tce.meta.getStatus()
+  - Returns: meta-regime, domain risk, invariant status (OK/VIOLATED), TCE phase.
+
+GOVERNANCE INTEGRATION:
+- Upward:
+  - Reports meta-regime, risk posture, invariant health to governance.
+- Downward:
+  - Configures TCE-4/TCE-3/TCE-2/TCE-1 according to meta-regime.
+  - Enforces hard invariants and vetoes unsafe transitions.

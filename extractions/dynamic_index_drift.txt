@@ -1,0 +1,4 @@
+INVARIANT: Ψ(t) — Dynamic Manifold Index (G-MCC)
+SOURCE: "Ψ plays the role of a dynamic manifold index."
+MEANING: Ψ = Φ₀ - q_R(t); slow drift; diode controls direction.
+ARCHAI USE: Drift operator; adaptive regime evolution; annealing.

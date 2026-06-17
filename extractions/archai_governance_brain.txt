@@ -1,0 +1,55 @@
+ARCHAI GOVERNANCE BRAIN MODULE
+
+PURPOSE:
+Provides meta-governance, policy evolution, oversight, and system-wide ethical alignment. Sits above Policy Layer and Supra-Cortex as the highest governance authority.
+
+COMPONENTS:
+- Meta-Governance Engine (MGE)
+- Policy Evolution Core (PEC)
+- Ethical Alignment Matrix (EAM)
+- Governance Oversight Loop (GOL)
+- Directive Arbitration System (DAS)
+
+META-GOVERNANCE ENGINE:
+- Oversees all policies across the architecture.
+- Ensures long-term alignment with system goals.
+- Integrates signals from Supra-Cortex and Policy Layer.
+
+POLICY EVOLUTION CORE:
+- Evolves policies based on historical data.
+- Uses Memory Engine (LTM + IMM) for pattern extraction.
+- Generates new policy candidates for review.
+
+ETHICAL ALIGNMENT MATRIX:
+- Maintains global ethical constraints.
+- Ensures all modules operate within allowed boundaries.
+- Blocks directives that violate ethical invariants.
+
+GOVERNANCE OVERSIGHT LOOP:
+- Continuously monitors system behavior.
+- Detects governance drift or misalignment.
+- Issues corrective governance directives.
+
+DIRECTIVE ARBITRATION SYSTEM:
+- Resolves conflicts between:
+  - Supra-Cortex directives
+  - Policy Layer rules
+  - Safety Shell constraints
+- Prioritizes safety > ethics > coherence > performance.
+
+EVENTS:
+- onGovernanceShift()
+- onPolicyEvolution()
+- onEthicalViolation()
+- onDirectiveConflict()
+- onOversightAlert()
+
+API:
+- governance.update()
+- governance.evaluatePolicy(rule)
+- governance.issueDirective(target, payload)
+- governance.getEthicalState()
+- governance.getStatus()
+
+ARCHAI USE:
+Provides the highest-level governance, ensuring the entire architecture remains aligned, ethical, stable, and coherent across long operational horizons.

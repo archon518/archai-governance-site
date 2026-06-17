@@ -1,0 +1,32 @@
+TCE-3 RUNTIME: Execution Model
+
+PURPOSE:
+Defines how the Transient Chaos Engine runs in real time.
+
+RUNTIME LOOP:
+- Evaluate Ψ(t) drift rate.
+- Determine current regime via bifurcation map.
+- Apply regime-specific policies.
+- Update Ψ(t) based on q_R(t) accumulation.
+- Trigger collapse when thresholds crossed.
+- Allow reheat if authorized.
+
+REGIME ACTIONS:
+CHAOTIC:
+  - High exploration
+  - High variability
+  - Wide search radius
+
+PERIODIC:
+  - Structured iteration
+  - Pattern refinement
+  - Reduced variability
+
+CONVERGENT:
+  - Stabilization
+  - Commitment
+  - Output finalization
+
+ARCHAI USE:
+- Real-time governance behavior.
+- Adaptive search and stabilization.

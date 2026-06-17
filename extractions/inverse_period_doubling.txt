@@ -1,0 +1,4 @@
+INVARIANT: Inverse Period-Doubling Collapse
+SOURCE: "Inverse period-doubling bifurcations causing the death of chaos."
+MEANING: Ψ drift reverses period-doubling.
+ARCHAI USE: Structured collapse; stabilization.

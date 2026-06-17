@@ -1,0 +1,4 @@
+INVARIANT: Flux–Charge Domain (FCAM)
+SOURCE: "FCAM permits to show that... the state space can be foliated."
+MEANING: Dual domain reveals invariants.
+ARCHAI USE: Structural decomposition; invariant extraction.

@@ -1,0 +1,34 @@
+TCE-4: Lifecycle Specification
+
+PURPOSE:
+Defines the full lifecycle of a TCE-driven decision process.
+
+LIFECYCLE PHASES:
+PHASE 1 — CHAOTIC EXPLORATION
+  - High variability
+  - Wide search radius
+  - Driven by initial Ψ(t)
+
+PHASE 2 — COLLAPSE (INVERSE PERIOD-DOUBLING)
+  - Structure emerges
+  - Chaos dies
+  - Ψ(t) crosses bifurcation thresholds
+
+PHASE 3 — PERIODIC REFINEMENT
+  - Pattern stabilization
+  - Iterative improvement
+  - Reduced variability
+
+PHASE 4 — CONVERGENT FINALIZATION
+  - Commitment
+  - Output crystallization
+  - Drift approaches stable region
+
+PHASE 5 — OPTIONAL REHEAT
+  - Ψ(t) reversed
+  - Re-entry into chaotic regime
+  - Used when stuck or suboptimal
+
+ARCHAI USE:
+- Full decision lifecycle.
+- Autonomous exploration and convergence.

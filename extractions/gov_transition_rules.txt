@@ -1,0 +1,16 @@
+GOV-L1: State Transition Rules (Based on Ψ(t) Drift)
+
+PURPOSE:
+Defines how governance states evolve as Ψ(t) moves through the bifurcation map.
+
+SOURCE:
+"Slow drift of the index Ψ... sequence of bifurcations."
+
+RULES:
+- If Ψ in chaotic region → exploration state.
+- If Ψ in periodic region → stabilization state.
+- If Ψ in convergent region → consolidation state.
+
+ARCHAI USE:
+- Automatic governance phase progression.
+- Drift-driven decision cycles.

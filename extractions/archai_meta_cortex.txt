@@ -1,0 +1,61 @@
+ARCHAI META-CORTEX MODULE
+
+PURPOSE:
+Provides global integrative reasoning, cross-module synthesis, and high-level coherence for the entire ARCHAI architecture. Functions as the system's meta-level cognitive layer.
+
+COMPONENTS:
+- Global Integration Engine (GIE)
+- Cross-Module Reasoner (CMR)
+- Pattern Synthesis Core (PSC)
+- Meta-State Monitor (MSM)
+- Cognitive Routing Layer (CRL)
+
+GLOBAL INTEGRATION ENGINE (GIE):
+- Aggregates signals from Kernel, TCE stack, Policy Layer, and OS.
+- Builds unified meta-state representations.
+- Detects global patterns, anomalies, and emergent behaviors.
+
+CROSS-MODULE REASONER (CMR):
+- Performs reasoning across subsystem boundaries.
+- Resolves conflicts between modules using meta-logic.
+- Provides high-level guidance to TCE and Policy Layer.
+
+PATTERN SYNTHESIS CORE (PSC):
+- Identifies long-range temporal patterns.
+- Synthesizes insights from Memory Engine (STM, LTM, IMM).
+- Generates meta-directives for optimization and stability.
+
+META-STATE MONITOR (MSM):
+- Tracks global system health.
+- Monitors drift, invariants, timing, and policy alignment.
+- Predicts instability before it occurs.
+
+COGNITIVE ROUTING LAYER (CRL):
+- Routes high-level cognitive signals to appropriate modules.
+- Prioritizes safety, stability, and policy compliance.
+- Supports multi-channel cognitive flows.
+
+META-CORTEX STATES:
+- OBSERVE
+- INTEGRATE
+- SYNTHESIZE
+- DIRECT
+- STABILIZE
+- REFLECT
+
+EVENTS:
+- onMetaUpdate()
+- onPatternDetected()
+- onConflictDetected()
+- onDirectiveIssued()
+- onMetaStabilityShift()
+
+API:
+- cortex.update()
+- cortex.getMetaState()
+- cortex.getGlobalPattern()
+- cortex.issueDirective(target, payload)
+- cortex.getStatus()
+
+ARCHAI USE:
+Provides the high-level cognitive glue that binds all modules into a coherent, adaptive, and stable whole, enabling system-wide intelligence and emergent reasoning.

@@ -1,0 +1,58 @@
+ARCHAI POLICY LAYER MODULE
+
+PURPOSE:
+Defines global rules, constraints, and decision policies for the entire ARCHAI system. Governs allowed behaviors, forbidden transitions, and arbitration between competing modules.
+
+COMPONENTS:
+- Policy Rule Engine
+- Constraint Evaluator
+- Arbitration Logic
+- Policy Memory Map
+- Policy Enforcement Hooks
+
+POLICY TYPES:
+- HARD POLICIES:
+  - Cannot be overridden.
+  - Enforced by Safety Shell.
+  - Examples: invariant protection, forbidden transitions, drift monotonicity.
+
+- SOFT POLICIES:
+  - Can be adjusted by governance.
+  - Examples: exploration depth, refinement cycles, timing preferences.
+
+- CONTEXTUAL POLICIES:
+  - Activated based on domain, risk level, or system state.
+  - Examples: high-risk mode, low-risk mode, experimental mode.
+
+RULE ENGINE:
+- Evaluates policies on every kernel cycle.
+- Applies constraints before TCE transitions.
+- Blocks unsafe or forbidden actions.
+- Emits policy events for governance.
+
+ARBITRATION LOGIC:
+- Resolves conflicts between modules.
+- Prioritizes safety > invariants > governance > TCE.
+- Uses weighted decision model for soft conflicts.
+
+POLICY MEMORY MAP:
+- Stores persistent policy definitions.
+- Tracks policy history and overrides.
+- Maintains contextual activation states.
+
+EVENTS:
+- onPolicyViolation(rule)
+- onPolicyOverride(rule)
+- onPolicyActivate(context)
+- onPolicyDeactivate(context)
+
+API:
+- policy.set(rule, value)
+- policy.get(rule)
+- policy.enable(context)
+- policy.disable(context)
+- policy.check(rule)
+- policy.getStatus()
+
+ARCHAI USE:
+Provides global decision governance, ensuring all modules operate within defined behavioral boundaries and system-wide rules.

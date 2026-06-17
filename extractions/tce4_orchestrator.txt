@@ -1,0 +1,26 @@
+TCE-4: Orchestration Layer (Global Controller)
+
+PURPOSE:
+Coordinates all TCE components (TCE-1, TCE-2, TCE-3) into a unified,
+self-regulating exploration → collapse → convergence → reheat cycle.
+
+CORE FUNCTIONS:
+- Global Ψ(t) supervisor
+- Regime lifecycle controller
+- Event propagation to governance layer
+- Drift direction authorization
+- Collapse detection and handling
+
+ORCHESTRATION LOOP:
+1. Read Ψ(t) from Drift Operator.
+2. Determine regime via Regime Selector.
+3. Trigger regime-specific behaviors.
+4. Detect collapse thresholds.
+5. Transition to next regime.
+6. Allow reheat if authorized.
+7. Broadcast lifecycle events.
+
+ARCHAI USE:
+- Full-system coordination.
+- Predictable global behavior.
+- Autonomous decision cycles.
