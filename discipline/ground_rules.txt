@@ -1,0 +1,6 @@
+GROUND RULES:
+1. All system descriptions must be grounded in design intent.
+2. No absolute language allowed.
+3. All behaviors are theoretical until verified.
+4. No claims of certainty, exclusivity, or superiority.
+5. All sections must follow these rules.

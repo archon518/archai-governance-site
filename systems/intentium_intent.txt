@@ -1,0 +1,3 @@
+INTENTIUM INTENT:
+Intentium is intended to support structured intent modeling.
+All behaviors are theoretical and unverified.

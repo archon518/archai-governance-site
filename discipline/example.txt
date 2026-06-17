@@ -1,0 +1,7 @@
+# COMMAND USED TO OPEN THIS FILE:
+nano discipline/example.txt
+
+This file contains the command inside the content exactly as requested.
+Nothing else is added.
+Nothing is changed.
+Nothing is interpreted.

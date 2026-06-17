@@ -1,0 +1,4 @@
+ARCHAI INTENT:
+ARCHAI is intended to provide structured reasoning support.
+All described behaviors are theoretical and unverified.
+ARCHAI's functions represent design goals, not confirmed performance.

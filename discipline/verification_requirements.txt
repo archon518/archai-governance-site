@@ -1,0 +1,6 @@
+VERIFICATION REQUIREMENTS:
+1. A system is not verified until tested in a real environment.
+2. Verification requires clear conditions, observable behavior, repeatable results, and documented outcomes.
+3. Design intent is not verification.
+4. Internal reasoning is not verification.
+5. No system may be described as verified without meeting these requirements.

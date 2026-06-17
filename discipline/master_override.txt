@@ -1,0 +1,7 @@
+MASTER OVERRIDE:
+1. All systems are described based on design intent.
+2. No system may be treated as proven without verification.
+3. All claims must follow intent-based, non-absolute, grounded language.
+4. All systems default to DESIGN + UNVERIFIED + PENDING.
+5. Verification requirements and system limits apply universally.
+6. This file overrides all conflicting descriptions.

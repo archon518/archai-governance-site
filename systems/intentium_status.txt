@@ -1,0 +1,5 @@
+INTENTIUM STATUS:
+Intentium is in a design-intent state.
+Intentium has not been verified or validated.
+Intentium must not be described as proven or guaranteed.
+Status: DESIGN + UNVERIFIED + PENDING

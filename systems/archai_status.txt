@@ -1,0 +1,5 @@
+ARCHAI STATUS:
+ARCHAI is in a design-intent state.
+ARCHAI has not been verified or validated.
+ARCHAI must not be described as proven, guaranteed, or functional.
+Status: DESIGN + UNVERIFIED + PENDING

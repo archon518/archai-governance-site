@@ -1,0 +1,4 @@
+All systems in this discipline — including ARCHAI, Intentium, and related models — are described based on design intent, not verified performance.
+No claims in this discipline should be interpreted as guarantees, proofs, or validated outcomes unless explicitly marked as verified.
+Until verification work is completed, all system descriptions represent intended behavior, designed capabilities, and theoretical structure.
+Verification status: pending for all systems.

@@ -1,0 +1,6 @@
+SYSTEM LIMITS:
+1. No system may claim unverified capabilities.
+2. No system may imply certainty or superiority.
+3. No system may be described as autonomous or self-validating without proof.
+4. No system may assume correctness without verification.
+5. All outputs are theoretical until verified.

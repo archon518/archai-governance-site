@@ -1,0 +1,9 @@
+ARCHAI, Intentium, and related systems are currently described based on design intent, not completed empirical validation.
+
+All claims about what these systems "do" should be read as:
+- what they are designed to do,
+- what they are intended to support,
+- not as guarantees of current, proven behavior.
+
+Verification status for all systems: pending.
+No system in this discipline should be treated as empirically validated until explicit verification work is done and recorded.

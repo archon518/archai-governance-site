@@ -1,0 +1,6 @@
+SYSTEM STATUS DEFINITIONS:
+1. All systems are in a design-intent state.
+2. No system is validated or proven.
+3. All behaviors are theoretical.
+4. Status categories: DESIGN, UNVERIFIED, PENDING.
+5. All systems default to DESIGN + UNVERIFIED + PENDING.

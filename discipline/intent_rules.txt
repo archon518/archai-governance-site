@@ -1,0 +1,6 @@
+INTENT RULES:
+1. All systems are described based on design intent.
+2. Any description of what a system “does” must be interpreted as intended behavior.
+3. No system is assumed to work until verified.
+4. No claims may imply certainty or guaranteed outcomes.
+5. Verification status remains pending.

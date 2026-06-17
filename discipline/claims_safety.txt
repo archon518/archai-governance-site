@@ -1,0 +1,6 @@
+All claims must follow these rules:
+1. Claims describe design intent, not verified performance.
+2. No system is assumed to work as described until verification is completed.
+3. No absolute language is permitted.
+4. All capabilities must be framed as intended, designed, expected, or theoretical.
+5. Verification status remains pending until testing is documented.
