@@ -1,0 +1,81 @@
+/* ===== ARCHAI DOCUMENTATION THEME (UNIQUE) ===== */
+
+:root {
+  --deep-black: #050505;
+  --deep-black-2: #0b0b0b;
+  --bright-gold: #f2d37a;
+  --bright-gold-glow: rgba(242,211,122,0.25);
+  --bright-gold-soft: rgba(242,211,122,0.12);
+  --text-light: #f5eedd;
+  --text-mid: #a89c7a;
+}
+
+body {
+  background: var(--deep-black);
+  color: var(--text-light);
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.docs-frame {
+  max-width: 1100px;
+  margin: 80px auto;
+  padding: 40px;
+  border: 1px solid var(--bright-gold-soft);
+  background: var(--deep-black-2);
+  box-shadow: 0 0 25px var(--bright-gold-soft);
+  border-radius: 12px;
+  animation: frameGlow 2.5s infinite alternate ease-in-out;
+}
+
+@keyframes frameGlow {
+  from { box-shadow: 0 0 12px var(--bright-gold-soft); }
+  to { box-shadow: 0 0 28px var(--bright-gold-glow); }
+}
+
+h1, h2 {
+  color: var(--bright-gold);
+  text-shadow: 0 0 8px var(--bright-gold-glow);
+  margin-bottom: 20px;
+  animation: slideDown 0.7s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  margin-top: 30px;
+}
+
+.docs-card {
+  padding: 22px;
+  border: 1px solid var(--bright-gold-soft);
+  background: var(--deep-black);
+  border-radius: 10px;
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+
+.docs-card:hover {
+  border-color: var(--bright-gold);
+  box-shadow: 0 0 18px var(--bright-gold-glow);
+  transform: translateY(-4px);
+}
+
+.docs-card a {
+  color: var(--bright-gold);
+  text-decoration: none;
+  font-size: 1.1rem;
+}
