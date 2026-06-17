@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ARCHAI — Overview</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="top-nav">
+      <a href="index.html" class="nav-logo">
+        <span class="nav-logo-mark"></span>
+        ARCHAI
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link active">Overview</a>
+        <a href="archai-modules.html" class="nav-link">AI deployments</a>
+        <a href="implementation.html" class="nav-link">Plan with implementation</a>
+        <a href="documentation.html" class="nav-link">Audit-ready documentation</a>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <section class="page-header">
+        <div class="page-kicker">System overview</div>
+        <h1 class="page-title">Governed AI deployments, end-to-end.</h1>
+        <p class="page-subtitle">
+          ARCHAI orchestrates AI agents, guardrails, and audit trails into a single deployment fabric designed for regulated environments.
+        </p>
+      </section>
+
+      <section class="grid-2">
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">Architecture at a glance</h2>
+            <span class="card-tag">Core loop</span>
+          </div>
+          <div class="card-body">
+            <p>
+              Every deployment runs through a governed orchestration cycle: intake, context assembly, reasoning, action, and audit logging.
+            </p>
+            <ul class="card-list">
+              <li>
+                <span class="card-bullet"></span>
+                <span>Centralized policy layer applied before and after every agent action.</span>
+              </li>
+              <li>
+                <span class="card-bullet"></span>
+                <span>Memory and tools are permissioned per deployment, not per model.</span>
+              </li>
+              <li>
+                <span class="card-bullet"></span>
+                <span>All actions are written to an immutable audit stream for later review.</span>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <aside class="card">
+          <div class="card-header">
+            <h2 class="card-title">Deployment profiles</h2>
+            <span class="card-tag">Configurable</span>
+          </div>
+          <div class="card-body">
+            <p>
+              Start with a single deployment profile, then branch into sandbox, staging, and production with explicit promotion rules.
+            </p>
+            <ul class="card-list">
+              <li>
+                <span class="card-bullet"></span>
+                <span>Per-environment guardrails and tool access.</span>
+              </li>
+              <li>
+                <span class="card-bullet"></span>
+                <span>Versioned prompts and policies.</span>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>© ARCHAI — AI deployment governance.</div>
+      <div class="footer-links">
+        <a href="documentation.html">Docs</a>
+        <a href="archai-modules.html">Modules</a>
+        <a href="implementation.html">Implementation</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
