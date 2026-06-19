@@ -1,179 +1,587 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archai Systems</title>
-    <!-- Premium High-Contrast Modern Fonts -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Inter:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark-slate: #0b0c10;
-            --bg-panel: rgba(15, 17, 23, 0.95);
-            --accent-gold: #dfb76c;
-            --accent-metallic: #b28d46;
-            --orbit-border: rgba(223, 183, 108, 0.15);
-            --text-pure: #ffffff;
-            --text-muted: #a3acb9;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; background-color: var(--bg-dark-slate); }
-        body { background-color: var(--bg-dark-slate); color: var(--text-pure); font-family: 'Inter', sans-serif; overflow-x: hidden; min-height: 100vh; height: auto; padding-bottom: 80px; }
-        .stars-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; }
-        .content-wrapper { position: relative; z-index: 10; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; align-items: center; }
-        
-        /* High-End Modern Header Console Layout */
-        header.sticky-nav { padding: 50px 0 25px 0; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; }
-        .logo-container { margin-bottom: 25px; width: 100%; display: flex; justify-content: center; }
-        .site-logo { width: 150px; height: 150px; filter: drop-shadow(0 0 30px rgba(223, 183, 108, 0.35)); }
-        
-        h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3.5rem; letter-spacing: -1px; text-transform: uppercase; color: var(--text-pure); margin-bottom: 16px; }
-        .tagline { color: var(--accent-gold); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
-        .brand-statement { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; max-width: 800px; margin-bottom: 40px; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARCHAI™ — Agentic Governance Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* Structural Framework Panel with Clear Definition Labels */
-        .system-module-box { background: var(--bg-panel); border: 4px double var(--accent-gold); width: 100%; max-width: 900px; padding: 35px; margin-bottom: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
-        .module-label { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--accent-gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid rgba(223, 183, 108, 0.2); padding-bottom: 10px; text-align: left; }
-        .module-explanation { color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; text-align: left; margin-bottom: 25px; }
+    :root {
+      --bg: #05050a;
+      --gold: #f5b800;
+      --gold-dim: rgba(245,184,0,0.08);
+      --gold-glow: rgba(245,184,0,0.4);
+      --amber: #ff8c00;
+      --ice: #a8d8ea;
+      --red: #ff3c3c;
+      --text: #e8e8f0;
+      --mute: #44445a;
+      --orb: 'Bebas Neue', sans-serif;
+      --raj: 'DM Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
 
-        /* Symmetrical Large Gold Navigation Switchboard Grid */
-        .system-tabs-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; }
-        .tab-node { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: 1px; color: var(--text-pure) !important; text-decoration: none !important; padding: 20px; border: 2px solid var(--accent-gold); background: rgba(0, 0, 0, 0.6); transition: all 0.25s ease; text-align: center; display: block; }
-        .tab-node:hover { color: var(--bg-dark-slate) !important; background: var(--accent-gold); box-shadow: 0 0 20px rgba(223, 183, 108, 0.5); }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--raj);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
 
-        .hero-viewport { padding: 30px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; width: 100%; }
-        .solar-system { position: relative; width: 360px; height: 360px; margin-bottom: 40px; display: flex; align-items: center; justify-content: center; }
-        .sun { position: absolute; width: 60px; height: 60px; background: radial-gradient(circle, #ffffff 0%, var(--accent-gold) 50%, var(--accent-metallic) 100%); border-radius: 50%; box-shadow: 0 0 50px rgba(223, 183, 108, 0.5); z-index: 5; }
-        .orbit { position: absolute; border: 2px solid var(--orbit-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: spin linear infinite; }
-        .planet { position: absolute; border-radius: 50%; }
-        .orbit-1 { width: 150px; height: 150px; animation-duration: 8s; }
-        .planet-1 { top: -6px; width: 12px; height: 12px; background: #fdf5e2; box-shadow: 0 0 10px #fdf5e2; }
-        .orbit-2 { width: 250px; height: 250px; animation-duration: 16s; }
-        .planet-2 { top: -8px; width: 16px; height: 16px; background: var(--accent-gold); box-shadow: 0 0 14px var(--accent-gold); }
-        .orbit-3 { width: 350px; height: 350px; animation-duration: 26s; }
-        .planet-3 { top: -9px; width: 18px; height: 18px; background: var(--accent-metallic); box-shadow: 0 0 12px var(--accent-metallic); }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+    /* ── NAV ── */
+    .nav-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(5,5,10,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(245,184,0,0.15);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 20px;
+      height: 56px; display: flex; align-items: center; gap: 2px;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; margin-right: 20px; flex-shrink: 0;
+    }
+    .nav-brand-hex {
+      width: 32px; height: 32px;
+      border: 1.5px solid var(--gold);
+      transform: rotate(0deg);
+      display: flex; align-items: center; justify-content: center;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      background: rgba(245,184,0,0.1);
+      font-family: var(--orb); font-size: 10px; color: var(--gold); font-weight: 900;
+      box-shadow: 0 0 16px rgba(245,184,0,0.3), inset 0 0 10px rgba(245,184,0,0.05);
+    }
+    .nav-brand-text {
+      font-family: var(--orb); font-size: 1rem; font-weight: 900;
+      color: #fff; letter-spacing: 3px;
+    }
+    .nav-brand-sub {
+      font-family: var(--mono); font-size: 0.55rem;
+      color: var(--mute); letter-spacing: 1px; display: block;
+    }
+    .nav-link {
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--mute); text-decoration: none;
+      padding: 5px 11px; letter-spacing: 1.5px;
+      transition: color 0.2s; flex-shrink: 0; white-space: nowrap;
+      border-bottom: 1px solid transparent;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .nav-cta {
+      margin-left: auto; flex-shrink: 0;
+      font-family: var(--orb); font-size: 0.6rem; font-weight: 700;
+      color: var(--bg); background: var(--gold);
+      text-decoration: none; padding: 8px 18px; letter-spacing: 2px;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: box-shadow 0.3s;
+    }
+    .nav-cta:hover { box-shadow: 0 0 28px var(--gold-glow); }
 
-        /* Heavy Industrial Clock Deck Module */
-        .clock-panel { background: rgba(15, 17, 23, 0.95); border: 4px double var(--accent-gold); padding: 35px 50px; border-radius: 0px; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.7); min-width: 100%; text-align: center; }
-        .panel-label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--accent-gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
-        #live-clock { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 4.8rem; color: var(--text-pure); letter-spacing: -2px; line-height: 1; margin-bottom: 12px; }
-        .drift-status { margin-top: 15px; font-size: 1rem; color: var(--text-muted); font-family: monospace; letter-spacing: 1px; }
-        #drift-value { color: var(--accent-gold); font-weight: 700; }
+    /* ── HERO ── */
+    .hero-wrap {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 110px 20px 70px; overflow: hidden;
+    }
 
-        @media (max-width: 600px) { 
-            h1 { font-size: 2.2rem; } 
-            .brand-statement { font-size: 0.95rem; }
-            .system-tabs-matrix { grid-template-columns: 1fr; }
-            .tab-node { padding: 16px; font-size: 1rem; } 
-            .solar-system { width: 280px; height: 280px; } 
-            .sun { width: 44px; height: 44px; } 
-            .orbit-1 { width: 110px; height: 110px; } .orbit-2 { width: 180px; height: 180px; } .orbit-3 { width: 250px; height: 250px; }
-            #live-clock { font-size: 3.2rem; } 
-        }
-    </style>
+    #grid-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 980px; width: 100%;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    /* ── SYSTEM IDENT STRIP ── */
+    .sys-ident {
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--gold); letter-spacing: 4px;
+      margin-bottom: 28px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .sys-ident-line {
+      height: 1px; width: 60px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .sys-ident-line.r { background: linear-gradient(90deg, var(--gold), transparent); }
+
+    /* ── MAIN TITLE ── */
+    .main-title {
+      font-family: var(--orb);
+      font-size: clamp(2.8rem, 8vw, 6.5rem);
+      font-weight: 400;
+      line-height: 0.92;
+      letter-spacing: 4px;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .main-title .line2 {
+      display: block;
+      color: var(--gold);
+      text-shadow: 0 0 40px rgba(245,184,0,0.5), 0 0 80px rgba(245,184,0,0.2);
+      font-size: clamp(3.5rem, 11vw, 9rem);
+      letter-spacing: 6px;
+      animation: titleGlow 3s ease-in-out infinite;
+    }
+    @keyframes titleGlow {
+      0%,100% { text-shadow: 0 0 30px rgba(245,184,0,0.4), 0 0 60px rgba(245,184,0,0.15); }
+      50% { text-shadow: 0 0 60px rgba(245,184,0,0.7), 0 0 120px rgba(245,184,0,0.3); }
+    }
+
+    .main-subtitle {
+      font-family: var(--raj);
+      font-size: 1.1rem; font-weight: 300;
+      color: #7070a0; max-width: 560px;
+      text-align: center; line-height: 1.7;
+      margin: 24px auto 52px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── TELEMETRY PANEL ── */
+    .telemetry-panel {
+      width: 100%;
+      background: rgba(8,8,18,0.85);
+      border: 1px solid rgba(245,184,0,0.2);
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(245,184,0,0.05),
+        0 0 60px rgba(245,184,0,0.07),
+        0 40px 100px rgba(0,0,0,0.9);
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+    }
+
+    /* corner accents */
+    .telemetry-panel::before {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 24px; height: 24px;
+      background: var(--gold);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+      opacity: 0.7;
+    }
+
+    /* scan line */
+    .telemetry-panel::after {
+      content: '';
+      position: absolute; left: 0; right: 0; height: 120px;
+      background: linear-gradient(180deg, transparent, rgba(245,184,0,0.04) 50%, transparent);
+      animation: scan 4s linear infinite;
+      pointer-events: none; z-index: 5;
+    }
+    @keyframes scan {
+      0% { top: -120px; }
+      100% { top: 100%; }
+    }
+
+    /* ── PANEL HEADER ── */
+    .panel-header {
+      padding: 20px 28px 18px;
+      border-bottom: 1px solid rgba(245,184,0,0.1);
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 16px;
+      flex-wrap: wrap;
+      background: rgba(245,184,0,0.025);
+    }
+    .panel-label {
+      font-family: var(--mono); font-size: 0.65rem;
+      color: var(--gold); letter-spacing: 4px; display: block;
+      margin-bottom: 5px;
+    }
+    .panel-title {
+      font-family: var(--orb); font-size: 0.95rem; font-weight: 700;
+      color: #fff; letter-spacing: 2px;
+    }
+
+    .status-pill {
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--gold);
+      border: 1px solid rgba(245,184,0,0.3);
+      padding: 7px 16px;
+      display: flex; align-items: center; gap: 10px;
+      letter-spacing: 2px;
+      background: rgba(245,184,0,0.04);
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    }
+    .pulse-dot {
+      width: 7px; height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 var(--gold-glow);
+      animation: ping 1.6s ease-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes ping {
+      0% { box-shadow: 0 0 0 0 var(--gold-glow); }
+      70% { box-shadow: 0 0 0 10px rgba(245,184,0,0); }
+      100% { box-shadow: 0 0 0 0 rgba(245,184,0,0); }
+    }
+
+    /* ── METRICS ROW ── */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid rgba(245,184,0,0.08);
+    }
+    @media (max-width: 640px) {
+      .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .metric-cell {
+      padding: 22px 24px;
+      border-right: 1px solid rgba(245,184,0,0.07);
+      position: relative;
+      transition: background 0.25s;
+    }
+    .metric-cell:last-child { border-right: none; }
+    .metric-cell:hover { background: rgba(245,184,0,0.03); }
+
+    .metric-cell::after {
+      content: attr(data-index);
+      position: absolute; top: 10px; right: 12px;
+      font-family: var(--mono); font-size: 0.55rem;
+      color: rgba(245,184,0,0.18); letter-spacing: 1px;
+    }
+
+    .m-label {
+      font-family: var(--mono); font-size: 0.6rem;
+      color: var(--mute); text-transform: uppercase;
+      letter-spacing: 2px; display: block; margin-bottom: 12px;
+    }
+    .m-value {
+      font-family: var(--orb); font-size: 0.88rem; font-weight: 700;
+      color: #fff; display: block; letter-spacing: 1px;
+    }
+    .m-value.gold { color: var(--gold); }
+    .m-value.ice  { color: var(--ice); }
+    .m-value.amber{ color: var(--amber); }
+
+    /* drift */
+    .drift-val {
+      font-family: var(--mono); font-size: 1rem; font-weight: 400;
+      color: var(--gold);
+      text-shadow: 0 0 14px rgba(245,184,0,0.7);
+      display: inline-block;
+      animation: driftFlicker 2.5s ease-in-out infinite;
+    }
+    @keyframes driftFlicker {
+      0%,100% { opacity: 1; text-shadow: 0 0 10px rgba(245,184,0,0.5); }
+      45%      { opacity: 0.85; text-shadow: 0 0 24px rgba(245,184,0,0.9); }
+      46%      { opacity: 1; }
+      47%      { opacity: 0.7; }
+      48%      { opacity: 1; }
+    }
+
+    /* ── SAFETY BANNER ── */
+    .safety-bar {
+      padding: 16px 28px;
+      border-bottom: 1px solid rgba(245,184,0,0.08);
+      display: flex; align-items: flex-start; gap: 14px;
+      background: rgba(245,184,0,0.015);
+    }
+    .safety-icon { color: var(--gold); font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .safety-text {
+      font-family: var(--raj); font-size: 0.9rem; font-weight: 300;
+      color: #7070a0; line-height: 1.55; letter-spacing: 0.3px;
+    }
+    .safety-text strong { color: #c8c8e8; font-weight: 600; }
+
+    /* ── FOOTER ── */
+    .panel-footer {
+      padding: 12px 28px;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .footer-tag {
+      font-family: var(--mono); font-size: 0.6rem;
+      color: rgba(245,184,0,0.2); letter-spacing: 1px;
+    }
+
+    /* THE CLOCK */
+    .sys-clock {
+      font-family: var(--orb); font-size: 0.8rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 3px;
+      text-shadow: 0 0 16px rgba(245,184,0,0.7);
+      padding: 5px 0;
+      position: relative;
+    }
+    .sys-clock::before {
+      content: 'UTC ▸ ';
+      font-size: 0.6rem; opacity: 0.5; letter-spacing: 2px;
+    }
+
+    /* ── BOTTOM TICKER ── */
+    .ticker-wrap {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+      background: rgba(5,5,10,0.95);
+      border-top: 1px solid rgba(245,184,0,0.15);
+      overflow: hidden; height: 32px; display: flex; align-items: center;
+    }
+    .ticker-label {
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--gold); letter-spacing: 3px;
+      padding: 0 18px; flex-shrink: 0;
+      border-right: 1px solid rgba(245,184,0,0.2);
+      height: 100%; display: flex; align-items: center;
+      background: rgba(245,184,0,0.05);
+    }
+    .ticker-track {
+      display: flex; gap: 0;
+      animation: tickerScroll 28s linear infinite;
+      white-space: nowrap;
+    }
+    @keyframes tickerScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      font-family: var(--mono); font-size: 0.62rem;
+      color: rgba(245,184,0,0.45); letter-spacing: 2px;
+      padding: 0 32px;
+    }
+    .ticker-item .hi { color: var(--gold); }
+  </style>
 </head>
 <body>
-    <canvas class="stars-container" id="starsCanvas"></canvas>
-    <div class="content-wrapper">
-        <header class="sticky-nav">
-            <div class="logo-container">
-                <svg class="site-logo" viewBox="0 0 120 120" fill="none" xmlns="http://w3.org">
-                    <circle cx="60" cy="65" r="45" stroke="url(#goldGradient)" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.4"/>
-                    <circle cx="60" cy="65" r="30" stroke="url(#goldGradient)" stroke-width="1.5" opacity="0.3"/>
-                    <circle cx="60" cy="65" r="16" stroke="url(#goldGradient)" stroke-width="1.5" stroke-dasharray="6 2" opacity="0.5"/>
-                    <circle cx="60" cy="65" r="7" fill="url(#goldGradient)"/>
-                    <path d="M60 15L25 95H33L60 32L87 95H95L60 15Z" fill="url(#goldGradient)"/>
-                    <path d="M37 72H83V75H37V72Z" fill="url(#goldGradient)"/>
-                    <circle cx="34.5" cy="73.5" r="4" fill="#fdf5e2" /><circle cx="85.5" cy="73.5" r="3" fill="#dfb76c" /><circle cx="60" cy="32" r="4.5" fill="#b28d46" /><circle cx="90" cy="40" r="3.5" fill="#dfb76c" />
-                    <defs>
-                        <linearGradient id="goldGradient" x1="25" y1="15" x2="95" y2="95" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stop-color="#fff0cf"/><stop offset="50%" stop-color="#dfb76c"/><stop offset="100%" stop-color="#967333"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-            <h1>Archai Systems</h1>
-            <div class="tagline">Systemic Equilibrium & Architectural Governing</div>
-            <p class="brand-statement">Welcome to the flagship operations deck. Archai Systems provides high-performance structural frameworks and invariant governance tools built to calculate and stabilize multi-point data architectures.</p>
-        </header>
 
-        <main style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-            
-            <!-- Structural Switchboard Explanation Box -->
-            <section class="system-module-box">
-                <div class="module-label">SYSTEM CORE UTILITIES Switchboard</div>
-                <p class="module-explanation">Select an individual operational vector from the grid below to load its dedicated tracking layer, validation logs, or data monitoring parameters directly into your workspace portal:</p>
-                
-                <!-- Large, Centered Sub-Navigation Grid Links -->
-                <nav class="system-tabs-matrix">
-                    <a href="overview.html" class="tab-node">OVERVIEW</a>
-                    <a href="intentum.html" class="tab-node">INTENTUM</a>
-                    <a href="metarch.html" class="tab-node">METARCH</a>
-                    <a href="mnemarch.html" class="tab-node">MNEMARCH</a>
-                    <a href="perimarch.html" class="tab-node">PERIMARCH</a>
-                    <a href="policum.html" class="tab-node">POLICUM</a>
-                    <a href="riskum.html" class="tab-node">RISKUM</a>
-                    <a href="synergarch.html" class="tab-node">SYNERGARCH</a>
-                    <a href="temporum.html" class="tab-node">TEMPORUM</a>
-                    <a href="pricing.html" class="tab-node" style="border: 2px double #dfb76c; background: rgba(223, 183, 108, 0.05);">PRICING TIERS</a>
-                </nav>
-            </section>
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-hex">⬡</div>
+      <div>
+        <div class="nav-brand-text">ARCHAI</div>
+        <span class="nav-brand-sub">AGENTIC GOVERNANCE ARCHITECTURE</span>
+      </div>
+    </a>
+    <a href="index.html" class="nav-link active">OVERVIEW</a>
+    <a href="archai.html" class="nav-link">ARCHAI</a>
+    <a href="identarch.html" class="nav-link">IDENTARCH</a>
+    <a href="agentum.html" class="nav-link">AGENTUM</a>
+    <a href="intentum.html" class="nav-link">INTENTUM</a>
+    <a href="mnemarch.html" class="nav-link">MNEMARCH</a>
+    <a href="accountum.html" class="nav-link">ACCOUNTUM</a>
+    <a href="framework.html" class="nav-cta">ENTER FRAMEWORK</a>
+  </div>
+</nav>
 
-            <!-- Real-Time Visual Telemetry Engine -->
-            <section class="hero-viewport">
-                <div class="solar-system" id="mainSystem">
-                    <div class="sun"></div>
-                    <div class="orbit orbit-1"><div class="planet planet-1"></div></div>
-                    <div class="orbit orbit-2"><div class="planet planet-2"></div></div>
-                    <div class="orbit orbit-3"><div class="planet planet-3"></div></div>
-                </div>
-                
-                <!-- Large Telemetry Tracking Window -->
-                <div class="clock-panel">
-                    <div class="panel-label">System Coordinate Clock</div>
-                    <div id="live-clock">00:00:00</div>
-                    <div class="drift-status">INVARIANT DRIFT METRIC: <span id="drift-value">0.0000s</span></div>
-                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px; font-family: monospace;">Tracks localized client processing deviation relative to the zero-point core temporal axis.</div>
-                </div>
-            </section>
-        </main>
+<div class="hero-wrap">
+  <canvas id="grid-canvas"></canvas>
+
+  <main class="hero-content">
+
+    <div class="sys-ident">
+      <span class="sys-ident-line"></span>
+      ARCHONOMY™ · SYS-ACTIVE · ARCH-DA-001-2026
+      <span class="sys-ident-line r"></span>
     </div>
 
-    <script>
-        function updateClock() {
-            const now = new Date();
-            let hours = now.getHours(), minutes = now.getMinutes(), seconds = now.getSeconds();
-            hours = hours < 10 ? '0' + hours : hours; minutes = minutes < 10 ? '0' + minutes : minutes; seconds = seconds < 10 ? '0' + seconds : seconds;
-            document.getElementById('live-clock').textContent = `${hours}:${minutes}:${seconds}`;
-        }
-        setInterval(updateClock, 1000); updateClock();
+    <h1 class="main-title">
+      ARCHITECTURAL INTELLIGENCE AS<br>
+      <span class="line2">INFRASTRUCTURE</span>
+    </h1>
 
-        let baseDrift = 0.0000;
-        function simulateDrift() {
-            baseDrift += (Math.random() - 0.5) * 0.0004; if (Math.abs(baseDrift) > 0.05) baseDrift *= 0.5;
-            document.getElementById('drift-value').textContent = (baseDrift >= 0 ? '+' : '') + baseDrift.toFixed(6) + 's';
-        }
-        setInterval(simulateDrift, 300);
+    <p class="main-subtitle">
+      Enforcing zero-drift constraints and functional invariants on autonomous systems via the ARCHONOMY™ discipline.
+    </p>
 
-        const canvas = document.getElementById('starsCanvas'), ctx = canvas.getContext('2d');
-        let stars = []; const numStars = 50;
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }
-        function initStars() {
-            stars = []; for (let i = 0; i < numStars; i++) { stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 1.8, alpha: Math.random(), speed: 0.003 + Math.random() * 0.006, movementY: 0.1 + Math.random() * 0.2 }); }
-        }
-        function animateStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < numStars; i++) {
-                let s = stars[i]; s.alpha += s.speed; s.y -= s.movementY; if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed; if (s.y < 0) s.y = canvas.height;
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2); ctx.fillStyle = `rgba(223, 183, 108, ${Math.max(0, s.alpha * 0.4)})`; ctx.fill();
-            }
-            requestAnimationFrame(animateStars);
-        }
-        window.addEventListener('resize', resizeCanvas); resizeCanvas(); animateStars();
-    </script>
+    <section class="telemetry-panel">
+
+      <div class="panel-header">
+        <div>
+          <span class="panel-label">LIVE GLOBAL SUBSTRATE</span>
+          <div class="panel-title">ARCHONOMY™ DETERMINISTIC AI GATEWAY</div>
+        </div>
+        <div class="status-pill">
+          <span class="pulse-dot"></span>
+          PROXY INLINE PASSTHROUGH
+        </div>
+      </div>
+
+      <div class="metrics-row">
+        <div class="metric-cell" data-index="01">
+          <span class="m-label">Causal Physics Anchor</span>
+          <span class="m-value">SOLAR-SYSTEM<br>INVARIANTS</span>
+        </div>
+        <div class="metric-cell" data-index="02">
+          <span class="m-label">Laplace Target Plane</span>
+          <span class="m-value ice">[0.0, 0.0, 1.0]</span>
+        </div>
+        <div class="metric-cell" data-index="03">
+          <span class="m-label">Runge-Lenz Bound</span>
+          <span class="m-value amber">eVECTOR<br>STABILITY LOCK</span>
+        </div>
+        <div class="metric-cell" data-index="04">
+          <span class="m-label">Real-Time System Drift</span>
+          <span class="drift-val" id="drift-val">0.00000000</span>
+        </div>
+      </div>
+
+      <div class="safety-bar">
+        <span class="safety-icon">🛡</span>
+        <p class="safety-text">
+          <strong>SAFETY GUARANTEE —</strong> System operations are dynamically bound to the invariant plane. Model drift is physically impossible.
+        </p>
+      </div>
+
+      <div class="panel-footer">
+        <span class="footer-tag">AUDIT SUBSTRATE: CLOUDFLARE NETWORK PROXY EDGE</span>
+        <span class="sys-clock" id="sys-clock">00:00:00</span>
+      </div>
+
+    </section>
+  </main>
+</div>
+
+<!-- BOTTOM TICKER -->
+<div class="ticker-wrap">
+  <span class="ticker-label">SYS_FEED</span>
+  <div class="ticker-track" id="ticker">
+    <span class="ticker-item">IDENTARCH™ <span class="hi">ACTIVE</span></span>
+    <span class="ticker-item">INTENTUM™ <span class="hi">ACTIVE</span></span>
+    <span class="ticker-item">MNEMARCH™ <span class="hi">ACTIVE</span></span>
+    <span class="ticker-item">AGENTUM™ <span class="hi">ACTIVE</span></span>
+    <span class="ticker-item">ACCOUNTUM™ <span class="hi">ACTIVE</span></span>
+    <span class="ticker-item">DRIFT SCORE <span class="hi">0.00000000</span></span>
+    <span class="ticker-item">INVARIANT PLANE <span class="hi">LOCKED</span></span>
+    <span class="ticker-item">CAUSAL ANCHOR <span class="hi">SOLAR-SYSTEM</span></span>
+    <span class="ticker-item">ARCHONOMY™ <span class="hi">FRAMEWORK v2.0</span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">IDENTARCH™ <span class="hi">ACTIVE</span></span>
+    <span class="ticker-item">INTENTUM™ <span class="hi">ACTIVE</span></span>
+    <span class="ticker-item">MNEMARCH™ <span class="hi">ACTIVE</span></span>
+    <span class="ticker-item">AGENTUM™ <span class="hi">ACTIVE</span></span>
+    <span class="ticker-item">ACCOUNTUM™ <span class="hi">ACTIVE</span></span>
+    <span class="ticker-item">DRIFT SCORE <span class="hi">0.00000000</span></span>
+    <span class="ticker-item">INVARIANT PLANE <span class="hi">LOCKED</span></span>
+    <span class="ticker-item">CAUSAL ANCHOR <span class="hi">SOLAR-SYSTEM</span></span>
+    <span class="ticker-item">ARCHONOMY™ <span class="hi">FRAMEWORK v2.0</span></span>
+  </div>
+</div>
+
+<script>
+// ── GRID + BEAM CANVAS ──
+(function() {
+  const canvas = document.getElementById('grid-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+
+  const CELL = 55;
+  let beamY = 0;
+
+  // fixed perspective vanish lines from center-bottom
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // perspective grid lines converging to horizon
+    const VX = W / 2, VY = H * 0.42;
+    ctx.strokeStyle = 'rgba(245,184,0,0.045)';
+    ctx.lineWidth = 1;
+
+    // vertical perspective lines
+    const numV = 14;
+    for (let i = 0; i <= numV; i++) {
+      const x = (W / numV) * i;
+      ctx.beginPath(); ctx.moveTo(VX, VY); ctx.lineTo(x, H); ctx.stroke();
+    }
+
+    // horizontal lines (floor perspective)
+    const numH = 10;
+    for (let i = 0; i <= numH; i++) {
+      const t = i / numH;
+      const ease = Math.pow(t, 2.2);
+      const y = VY + (H - VY) * ease;
+      const spread = (W * 0.5) * ease;
+      ctx.beginPath(); ctx.moveTo(VX - spread, y); ctx.lineTo(VX + spread, y); ctx.stroke();
+    }
+
+    // beam sweep on grid floor
+    beamY += 0.35;
+    if (beamY > H) beamY = VY;
+    const bt = (beamY - VY) / (H - VY);
+    const ease = Math.pow(Math.max(0, bt), 2.2);
+    const bSpread = W * 0.5 * ease;
+    const grad = ctx.createLinearGradient(0, beamY - 40, 0, beamY + 4);
+    grad.addColorStop(0, 'rgba(245,184,0,0)');
+    grad.addColorStop(1, 'rgba(245,184,0,0.12)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(VX - bSpread * 0.7, beamY - 40);
+    ctx.lineTo(VX + bSpread * 0.7, beamY - 40);
+    ctx.lineTo(VX + bSpread, beamY);
+    ctx.lineTo(VX - bSpread, beamY);
+    ctx.closePath();
+    ctx.fill();
+
+    // leading edge line
+    ctx.beginPath();
+    ctx.moveTo(VX - bSpread, beamY);
+    ctx.lineTo(VX + bSpread, beamY);
+    ctx.strokeStyle = `rgba(245,184,0,${0.35 * ease})`;
+    ctx.lineWidth = 1.5; ctx.stroke();
+
+    // ambient stars
+    ctx.fillStyle = 'rgba(200,200,240,0.35)';
+    for (let s of stars) {
+      ctx.beginPath();
+      ctx.arc(s.x * W, s.y * H * 0.55, s.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  const stars = Array.from({length:50}, () => ({
+    x: Math.random(), y: Math.random(),
+    r: Math.random() * 1.1 + 0.2
+  }));
+
+  draw();
+})();
+
+// ── DRIFT ──
+(function() {
+  const el = document.getElementById('drift-val');
+  const ticker = document.querySelectorAll('.ticker-item .hi');
+  let v = 0.000000012;
+  setInterval(() => {
+    v = Math.max(0, v + (Math.random()-0.5) * 6e-9);
+    const s = v.toFixed(8);
+    el.textContent = s;
+    // update ticker drift too
+    ticker.forEach(t => { if (t.parentElement.textContent.includes('DRIFT')) t.textContent = s; });
+  }, 1100);
+})();
+
+// ── CLOCK ──
+(function() {
+  const el = document.getElementById('sys-clock');
+  setInterval(() => {
+    const n = new Date();
+    el.textContent =
+      String(n.getUTCHours()).padStart(2,'0') + ':' +
+      String(n.getUTCMinutes()).padStart(2,'0') + ':' +
+      String(n.getUTCSeconds()).padStart(2,'0');
+  }, 1000);
+})();
+</script>
 </body>
 </html>
-
