@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archai Systems</title>
-    <!-- High-Contrast UI Font Integrations -->
+    <!-- Premium High-Contrast Modern Fonts -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=Inter:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark-slate: #0b0c10;
@@ -20,26 +20,27 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; background-color: var(--bg-dark-slate); }
-        body { background-color: var(--bg-dark-slate); color: var(--text-pure); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; min-height: 100vh; height: auto; padding-bottom: 80px; }
+        body { background-color: var(--bg-dark-slate); color: var(--text-pure); font-family: 'Inter', sans-serif; overflow-x: hidden; min-height: 100vh; height: auto; padding-bottom: 80px; }
         .stars-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; }
         .content-wrapper { position: relative; z-index: 10; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; align-items: center; }
         
-        /* Large-Scale Header Console Layout */
+        /* High-End Modern Header Console Layout */
         header.sticky-nav { padding: 50px 0 25px 0; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; }
         .logo-container { margin-bottom: 25px; width: 100%; display: flex; justify-content: center; }
         .site-logo { width: 150px; height: 150px; filter: drop-shadow(0 0 30px rgba(223, 183, 108, 0.35)); }
-        h1 { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 3rem; letter-spacing: 6px; text-transform: uppercase; color: var(--text-pure); margin-bottom: 16px; }
-        .tagline { color: var(--accent-gold); font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        
+        h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3.5rem; letter-spacing: -1px; text-transform: uppercase; color: var(--text-pure); margin-bottom: 16px; }
+        .tagline { color: var(--accent-gold); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
         .brand-statement { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; max-width: 800px; margin-bottom: 40px; }
 
         /* Structural Framework Panel with Clear Definition Labels */
         .system-module-box { background: var(--bg-panel); border: 4px double var(--accent-gold); width: 100%; max-width: 900px; padding: 35px; margin-bottom: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
-        .module-label { font-family: 'Syncopate', sans-serif; font-size: 1rem; color: var(--accent-gold); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid rgba(223, 183, 108, 0.2); padding-bottom: 10px; text-align: left; }
+        .module-label { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--accent-gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid rgba(223, 183, 108, 0.2); padding-bottom: 10px; text-align: left; }
         .module-explanation { color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; text-align: left; margin-bottom: 25px; }
 
         /* Symmetrical Large Gold Navigation Switchboard Grid */
         .system-tabs-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; }
-        .tab-node { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: 2px; color: var(--text-pure) !important; text-decoration: none !important; padding: 20px; border: 2px solid var(--accent-gold); background: rgba(0, 0, 0, 0.6); transition: all 0.3s ease; text-align: center; display: block; }
+        .tab-node { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: 1px; color: var(--text-pure) !important; text-decoration: none !important; padding: 20px; border: 2px solid var(--accent-gold); background: rgba(0, 0, 0, 0.6); transition: all 0.25s ease; text-align: center; display: block; }
         .tab-node:hover { color: var(--bg-dark-slate) !important; background: var(--accent-gold); box-shadow: 0 0 20px rgba(223, 183, 108, 0.5); }
 
         .hero-viewport { padding: 30px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; width: 100%; }
@@ -57,20 +58,20 @@
 
         /* Heavy Industrial Clock Deck Module */
         .clock-panel { background: rgba(15, 17, 23, 0.95); border: 4px double var(--accent-gold); padding: 35px 50px; border-radius: 0px; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.7); min-width: 100%; text-align: center; }
-        .panel-label { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--accent-gold); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; }
-        #live-clock { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 4.5rem; color: var(--text-pure); letter-spacing: 3px; line-height: 1; margin-bottom: 12px; }
+        .panel-label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--accent-gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+        #live-clock { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 4.8rem; color: var(--text-pure); letter-spacing: -2px; line-height: 1; margin-bottom: 12px; }
         .drift-status { margin-top: 15px; font-size: 1rem; color: var(--text-muted); font-family: monospace; letter-spacing: 1px; }
         #drift-value { color: var(--accent-gold); font-weight: 700; }
 
         @media (max-width: 600px) { 
-            h1 { font-size: 1.8rem; letter-spacing: 4px; } 
+            h1 { font-size: 2.2rem; } 
             .brand-statement { font-size: 0.95rem; }
             .system-tabs-matrix { grid-template-columns: 1fr; }
             .tab-node { padding: 16px; font-size: 1rem; } 
             .solar-system { width: 280px; height: 280px; } 
             .sun { width: 44px; height: 44px; } 
             .orbit-1 { width: 110px; height: 110px; } .orbit-2 { width: 180px; height: 180px; } .orbit-3 { width: 250px; height: 250px; }
-            #live-clock { font-size: 3rem; } 
+            #live-clock { font-size: 3.2rem; } 
         }
     </style>
 </head>
