@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Archai Systems</title>
-    <!-- Core Font Array Hook -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
-    
+    <title>Archai Systems // Barkdale & Co.</title>
     <style>
+        /* ⚡ THE FIX: Direct network import injection forcing the browser to load Syne */
+        @import url('https://googleapis.com');
+
         :root {
             --bg-black: #000000;
             --bg-surface: #0a0c10;
@@ -21,14 +19,19 @@
             --border-thick: rgba(255, 255, 255, 0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            /* ⚡ FORCED OVERRIDE: Applies the premium architectural font to absolutely everything */
+            font-family: 'Syne', sans-serif !important;
+        }
+        
         html { scroll-behavior: smooth; background-color: var(--bg-black); }
 
-        /* Thick-Profile Architectural Type Rules */
         body { 
             background-color: var(--bg-black); 
             color: var(--text-white); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
             font-weight: 700; 
             overflow-x: hidden; 
             min-height: 100vh; 
@@ -36,19 +39,19 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Clear Navigation Layout Header Bar */
+        /* Fixed Navigation Layout Header Bar */
         .main-header { position: sticky; top: 0; background: #000000; border-bottom: 2px solid var(--border-thick); z-index: 100; width: 100%; }
         .header-container { max-width: 1400px; margin: 0 auto; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
         .brand-block { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
         .brand-icon { width: 16px; height: 16px; background: var(--accent-gold); border-radius: 3px; transform: rotate(45deg); }
         .brand-text { display: flex; flex-direction: column; }
-        .brand-title { font-weight: 900; font-size: 1.3rem; color: var(--text-white); line-height: 1; margin-bottom: 4px; }
-        .brand-sub { font-size: 0.65rem; font-weight: 800; color: var(--text-grey); letter-spacing: 0.5px; }
+        .brand-title { font-weight: 800; font-size: 1.4rem; color: var(--text-white); line-height: 1; margin-bottom: 4px; letter-spacing: -0.5px; }
+        .brand-sub { font-size: 0.65rem; font-weight: 700; color: var(--text-grey); letter-spacing: 0.5px; }
 
-        /* Large Thick Text Mobile Tab Rails */
+        /* Mobile Tab Rails Navigation Track */
         .nav-scroll-track { display: flex; align-items: center; gap: 28px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 4px 0; }
         .nav-scroll-track::-webkit-scrollbar { display: none; }
-        .nav-link { font-size: 1rem; font-weight: 800; color: var(--text-grey); text-decoration: none; letter-spacing: 0.5px; white-space: nowrap; }
+        .nav-link { font-size: 1.15rem; font-weight: 800; color: var(--text-grey); text-decoration: none; letter-spacing: 0.5px; white-space: nowrap; }
         .nav-link:hover, .nav-link.active { color: var(--text-white); }
         .nav-link.active { border-bottom: 3px solid var(--accent-gold); padding-bottom: 4px; }
         .nav-link.gold-tab { color: var(--accent-gold); }
@@ -57,87 +60,88 @@
 
         /* Cinematic Heavy Headline Core */
         .hero-block { text-align: center; padding: 90px 0 60px 0; width: 100%; max-width: 900px; }
-        .main-headline { font-size: 4.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 28px; color: var(--text-white); letter-spacing: -0.02em; }
+        .main-headline { font-size: 4.8rem; font-weight: 800; line-height: 1.05; margin-bottom: 28px; color: var(--text-white); letter-spacing: -2px; }
         .highlight-green { color: var(--accent-green); }
-        .main-subhead { font-size: 1.4rem; color: var(--text-grey); line-height: 1.6; max-width: 750px; margin: 0 auto; font-weight: 700; }
+        .main-subhead { font-size: 1.45rem; color: var(--text-grey); line-height: 1.6; max-width: 750px; margin: 0 auto; font-weight: 700; letter-spacing: -0.5px; }
 
         /* Substrate Container Matrix Block */
-        .substrate-panel { background: var(--bg-surface); border: 2px solid var(--border-thick); width: 100%; padding: 45px; border-radius: 12px; margin-bottom: 50px; box-shadow: 0 35px 70px rgba(0,0,0,0.6); }
+        .substrate-panel { background: var(--bg-surface); border: 2px solid var(--border-thick); width: 100%; padding: 45px; border-radius: 12px; margin-bottom: 40px; box-shadow: 0 35px 70px rgba(0,0,0,0.6); }
         .panel-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; border-bottom: 2px solid var(--border-thick); padding-bottom: 28px; margin-bottom: 40px; }
         .panel-header-title { display: flex; flex-direction: column; gap: 6px; }
-        .meta-label { font-size: 0.85rem; font-weight: 800; color: var(--text-grey); letter-spacing: 2px; }
-        .panel-header h2 { font-size: 1.6rem; font-weight: 900; color: var(--text-white); }
+        .meta-label { font-size: 0.9rem; font-weight: 800; color: var(--text-grey); letter-spacing: 1px; }
+        .panel-header h2 { font-size: 1.7rem; font-weight: 800; color: var(--text-white); letter-spacing: -0.5px; }
 
-        .status-pill { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 800; color: var(--text-grey); background: rgba(255,255,255,0.04); border: 2px solid var(--border-thick); padding: 8px 16px; border-radius: 6px; }
+        .status-pill { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 800; color: var(--text-grey); background: rgba(255,255,255,0.04); border: 2px solid var(--border-thick); padding: 8px 16px; border-radius: 6px; }
         .pulse-dot { width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 10px var(--accent-green); }
 
         /* Oversized Solid Telemetry Data Displays */
         .telemetry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 40px; width: 100%; }
         .telemetry-card { background: var(--bg-card); border: 2px solid var(--border-thick); padding: 30px; border-radius: 8px; display: flex; flex-direction: column; gap: 16px; text-align: left; }
-        .card-meta { font-size: 0.85rem; font-weight: 800; color: var(--text-grey); letter-spacing: 1px; }
-        .card-value { font-size: 1.6rem; font-weight: 800; color: var(--text-white); line-height: 1.2; word-break: break-word; }
+        .card-meta { font-size: 0.9rem; font-weight: 800; color: var(--text-grey); letter-spacing: 0.5px; }
+        .card-value { font-size: 1.7rem; font-weight: 800; color: var(--text-white); line-height: 1.2; word-break: break-word; letter-spacing: -0.5px; }
         .gold-text { color: var(--accent-gold); }
-        .green-text { color: var(--accent-green); font-size: 1.8rem; letter-spacing: -0.5px; }
+        .green-text { color: var(--accent-green); font-size: 1.9rem; letter-spacing: -0.5px; }
 
         /* Structural Security Bar */
         .security-guarantee-bar { background: rgba(255,255,255,0.02); border: 2px solid var(--border-thick); padding: 24px; border-radius: 8px; display: flex; align-items: flex-start; gap: 16px; text-align: left; width: 100%; }
-        .shield-icon { font-size: 1.5rem; line-height: 1; }
-        .security-guarantee-bar p { font-size: 1rem; color: var(--text-grey); line-height: 1.6; }
+        .shield-icon { font-size: 1.6rem; line-height: 1; }
+        .security-guarantee-bar p { font-size: 1.05rem; color: var(--text-grey); line-height: 1.6; }
         .security-guarantee-bar strong { color: var(--text-white); }
 
-        .substrate-footer { display: flex; justify-content: space-between; width: 100%; font-size: 0.85rem; color: var(--text-grey); padding-top: 24px; border-top: 2px solid var(--border-thick); margin-bottom: 50px; font-weight: 800; }
+        /* Comprehensive Corporate Info Matrix */
+        .company-info-block { background: rgba(255,255,255,0.01); border: 2px solid var(--border-thick); width: 100%; padding: 45px; border-radius: 12px; margin-top: 40px; text-align: left; }
+        .company-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 25px; }
+        .info-column { display: flex; flex-direction: column; gap: 10px; }
+        .info-title { font-size: 0.95rem; font-weight: 800; color: var(--accent-gold); letter-spacing: 0.5px; text-transform: uppercase; }
+        .info-text { font-size: 1rem; color: var(--text-grey); line-height: 1.5; }
+
+        /* Operational System Footer Block */
+        .substrate-footer { display: flex; justify-content: space-between; width: 100%; font-size: 0.9rem; color: var(--text-grey); padding-top: 24px; border-top: 2px solid var(--border-thick); margin-top: 60px; margin-bottom: 60px; font-weight: 800; }
 
         @media (max-width: 768px) {
             .header-container { flex-direction: column; align-items: flex-start; gap: 20px; padding: 20px; }
             .nav-scroll-track { width: 100%; justify-content: flex-start; gap: 24px; }
             .hero-block { padding: 60px 0 45px 0; }
-            .main-headline { font-size: 2.6rem; }
-            .main-subhead { font-size: 1.15rem; }
+            .main-headline { font-size: 2.8rem; letter-spacing: -1px; }
+            .main-subhead { font-size: 1.2rem; }
             .substrate-panel { padding: 24px; }
             .panel-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-            .panel-header h2 { font-size: 1.3rem; }
+            .panel-header h2 { font-size: 1.4rem; }
             .telemetry-grid { grid-template-columns: 1fr; gap: 16px; }
             .telemetry-card { padding: 24px; }
-            .card-value { font-size: 1.35rem; }
-            .green-text { font-size: 1.5rem; }
+            .card-value { font-size: 1.45rem; }
+            .green-text { font-size: 1.6rem; }
+            .company-grid { grid-template-columns: 1fr; gap: 20px; }
+            .company-info-block { padding: 25px; }
             .substrate-footer { flex-direction: column; gap: 12px; text-align: left; }
         }
     </style>
 </head>
+    
 <body>
     <canvas class="stars-container" id="starsCanvas"></canvas>
     <div class="content-wrapper">
-        <header class="sticky-nav">
-            <div class="logo-container">
-                <svg class="site-logo" viewBox="0 0 120 120" fill="none" xmlns="http://w3.org">
-                    <circle cx="60" cy="65" r="45" stroke="url(#goldGradient)" stroke-width="2" stroke-dasharray="2 3" opacity="0.4"/>
-                    <circle cx="60" cy="65" r="30" stroke="url(#goldGradient)" stroke-width="2" opacity="0.3"/>
-                    <circle cx="60" cy="65" r="16" stroke="url(#goldGradient)" stroke-width="2" stroke-dasharray="6 2" opacity="0.5"/>
-                    <circle cx="60" cy="65" r="8" fill="url(#goldGradient)"/>
-                    <path d="M60 15L25 95H33L60 32L87 95H95L60 15Z" fill="url(#goldGradient)"/>
-                    <path d="M37 72H83V75H37V72Z" fill="url(#goldGradient)"/>
-                    <circle cx="34.5" cy="73.5" r="4.5" fill="#ffffff" /><circle cx="85.5" cy="73.5" r="2.5" fill="#dfb76c" />
-                    <defs>
-                        <linearGradient id="goldGradient" x1="25" y1="15" x2="95" y2="95" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stop-color="#fff0cf"/><stop offset="50%" stop-color="#dfb76c"/><stop offset="100%" stop-color="#967333"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
+        <header class="main-header">
+            <div class="header-container">
+                <div class="brand-block">
+                    <div class="brand-icon"></div>
+                    <div class="brand-text">
+                        <span class="brand-title">ARCHAI</span>
+                        <span class="brand-sub">BARKDALE & CO. INTEL OPERATIONS</span>
+                    </div>
+                </div>
+                <nav class="nav-scroll-track">
+                    <a href="overview.html" class="nav-link active">OVERVIEW</a>
+                    <a href="archai.html" class="nav-link">ARCHAI</a>
+                    <a href="identarch.html" class="nav-link">IDENTARCH</a>
+                    <a href="agentum.html" class="nav-link">AGENTUM</a>
+                    <a href="intentum.html" class="nav-link">INTENTUM</a>
+                    <a href="mnemarch.html" class="nav-link">MNEMARCH</a>
+                    <a href="accountum.html" class="nav-link">ACCOUNTUM</a>
+                    <a href="pricing.html" class="nav-link gold-tab">ENTERPRISE</a>
+                </nav>
             </div>
-            <h1>Archai Systems</h1>
-            <div class="tagline">Systemic Equilibrium & Architectural Governing</div>
         </header>
-
-        <nav class="nav-scroll-track">
-            <a href="overview.html" class="nav-link active">OVERVIEW</a>
-            <a href="archai.html" class="nav-link">ARCHAI</a>
-            <a href="identarch.html" class="nav-link">IDENTARCH</a>
-            <a href="agentum.html" class="nav-link">AGENTUM</a>
-            <a href="intentum.html" class="nav-link">INTENTUM</a>
-            <a href="mnemarch.html" class="nav-link">MNEMARCH</a>
-            <a href="accountum.html" class="nav-link">ACCOUNTUM</a>
-            <a href="pricing.html" class="nav-link gold-tab">ENTERPRISE</a>
-        </nav>
 
         <main style="width: 100%;">
             <section class="hero-block">
@@ -180,10 +184,28 @@
                     <p><strong>Safety Guarantee:</strong> System operations are dynamically bound to the invariant plane. Model drift is physically impossible.</p>
                 </div>
             </section>
+
+            <section class="company-info-block">
+                <h2>INSTITUTIONAL METRICS // ARCHONOMY DIVISION</h2>
+                <div class="company-grid">
+                    <div class="info-column">
+                        <div class="info-title">Governing Authority</div>
+                        <div class="info-text">Barkdale & Co.<br>Principal System Holdings & Asset Management</div>
+                    </div>
+                    <div class="info-column">
+                        <div class="info-title">Systemic Discipline</div>
+                        <div class="info-text">ARCHONOMY™ — The mathematical regulation, structural preservation, and zero-drift oversight of agentic frameworks.</div>
+                    </div>
+                    <div class="info-column">
+                        <div class="info-title">Network Parameters</div>
+                        <div class="info-text">Immutable Node Verification // Secure Git Ledger Matrix // Secure Cloudflare Proxy Routing</div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <footer class="substrate-footer">
-            <span>Audit Substrate: Cloudflare Network Proxy Edge</span>
+            <span>Audit Substrate: Barkdale & Co. Private Infrastructure Network Proxy Edge</span>
             <span id="utc-clock">SYS_TIME // UTC 00:45:48</span>
         </footer>
     </div>
