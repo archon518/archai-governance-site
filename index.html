@@ -4,55 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archai Systems</title>
-    <!-- Unique High-End Typographic Architecture -->
+    <!-- High-Contrast UI Font Integrations -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark-slate: #0b0c10;
+            --bg-panel: rgba(15, 17, 23, 0.95);
             --accent-gold: #dfb76c;
             --accent-metallic: #b28d46;
-            --orbit-border: rgba(223, 183, 108, 0.08);
+            --orbit-border: rgba(223, 183, 108, 0.15);
             --text-pure: #ffffff;
-            --text-muted: #828d9a;
+            --text-muted: #a3acb9;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; background-color: var(--bg-dark-slate); }
-        body { background-color: var(--bg-dark-slate); color: var(--text-pure); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; min-height: 100vh; height: auto; padding-bottom: 60px; }
+        body { background-color: var(--bg-dark-slate); color: var(--text-pure); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; min-height: 100vh; height: auto; padding-bottom: 80px; }
         .stars-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; }
-        .content-wrapper { position: relative; z-index: 10; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; align-items: center; }
-        header.sticky-nav { padding: 40px 0 15px 0; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; }
-        .logo-container { margin-bottom: 15px; width: 100%; display: flex; justify-content: center; }
-        .site-logo { width: 110px; height: 110px; filter: drop-shadow(0 0 25px rgba(223, 183, 108, 0.25)); }
-        h1 { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 2.2rem; letter-spacing: 8px; text-transform: uppercase; color: var(--text-pure); margin-bottom: 12px; }
-        .tagline { color: var(--text-muted); font-size: 0.85rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; }
+        .content-wrapper { position: relative; z-index: 10; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; align-items: center; }
+        
+        /* Large-Scale Header Console Layout */
+        header.sticky-nav { padding: 50px 0 25px 0; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; }
+        .logo-container { margin-bottom: 25px; width: 100%; display: flex; justify-content: center; }
+        .site-logo { width: 150px; height: 150px; filter: drop-shadow(0 0 30px rgba(223, 183, 108, 0.35)); }
+        h1 { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 3rem; letter-spacing: 6px; text-transform: uppercase; color: var(--text-pure); margin-bottom: 16px; }
+        .tagline { color: var(--accent-gold); font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .brand-statement { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; max-width: 800px; margin-bottom: 40px; }
 
-        /* Symmetrical Gold System Controls Switching Matrix */
-        .system-tabs-matrix { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; width: 100%; max-width: 1000px; margin: 15px auto 35px auto; padding: 0 10px; text-align: center; }
-        .tab-node { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.7rem; letter-spacing: 2px; color: var(--accent-gold) !important; text-decoration: none !important; padding: 10px 16px; border: 1px solid var(--accent-gold); background: rgba(15, 17, 23, 0.9); transition: all 0.3s ease; display: inline-block; text-align: center; }
-        .tab-node:hover { color: var(--bg-dark-slate) !important; background: var(--accent-gold); box-shadow: 0 0 15px rgba(223, 183, 108, 0.4); }
+        /* Structural Framework Panel with Clear Definition Labels */
+        .system-module-box { background: var(--bg-panel); border: 4px double var(--accent-gold); width: 100%; max-width: 900px; padding: 35px; margin-bottom: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+        .module-label { font-family: 'Syncopate', sans-serif; font-size: 1rem; color: var(--accent-gold); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid rgba(223, 183, 108, 0.2); padding-bottom: 10px; text-align: left; }
+        .module-explanation { color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; text-align: left; margin-bottom: 25px; }
 
-        .hero-viewport { padding: 20px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; width: 100%; }
-        .solar-system { position: relative; width: 320px; height: 320px; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; }
-        .sun { position: absolute; width: 50px; height: 50px; background: radial-gradient(circle, #ffffff 0%, var(--accent-gold) 50%, var(--accent-metallic) 100%); border-radius: 50%; box-shadow: 0 0 40px rgba(223, 183, 108, 0.45); z-index: 5; }
-        .orbit { position: absolute; border: 1px solid var(--orbit-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: spin linear infinite; }
+        /* Symmetrical Large Gold Navigation Switchboard Grid */
+        .system-tabs-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; }
+        .tab-node { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: 2px; color: var(--text-pure) !important; text-decoration: none !important; padding: 20px; border: 2px solid var(--accent-gold); background: rgba(0, 0, 0, 0.6); transition: all 0.3s ease; text-align: center; display: block; }
+        .tab-node:hover { color: var(--bg-dark-slate) !important; background: var(--accent-gold); box-shadow: 0 0 20px rgba(223, 183, 108, 0.5); }
+
+        .hero-viewport { padding: 30px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; width: 100%; }
+        .solar-system { position: relative; width: 360px; height: 360px; margin-bottom: 40px; display: flex; align-items: center; justify-content: center; }
+        .sun { position: absolute; width: 60px; height: 60px; background: radial-gradient(circle, #ffffff 0%, var(--accent-gold) 50%, var(--accent-metallic) 100%); border-radius: 50%; box-shadow: 0 0 50px rgba(223, 183, 108, 0.5); z-index: 5; }
+        .orbit { position: absolute; border: 2px solid var(--orbit-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: spin linear infinite; }
         .planet { position: absolute; border-radius: 50%; }
-        .orbit-1 { width: 130px; height: 130px; animation-duration: 8s; }
-        .planet-1 { top: -5px; width: 10px; height: 10px; background: #fdf5e2; box-shadow: 0 0 8px #fdf5e2; }
-        .orbit-2 { width: 220px; height: 220px; animation-duration: 16s; }
-        .planet-2 { top: -7px; width: 14px; height: 14px; background: var(--accent-gold); box-shadow: 0 0 12px var(--accent-gold); }
-        .orbit-3 { width: 310px; height: 310px; animation-duration: 26s; }
-        .planet-3 { top: -8px; width: 16px; height: 16px; background: var(--accent-metallic); box-shadow: 0 0 10px var(--accent-metallic); }
+        .orbit-1 { width: 150px; height: 150px; animation-duration: 8s; }
+        .planet-1 { top: -6px; width: 12px; height: 12px; background: #fdf5e2; box-shadow: 0 0 10px #fdf5e2; }
+        .orbit-2 { width: 250px; height: 250px; animation-duration: 16s; }
+        .planet-2 { top: -8px; width: 16px; height: 16px; background: var(--accent-gold); box-shadow: 0 0 14px var(--accent-gold); }
+        .orbit-3 { width: 350px; height: 350px; animation-duration: 26s; }
+        .planet-3 { top: -9px; width: 18px; height: 18px; background: var(--accent-metallic); box-shadow: 0 0 12px var(--accent-metallic); }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .clock-panel { background: rgba(15, 17, 23, 0.9); border: 4px double var(--accent-gold); padding: 25px 45px; border-radius: 0px; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(223, 183, 108, 0.05); min-width: 340px; max-width: 440px; text-align: center; margin: 0 auto; }
-        .panel-label { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.75rem; color: var(--accent-gold); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 12px; }
-        #live-clock { font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: 3.2rem; color: var(--text-pure); letter-spacing: 2px; line-height: 1; margin-bottom: 8px; }
-        .drift-status { margin-top: 10px; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; letter-spacing: 1px; }
-        #drift-value { color: var(--accent-gold); font-weight: 600; }
-        @media (max-width: 900px) { .system-tabs-matrix { gap: 8px; } .tab-node { padding: 10px 14px; font-size: 0.7rem; } }
-        @media (max-width: 600px) { h1 { font-size: 1.5rem; letter-spacing: 4px; } .site-logo { width: 90px; height: 90px; } .solar-system { width: 240px; height: 240px; } .sun { width: 38px; height: 38px; } .orbit-1 { width: 90px; height: 90px; } .orbit-2 { width: 150px; height: 150px; } .orbit-3 { width: 210px; height: 210px; } .clock-panel { min-width: 100%; padding: 20px; } #live-clock { font-size: 2.2rem; } }
+        /* Heavy Industrial Clock Deck Module */
+        .clock-panel { background: rgba(15, 17, 23, 0.95); border: 4px double var(--accent-gold); padding: 35px 50px; border-radius: 0px; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.7); min-width: 100%; text-align: center; }
+        .panel-label { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--accent-gold); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; }
+        #live-clock { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 4.5rem; color: var(--text-pure); letter-spacing: 3px; line-height: 1; margin-bottom: 12px; }
+        .drift-status { margin-top: 15px; font-size: 1rem; color: var(--text-muted); font-family: monospace; letter-spacing: 1px; }
+        #drift-value { color: var(--accent-gold); font-weight: 700; }
+
+        @media (max-width: 600px) { 
+            h1 { font-size: 1.8rem; letter-spacing: 4px; } 
+            .brand-statement { font-size: 0.95rem; }
+            .system-tabs-matrix { grid-template-columns: 1fr; }
+            .tab-node { padding: 16px; font-size: 1rem; } 
+            .solar-system { width: 280px; height: 280px; } 
+            .sun { width: 44px; height: 44px; } 
+            .orbit-1 { width: 110px; height: 110px; } .orbit-2 { width: 180px; height: 180px; } .orbit-3 { width: 250px; height: 250px; }
+            #live-clock { font-size: 3rem; } 
+        }
     </style>
 </head>
 <body>
@@ -61,13 +80,13 @@
         <header class="sticky-nav">
             <div class="logo-container">
                 <svg class="site-logo" viewBox="0 0 120 120" fill="none" xmlns="http://w3.org">
-                    <circle cx="60" cy="65" r="45" stroke="url(#goldGradient)" stroke-width="1" stroke-dasharray="2 3" opacity="0.3"/>
-                    <circle cx="60" cy="65" r="30" stroke="url(#goldGradient)" stroke-width="1" opacity="0.2"/>
-                    <circle cx="60" cy="65" r="16" stroke="url(#goldGradient)" stroke-width="1" stroke-dasharray="6 2" opacity="0.4"/>
-                    <circle cx="60" cy="65" r="6" fill="url(#goldGradient)"/>
+                    <circle cx="60" cy="65" r="45" stroke="url(#goldGradient)" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.4"/>
+                    <circle cx="60" cy="65" r="30" stroke="url(#goldGradient)" stroke-width="1.5" opacity="0.3"/>
+                    <circle cx="60" cy="65" r="16" stroke="url(#goldGradient)" stroke-width="1.5" stroke-dasharray="6 2" opacity="0.5"/>
+                    <circle cx="60" cy="65" r="7" fill="url(#goldGradient)"/>
                     <path d="M60 15L25 95H33L60 32L87 95H95L60 15Z" fill="url(#goldGradient)"/>
                     <path d="M37 72H83V75H37V72Z" fill="url(#goldGradient)"/>
-                    <circle cx="34.5" cy="73.5" r="3.5" fill="#fdf5e2" /><circle cx="85.5" cy="73.5" r="2.5" fill="#dfb76c" /><circle cx="60" cy="32" r="4" fill="#b28d46" /><circle cx="90" cy="40" r="3" fill="#dfb76c" />
+                    <circle cx="34.5" cy="73.5" r="4" fill="#fdf5e2" /><circle cx="85.5" cy="73.5" r="3" fill="#dfb76c" /><circle cx="60" cy="32" r="4.5" fill="#b28d46" /><circle cx="90" cy="40" r="3.5" fill="#dfb76c" />
                     <defs>
                         <linearGradient id="goldGradient" x1="25" y1="15" x2="95" y2="95" gradientUnits="userSpaceOnUse">
                             <stop offset="0%" stop-color="#fff0cf"/><stop offset="50%" stop-color="#dfb76c"/><stop offset="100%" stop-color="#967333"/>
@@ -77,23 +96,32 @@
             </div>
             <h1>Archai Systems</h1>
             <div class="tagline">Systemic Equilibrium & Architectural Governing</div>
+            <p class="brand-statement">Welcome to the flagship operations deck. Archai Systems provides high-performance structural frameworks and invariant governance tools built to calculate and stabilize multi-point data architectures.</p>
         </header>
 
-        <!-- Centered Sub-Navigation Menu Switchboard -->
-        <nav class="system-tabs-matrix">
-            <a href="overview.html" class="tab-node">OVERVIEW</a>
-            <a href="intentum.html" class="tab-node">INTENTUM</a>
-            <a href="metarch.html" class="tab-node">METARCH</a>
-            <a href="mnemarch.html" class="tab-node">MNEMARCH</a>
-            <a href="perimarch.html" class="tab-node">PERIMARCH</a>
-            <a href="policum.html" class="tab-node">POLICUM</a>
-            <a href="riskum.html" class="tab-node">RISKUM</a>
-            <a href="synergarch.html" class="tab-node">SYNERGARCH</a>
-            <a href="temporum.html" class="tab-node">TEMPORUM</a>
-            <a href="pricing.html" class="tab-node" style="border-style: double; font-weight: 700;">PRICING</a>
-        </nav>
-
         <main style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            
+            <!-- Structural Switchboard Explanation Box -->
+            <section class="system-module-box">
+                <div class="module-label">SYSTEM CORE UTILITIES Switchboard</div>
+                <p class="module-explanation">Select an individual operational vector from the grid below to load its dedicated tracking layer, validation logs, or data monitoring parameters directly into your workspace portal:</p>
+                
+                <!-- Large, Centered Sub-Navigation Grid Links -->
+                <nav class="system-tabs-matrix">
+                    <a href="overview.html" class="tab-node">OVERVIEW</a>
+                    <a href="intentum.html" class="tab-node">INTENTUM</a>
+                    <a href="metarch.html" class="tab-node">METARCH</a>
+                    <a href="mnemarch.html" class="tab-node">MNEMARCH</a>
+                    <a href="perimarch.html" class="tab-node">PERIMARCH</a>
+                    <a href="policum.html" class="tab-node">POLICUM</a>
+                    <a href="riskum.html" class="tab-node">RISKUM</a>
+                    <a href="synergarch.html" class="tab-node">SYNERGARCH</a>
+                    <a href="temporum.html" class="tab-node">TEMPORUM</a>
+                    <a href="pricing.html" class="tab-node" style="border: 2px double #dfb76c; background: rgba(223, 183, 108, 0.05);">PRICING TIERS</a>
+                </nav>
+            </section>
+
+            <!-- Real-Time Visual Telemetry Engine -->
             <section class="hero-viewport">
                 <div class="solar-system" id="mainSystem">
                     <div class="sun"></div>
@@ -101,10 +129,13 @@
                     <div class="orbit orbit-2"><div class="planet planet-2"></div></div>
                     <div class="orbit orbit-3"><div class="planet planet-3"></div></div>
                 </div>
+                
+                <!-- Large Telemetry Tracking Window -->
                 <div class="clock-panel">
                     <div class="panel-label">System Coordinate Clock</div>
                     <div id="live-clock">00:00:00</div>
-                    <div class="drift-status">INVARIANT DRIFT: <span id="drift-value">0.0000s</span></div>
+                    <div class="drift-status">INVARIANT DRIFT METRIC: <span id="drift-value">0.0000s</span></div>
+                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px; font-family: monospace;">Tracks localized client processing deviation relative to the zero-point core temporal axis.</div>
                 </div>
             </section>
         </main>
@@ -127,16 +158,16 @@
         setInterval(simulateDrift, 300);
 
         const canvas = document.getElementById('starsCanvas'), ctx = canvas.getContext('2d');
-        let stars = []; const numStars = 65;
+        let stars = []; const numStars = 50;
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }
         function initStars() {
-            stars = []; for (let i = 0; i < numStars; i++) { stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 1.5, alpha: Math.random(), speed: 0.003 + Math.random() * 0.006, movementY: 0.12 + Math.random() * 0.25 }); }
+            stars = []; for (let i = 0; i < numStars; i++) { stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 1.8, alpha: Math.random(), speed: 0.003 + Math.random() * 0.006, movementY: 0.1 + Math.random() * 0.2 }); }
         }
         function animateStars() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < numStars; i++) {
                 let s = stars[i]; s.alpha += s.speed; s.y -= s.movementY; if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed; if (s.y < 0) s.y = canvas.height;
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2); ctx.fillStyle = `rgba(223, 183, 108, ${Math.max(0, s.alpha * 0.35)})`; ctx.fill();
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2); ctx.fillStyle = `rgba(223, 183, 108, ${Math.max(0, s.alpha * 0.4)})`; ctx.fill();
             }
             requestAnimationFrame(animateStars);
         }
