@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ARCHAI v2 — Core Fabric Substrate</title>
+    <style>
+        :root { --bg-color: #050505; --card-bg: #0d0d11; --card-hover: #121217; --accent-gold: #dfb15b; --accent-green: #00ff88; --text-main: #ffffff; --text-muted: #8a8a93; --border-color: #1a1a22; }
+        body { margin: 0; padding: 40px; background-color: var(--bg-color); color: var(--text-main); font-family: -apple-system, sans-serif; }
+        .back-nav { color: var(--accent-gold); text-decoration: none; font-size: 0.85rem; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; display: inline-block; margin-bottom: 24px; }
+        .tier-header { border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 32px; display: flex; justify-content: space-between; align-items: baseline; }
+        h2 { margin: 0; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .price { font-size: 0.9rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { border-color: #2a2a35; background-color: var(--card-hover); }
+        h4 { margin: 0 0 2px 0; font-size: 1.25rem; }
+        .tagline { font-size: 0.75rem; color: var(--accent-gold); text-transform: uppercase; margin-bottom: 16px; font-weight: bold; }
+        .purpose { font-size: 0.95rem; color: #e4e4e7; margin-bottom: 20px; }
+        ul { padding-left: 16px; margin: 0 0 20px 0; font-size: 0.85rem; color: var(--text-muted); }
+        li { margin-bottom: 4px; }
+        .interactions { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px; }
+        .interactions span { color: var(--accent-gold); font-family: monospace; margin-right: 4px; }
+        .footer-note { font-size: 0.85rem; background: rgba(255, 255, 255, 0.02); padding: 10px 14px; border-radius: 4px; color: #d1d1d6; border-left: 2px solid var(--accent-gold); margin-bottom: 16px; }
+        .download-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: transparent; border: 1px solid rgba(0, 255, 136, 0.3); color: var(--accent-green); padding: 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; cursor: pointer; text-decoration: none; }
+        .download-btn:hover { background: rgba(0, 255, 136, 0.06); border-color: var(--accent-green); }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-nav">← Return to Matrix Substrate</a>
+    <header class="tier-header">
+        <h2>Core Fabric</h2>
+        <div class="price">Pricing Model: Open-Core (Free / Self-Hosted)</div>
+    </header>
+    <div class="grid">
+        <!-- IDENTARCH -->
+        <article class="card">
+            <div>
+                <h4>IDENTARCH</h4>
+                <div class="tagline">Identity Substrate Engine</div>
+                <p class="purpose">Establishes the foundational identity primitives that all other layers depend on. Binds running nodes to verifiable claims.</p>
+                <ul>
+                    <li>Identity Anchor & Verification Claims</li>
+                    <li>Cryptographic Identity Proofs</li>
+                    <li>Context Architecture Mapping</li>
+                </ul>
+                <div class="interactions"><h5>Interactions</h5><span>INTENTUM</span> <span>MNEMARCH</span> <span>AGENTUM</span> <span>ACCOUNTUM</span></div>
+            </div>
+            <div>
+                <div class="footer-note">Root of the ARCHAI identity tree. Maps identities precisely.</div>
+                <a href="https://archai.systems" class="download-btn">📥 Download Binary (.tar.gz)</a>
+            </div>
+        </article>
+
+        <!-- INTENTUM -->
+        <article class="card">
+            <div>
+                <h4>INTENTUM</h4>
+                <div class="tagline">Intent Binding Driver</div>
+                <p class="purpose">Binds execution actions to validated, provenance-tracked intent metrics to halt malicious model drift.</p>
+                <ul>
+                    <li>Intent Capture & Runtime Validation</li>
+                    <li>Dynamic Intention Constraints</li>
+                    <li>Provenance Tracking Framework</li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-note">Ensures every system operation remains justified and governed.</div>
+                <a href="https://archai.systems" class="download-btn">📥 Download Binary (.tar.gz)</a>
+            </div>
+        </article>
+
+        <!-- AGENTUM -->
+        <article class="card">
+            <div>
+                <h4>AGENTUM</h4>
+                <div class="tagline">Execution & Orchestration Driver</div>
+                <p class="purpose">Governs how actions are sequenced, routed, and processed across live active capability pipelines.</p>
+                <ul>
+                    <li>Action Pipeline Flow Systems</li>
+                    <li>Capability Router Configurations</li>
+                    <li>Runtime State Monitoring</li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-note">The active operational execution engine of the agent system.</div>
+                <a href="https://archai.systems" class="download-btn">📥 Download Binary (.tar.gz)</a>
+            </div>
+        </article>
+
+        <!-- MNEMARCH -->
+        <article class="card">
+            <div>
+                <h4>MNEMARCH</h4>
+                <div class="tagline">Memory Governance Subsystem</div>
+                <p class="purpose">Manages database storage schema execution, strict file attribution patterns, and temporal data decay windows.</p>
+                <ul>
+                    <li>Database Schema Structure Control</li>
+                    <li>Context Attribution Primitives</li>
+                    <li>Temporal Data Decay Tuning</li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-note">Ensures systemic tracking data stays secure and strictly time-bound.</div>
+                <a href="https://archai.systems" class="download-btn">📥 Download Binary (.tar.gz)</a>
+            </div>
+        </article>
+
+        <!-- ACCOUNTUM -->
+        <article class="card">
+            <div>
+                <h4>ACCOUNTUM</h4>
+                <div class="tagline">Accountability Spine Ledger</div>
+                <p class="purpose">Monitors cross-referenced unalterable compliance legers tracking all execution steps and data adjustments.</p>
+                <ul>
+                    <li>Immutable Intent & Action Ledgers</li>
+                    <li>Compliance Webhook Regulators</li>
+                    <li>State Revocation & Rollback Pipelines</li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-note">The unyielding foundational trust anchor of the ARCHAI network.</div>
+                <a href="https://archai.systems" class="download-btn">📥 Download Binary (.tar.gz)</a>
+            </div>
+        </article>
+    </div>
+</body>
+</html>
+
