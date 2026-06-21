@@ -1,1 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHAI // AI Structure Governance</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --primary-gold: #D4AF37;
+            --dark-gold: #AA7C11;
+            --light-gold: #F3E5AB;
+            --text-gray: #CCCCCC;
+            --border-gold: rgba(212, 175, 55, 0.25);
+            --panel-bg: #050505;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Monotonic Telemetry Header Marquee */
+        .telemetry-ticker {
+            background: #030303;
+            border-bottom: 1px solid var(--border-gold);
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 12px 0;
+            font-size: 0.85rem;
+            color: var(--primary-gold);
+            letter-spacing: 0.05rem;
+        }
+
+        .ticker-wrap {
+            display: inline-block;
+            animation: ticker-move 40s linear infinite;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            padding: 0 2rem;
+        }
+
+        @keyframes ticker-move {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        header {
+            padding: 5rem 2rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .brand-title {
+            font-size: 3.5rem;
+            color: var(--primary-gold);
+            letter-spacing: 0.6rem;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin-top: 0.5rem;
+            letter-spacing: 0.35rem;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+              /* Central Prominent Solar System Visualization */
+        .solar-system-container {
+            margin: 2rem auto 6rem auto;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .solar-system-stage {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 1px solid var(--border-gold);
+            border-radius: 50%;
+            background: radial-gradient(circle, #080808 0%, #000000 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 50px rgba(212, 175, 55, 0.05);
+        }
+
+        .sun-anchor {
+            width: 46px;
+            height: 46px;
+            background: radial-gradient(circle, var(--light-gold) 0%, var(--primary-gold) 70%, var(--dark-gold) 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 35px var(--primary-gold);
+            z-index: 10;
+        }
+
+        .orbit-track {
+            position: absolute;
+            border: 1px dashed rgba(212, 175, 55, 0.12);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .orbit-track:hover { border-color: var(--primary-gold); }
+        .orbit-1 { width: 140px; height: 140px; animation: spin-clockwise 10s linear infinite; }
+        .orbit-2 { width: 240px; height: 240px; animation: spin-counter 18s linear infinite; }
+        .orbit-3 { width: 350px; height: 350px; animation: spin-clockwise 28s linear infinite; }
+        .orbit-4 { width: 450px; height: 450px; animation: spin-counter 42s linear infinite; }
+
+        .planet-node {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background-color: var(--primary-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary-gold);
+            transition: transform 0.2s ease;
+        }
+
+        .orbit-track:hover .planet-node { transform: scale(1.3); }
+        .orbit-1 .planet-node { top: -7px; background-color: var(--light-gold); }
+        .orbit-2 .planet-node { right: -7px; }
+        .orbit-3 .planet-node { bottom: -7px; }
+        .orbit-4 .planet-node { left: -7px; background-color: var(--dark-gold); }
+
+        @keyframes spin-clockwise { 100% { transform: rotate(360deg); } }
+        @keyframes spin-counter { 100% { transform: rotate(-360deg); } }
+
+        /* Arbitrary Precision Scaling Pipeline Live Monitor */
+        .pipeline-monitor {
+            background: #030303;
+            border: 1px solid var(--primary-gold);
+            border-radius: 4px;
+            padding: 2rem;
+            margin-bottom: 5rem;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.03);
+        }
+
+        .monitor-header {
+            color: var(--primary-gold);
+            border-bottom: 1px solid var(--border-gold);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            letter-spacing: 0.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            box-shadow: 0 0 8px #00ff00;
+        }
+
+        .log-terminal {
+            max-height: 250px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Fixed Row Wrapper - Resolves Mobile Column Collapse */
+        .log-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+            animation: fadeIn 0.3s ease-in;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.05);
+            padding-bottom: 0.4rem;
+        }
+
+        .log-ts { color: var(--dark-gold); min-width: 160px; flex-shrink: 0; }
+        .log-msg { color: var(--text-gray); flex: 1; min-width: 200px; word-wrap: break-word; }
+        .log-val { color: #ffffff; font-weight: bold; text-align: right; flex-shrink: 0; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Invariant Specifications Architectural Grid */
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .matrix-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-gold);
+            padding: 2.5rem;
+            border-radius: 2px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+        }
+
+        .matrix-card:hover { transform: translateY(-4px); border-color: var(--primary-gold); }
+        .card-tag { font-size: 0.75rem; color: var(--dark-gold); letter-spacing: 0.15rem; margin-bottom: 0.75rem; }
+        .card-title { font-size: 1.35rem; color: var(--primary-gold); margin-bottom: 1rem; letter-spacing: 0.05rem; }
+        .card-body { font-size: 0.9rem; color: var(--text-gray); }
+        footer { text-align: center; padding: 6rem 2rem; font-size: 0.8rem; color: var(--dark-gold); border-top: 1px solid var(--border-gold); letter-spacing: 0.15rem; }
+
+        @media (max-width: 600px) {
+            .brand-title { font-size: 2.4rem; letter-spacing: 0.4rem; }
+            .solar-system-stage { width: 320px; height: 320px; }
+            .orbit-1 { width: 90px; height: 90px; }
+            .orbit-2 { width: 160px; height: 160px; }
+            .orbit-3 { width: 230px; height: 230px; }
+            .orbit-4 { width: 300px; height: 300px; }
+            .sun-anchor { width: 32px; height: 32px; }
+            .log-row { flex-direction: column; gap: 0.2rem; }
+            .log-val { text-align: left; margin-top: 0.2rem; color: var(--primary-gold); }
+        }
+    </style>
+</head>
+  <body>
+
+    <!-- Infinite Monotonic Telemetry Stream -->
+    <div class="telemetry-ticker">
+        <div class="ticker-wrap">
+            <span class="ticker-item">// INTENTUM: RATIONAL SCALING ARRAYS ACTIVE</span>
+            <span class="ticker-item">// PERIMARCH: HARDWARE TIMER SYNC LOCK NOMINAL</span>
+            <span class="ticker-item">// POLICUM: BLIND CONSTANT-TIME REGISTER ARMED</span>
+            <span class="ticker-item">// ACCOUNTUM: INTERNAL HYSTERESIS RATIO PRESERVED</span>
+            <span class="ticker-item">// INTENTUM: RATIONAL SCALING ARRAYS ACTIVE</span>
+            <span class="ticker-item">// PERIMARCH: HARDWARE TIMER SYNC LOCK NOMINAL</span>
+            <span class="ticker-item">// POLICUM: BLIND CONSTANT-TIME REGISTER ARMED</span>
+            <span class="ticker-item">// ACCOUNTUM: INTERNAL HYSTERESIS RATIO PRESERVED</span>
+        </div>
+    </div>
+
+    <header>
+        <h1 class="brand-title">ARCHAI</h1>
+        <p class="brand-subtitle">GOVERNANCE ENGINE V2</p>
+    </header>
+
+    <main>
+        <!-- Centerpiece System Model Display -->
+        <section class="solar-system-container">
+            <div class="solar-system-stage" id="systemStage">
+                <div class="sun-anchor"></div>
+                <div class="orbit-track orbit-1" data-layer="INTENTUM"><div class="planet-node"></div></div>
+                <div class="orbit-track orbit-2" data-layer="PERIMARCH"><div class="planet-node"></div></div>
+                <div class="orbit-track orbit-3" data-layer="POLICUM"><div class="planet-node"></div></div>
+                <div class="orbit-track orbit-4" data-layer="ACCOUNTUM"><div class="planet-node"></div></div>
+            </div>
+        </section>
+
+        <!-- Arbitrary Precision Fraction Scaling Pipeline Simulator -->
+        <section class="pipeline-monitor">
+            <div class="monitor-header">
+                <span>[INTENTUM_FRACTION_SCALING_TELEMETRY]</span>
+                <span><span class="status-dot"></span><span style="color: #00ff00;" id="statusText">ZERO_DRIFT_LOCK</span></span>
+            </div>
+            <div class="log-terminal" id="terminalLogs"></div>
+        </section>
+
+        <!-- Structural Architecture Specification Panels -->
+        <section class="matrix-grid">
+            <div class="matrix-card" id="card-INTENTUM">
+                <div class="card-tag">LAYER_01 // VECTOR INTEGRITY</div>
+                <h3 class="card-title">INTENTUM</h3>
+                <p class="card-body">Processes incoming model tokens into absolute big-rational integer fractions, enforcing structural multidimensional boundaries with true zero-drift.</p>
+            </div>
+
+            <div class="matrix-card" id="card-PERIMARCH">
+                <div class="card-tag">LAYER_02 // TEMPORAL CONTROL</div>
+                <h3 class="card-title">PERIMARCH</h3>
+                <p class="card-body">Protects verification timelines against host rollback actions by pinning log sync streams exclusively to raw hardware monotonic tick rates.</p>
+            </div>
+
+            <div class="matrix-card" id="card-POLICUM">
+                <div class="card-tag">LAYER_03 // BITWISE SECURITY</div>
+                <h3 class="card-title">POLICUM</h3>
+                <p class="card-body">Executes core gate validation procedures using branchless bitwise arithmetic, establishing fixed clock cycle counts across all operations.</p>
+            </div>
+
+            <div class="matrix-card" id="card-ACCOUNTUM">
+                <div class="card-tag">LAYER_04 // CAPACITY PIPELINE</div>
+                <h3 class="card-title">ACCOUNTUM</h3>
+                <p class="card-body">Isolates host memories during sudden evaluation peaks using an automated 70% low-water mark hysteresis pipeline throttle.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2026 ARCHAI.SYSTEMS // SYSTEM IMMUTABILITY PRESERVED [CLOUDFLARE_PROTECTED]
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logsContainer = document.getElementById('terminalLogs');
+            const orbitTracks = document.querySelectorAll('.orbit-track');
+            const cards = document.querySelectorAll('.matrix-card');
+
+            orbitTracks.forEach(track => {
+                const layer = track.getAttribute('data-layer');
+                const targetCard = document.getElementById(`card-${layer}`);
+                
+                track.addEventListener('mouseenter', () => {
+                    cards.forEach(c => c.style.borderColor = 'var(--border-gold)');
+                    if (targetCard) targetCard.style.borderColor = 'var(--primary-gold)';
+                });
+                track.addEventListener('mouseleave', () => {
+                    if (targetCard) targetCard.style.borderColor = 'var(--border-gold)';
+                });
+            });
+
+            function createLogStream() {
+                const processes = [
+                    { msg: "Deconstructing payload coefficients...", val: "BigInt_Register" },
+                    { msg: "Aligning manifold projection dimension grids...", val: "128_Dimensional" },
+                    { msg: "Running GCD factorizations across matrix tree...", val: "Euclidean_Done" },
+                    { msg: "Executing identity-preserving manifold maps...", val: "0x00_Variance" }
+                ];
+                let counter = 0;
+                setInterval(() => {
+                    const now = new Date();
+                    const timestamp = `[${now.toLocaleTimeString()}.${String(now.getMilliseconds()).padStart(3, '0')}]`;
+                    const currentProcess = processes[counter % processes.length];
+                    const logRow = document.createElement('div');
+                    logRow.className = 'log-row';
+                    logRow.innerHTML = `
+                        <span class="log-ts">${timestamp}</span>
+                        <span class="log-msg">${currentProcess.msg}</span>
+                        <span class="log-val">${counter % 4 === 3 ? '<span style="color:#D4AF37;">0.0000000000 drift</span>' : currentProcess.val}</span>
+                    `;
+                    logsContainer.appendChild(logRow);
+                    counter++;
+                    if (logsContainer.children.length > 5) { logsContainer.removeChild(logsContainer.firstChild); }
+                }, 1600);
+            }
+            createLogStream();
+        });
+    </script>
+</body>
+</html>
 
