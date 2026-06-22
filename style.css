@@ -230,3 +230,73 @@ h2 {
         max-width: calc(100vw - 32px);
     }
 }
+
+/* ==========================================================================
+   ARCHAI LANDING MOBILE CTA & GRID ALIGNMENT FIX
+   ========================================================================== */
+
+@media screen and (max-width: 768px) {
+    /* 1. Fix overlapping layouts by changing parents to clear fluid columns */
+    [class*="cta-container"], [class*="button-wrap"], [class*="action-area"] {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 16px !important;
+        height: auto !important;
+        margin-top: 40px !important;
+        padding: 0 16px !important;
+    }
+
+    /* 2. Untangle the "REQUEST GOVERNANCE ASSESSMENT" solid button */
+    [class*="btn-primary"], [class*="request-btn"], a[href*="assessment"] {
+        display: block !important;
+        width: 100% !important;
+        max-width: 340px !important;
+        height: auto !important;
+        padding: 16px 20px !important;
+        text-align: center !important;
+        line-height: 1.4 !important;
+        font-size: 0.85rem !important;
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+    }
+
+    /* 3. Untangle the transparent "VIEW THE FRAMEWORK" outline button */
+    [class*="btn-secondary"], [class*="view-btn"], a[href*="framework"] {
+        display: block !important;
+        width: 100% !important;
+        max-width: 340px !important;
+        height: auto !important;
+        padding: 16px 20px !important;
+        text-align: center !important;
+        line-height: 1.4 !important;
+        font-size: 0.85rem !important;
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        margin-top: 0 !important; /* Prevents it from climbing over the gold button */
+    }
+
+    /* 4. Fix the micro regulatory labels (EU AI ACT, NIST, ISO) so they stop bleeding through */
+    [class*="regulatory-tags"], [class*="framework-labels"], .eu-ai-act {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        width: 100% !important;
+        margin: 24px 0 !important;
+        position: relative !important;
+        font-size: 0.65rem !important;
+        line-height: 1.5 !important;
+        color: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    /* 5. Clean up background layout grid lines so they don't block mobile interaction */
+    [class*="grid-lines"], [class*="bg-blueprint"], .grid {
+        opacity: 0.05 !important; /* Subtly fades the blueprint square lines way down */
+        pointer-events: none !important;
+    }
+}
