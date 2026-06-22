@@ -136,6 +136,12 @@ body, html {
     padding: 16px;
     font-size: 0.8rem;
     box-sizing: border-box;
+    
+    /* ADD THESE TWO LINES DIRECTLY HERE: */
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    will-change: opacity, transform; 
+}
+
 }
 
 .terminal-header {
