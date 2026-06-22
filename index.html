@@ -3,440 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHAI // AI Structure Governance</title>
-    <style>
-/* Inject these properties inside your mobile media query block */
-
-/* 1. Force the telemetry terminal box to fit within screen boundaries */
-.terminal-box, .telemetry-box, [class*="telemetry"] {
-  width: 100% !important;
-   max-width: calc(100vw - 32px) !important; /* Forces 16px safety margin on both sides */
-    box-sizing: border-box !important;
-    overflow-x: hidden !important; /* Stops any text from forcing horizontal layout stretching */
-}
-
-/* 2. Scale terminal header layout elements to stay inline */
-.terminal-header, [class*="header"] {
-    display: flex !important;
-    flex-wrap: wrap !important; /* Safely wraps title and status dot onto separate lines if needed */
-    gap: 8px !important;
-    font-size: 0.75rem !important;
-}
-
-/* 3. Keep inner terminal log text bounded and readable */
-.terminal-content, pre, code {
-    font-size: 0.8rem !important;
-    white-space: pre-wrap !important; /* Forces log strings to break onto a new line instead of clipping */
-    word-break: break-all !important;
-}
-
-/* Complete Mobile Viewport Alignment Patch */
-@media screen and (max-width: 768px) {
-    /* 1. Scale down the solar system viewport so orbits don't overflow the screen */
-    .system-viewport {
-        width: 100vw;
-        height: 100vw;
-        max-width: 340px;
-        max-height: 340px;
-    }
-    
-    .orbit-1 { width: 100px; height: 100px; }
-    .orbit-2 { width: 200px; height: 200px; }
-    .orbit-3 { width: 300px; height: 300px; }
-
-    /* 2. Format content sections to utilize full mobile width without clipping */
-    .section {
-        width: 100%;
-        padding: 0 24px;
-        min-height: 100vh;
-        justify-content: flex-start;
-        padding-top: 120px; /* Pushes content down past the fixed telemetry overlay */
-    }
-
-    /* 3. Fix the massive typography collision seen at the bottom of the screenshot */
-    h1 {
-        font-size: 1.8rem !important; /* Forces the text to stay small enough for phone screens */
-        line-height: 1.3 !important;  /* Creates breathing room between multi-line titles */
-        margin-bottom: 16px;
-        width: 100%;
-    }
-
-    p {
-        font-size: 0.9rem;
-        max-width: 100%;
-        line-height: 1.5;
-    }
-
-    /* 4. Keep the telemetry text wrapper tightly contained on small screens */
-    .telemetry-overlay {
-        font-size: 0.7rem;
-        top: 16px;
-        left: 16px;
-        line-height: 1.4;
-    }
-
-    /* 5. Create a bottom safety buffer so elements never smash into the Replit watermark or mobile nav buttons */
-    .scroll-container {
-        padding-bottom: 160px;
-    }
-}
-
-        :root {
-            --bg-color: #000000;
-            --primary-gold: #D4AF37;
-            --dark-gold: #AA7C11;
-            --light-gold: #F3E5AB;
-            --text-gray: #CCCCCC;
-            --border-gold: rgba(212, 175, 55, 0.25);
-            --panel-bg: #050505;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: #ffffff;
-            font-family: 'Courier New', Courier, monospace;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Monotonic Telemetry Header Marquee */
-        .telemetry-ticker {
-            background: #030303;
-            border-bottom: 1px solid var(--border-gold);
-            overflow: hidden;
-            white-space: nowrap;
-            padding: 12px 0;
-            font-size: 0.85rem;
-            color: var(--primary-gold);
-            letter-spacing: 0.05rem;
-        }
-
-        .ticker-wrap {
-            display: inline-block;
-            animation: ticker-move 40s linear infinite;
-        }
-
-        .ticker-item {
-            display: inline-block;
-            padding: 0 2rem;
-        }
-
-        @keyframes ticker-move {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
-        }
-
-        header {
-            padding: 5rem 2rem 2rem 2rem;
-            text-align: center;
-        }
-
-        .brand-title {
-            font-size: 3.5rem;
-            color: var(--primary-gold);
-            letter-spacing: 0.6rem;
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-            font-weight: 700;
-        }
-
-        .brand-subtitle {
-            font-size: 0.95rem;
-            color: var(--text-gray);
-            margin-top: 0.5rem;
-            letter-spacing: 0.35rem;
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-              /* Central Prominent Solar System Visualization */
-        .solar-system-container {
-            margin: 2rem auto 6rem auto;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .solar-system-stage {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            border: 1px solid var(--border-gold);
-            border-radius: 50%;
-            background: radial-gradient(circle, #080808 0%, #000000 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: inset 0 0 50px rgba(212, 175, 55, 0.05);
-        }
-
-        .sun-anchor {
-            width: 46px;
-            height: 46px;
-            background: radial-gradient(circle, var(--light-gold) 0%, var(--primary-gold) 70%, var(--dark-gold) 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 35px var(--primary-gold);
-            z-index: 10;
-        }
-
-        .orbit-track {
-            position: absolute;
-            border: 1px dashed rgba(212, 175, 55, 0.12);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: border-color 0.3s ease;
-        }
-
-        .orbit-track:hover { border-color: var(--primary-gold); }
-        .orbit-1 { width: 140px; height: 140px; animation: spin-clockwise 10s linear infinite; }
-        .orbit-2 { width: 240px; height: 240px; animation: spin-counter 18s linear infinite; }
-        .orbit-3 { width: 350px; height: 350px; animation: spin-clockwise 28s linear infinite; }
-        .orbit-4 { width: 450px; height: 450px; animation: spin-counter 42s linear infinite; }
-
-        .planet-node {
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            background-color: var(--primary-gold);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--primary-gold);
-            transition: transform 0.2s ease;
-        }
-
-        .orbit-track:hover .planet-node { transform: scale(1.3); }
-        .orbit-1 .planet-node { top: -7px; background-color: var(--light-gold); }
-        .orbit-2 .planet-node { right: -7px; }
-        .orbit-3 .planet-node { bottom: -7px; }
-        .orbit-4 .planet-node { left: -7px; background-color: var(--dark-gold); }
-
-        @keyframes spin-clockwise { 100% { transform: rotate(360deg); } }
-        @keyframes spin-counter { 100% { transform: rotate(-360deg); } }
-
-        /* Arbitrary Precision Scaling Pipeline Live Monitor */
-        .pipeline-monitor {
-            background: #030303;
-            border: 1px solid var(--primary-gold);
-            border-radius: 4px;
-            padding: 2rem;
-            margin-bottom: 5rem;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.03);
-        }
-
-        .monitor-header {
-            color: var(--primary-gold);
-            border-bottom: 1px solid var(--border-gold);
-            padding-bottom: 0.75rem;
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            letter-spacing: 0.1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .status-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: #00ff00;
-            border-radius: 50%;
-            margin-right: 0.5rem;
-            box-shadow: 0 0 8px #00ff00;
-        }
-
-        .log-terminal {
-            max-height: 250px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Fixed Row Wrapper - Resolves Mobile Column Collapse */
-        .log-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 0.8rem;
-            font-size: 0.85rem;
-            animation: fadeIn 0.3s ease-in;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.05);
-            padding-bottom: 0.4rem;
-        }
-
-        .log-ts { color: var(--dark-gold); min-width: 160px; flex-shrink: 0; }
-        .log-msg { color: var(--text-gray); flex: 1; min-width: 200px; word-wrap: break-word; }
-        .log-val { color: #ffffff; font-weight: bold; text-align: right; flex-shrink: 0; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Invariant Specifications Architectural Grid */
-        .matrix-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2.5rem;
-            margin-top: 2rem;
-        }
-
-        .matrix-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-gold);
-            padding: 2.5rem;
-            border-radius: 2px;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
-        }
-
-        .matrix-card:hover { transform: translateY(-4px); border-color: var(--primary-gold); }
-        .card-tag { font-size: 0.75rem; color: var(--dark-gold); letter-spacing: 0.15rem; margin-bottom: 0.75rem; }
-        .card-title { font-size: 1.35rem; color: var(--primary-gold); margin-bottom: 1rem; letter-spacing: 0.05rem; }
-        .card-body { font-size: 0.9rem; color: var(--text-gray); }
-        footer { text-align: center; padding: 6rem 2rem; font-size: 0.8rem; color: var(--dark-gold); border-top: 1px solid var(--border-gold); letter-spacing: 0.15rem; }
-
-        @media (max-width: 600px) {
-            .brand-title { font-size: 2.4rem; letter-spacing: 0.4rem; }
-            .solar-system-stage { width: 320px; height: 320px; }
-            .orbit-1 { width: 90px; height: 90px; }
-            .orbit-2 { width: 160px; height: 160px; }
-            .orbit-3 { width: 230px; height: 230px; }
-            .orbit-4 { width: 300px; height: 300px; }
-            .sun-anchor { width: 32px; height: 32px; }
-            .log-row { flex-direction: column; gap: 0.2rem; }
-            .log-val { text-align: left; margin-top: 0.2rem; color: var(--primary-gold); }
-        }
-    </style>
+    <title>ARCHAI // GOVERNANCE ENGINE</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-  <body>
+<body>
 
-    <!-- Infinite Monotonic Telemetry Stream -->
-    <div class="telemetry-ticker">
-        <div class="ticker-wrap">
-            <span class="ticker-item">// INTENTUM: RATIONAL SCALING ARRAYS ACTIVE</span>
-            <span class="ticker-item">// PERIMARCH: HARDWARE TIMER SYNC LOCK NOMINAL</span>
-            <span class="ticker-item">// POLICUM: BLIND CONSTANT-TIME REGISTER ARMED</span>
-            <span class="ticker-item">// ACCOUNTUM: INTERNAL HYSTERESIS RATIO PRESERVED</span>
-            <span class="ticker-item">// INTENTUM: RATIONAL SCALING ARRAYS ACTIVE</span>
-            <span class="ticker-item">// PERIMARCH: HARDWARE TIMER SYNC LOCK NOMINAL</span>
-            <span class="ticker-item">// POLICUM: BLIND CONSTANT-TIME REGISTER ARMED</span>
-            <span class="ticker-item">// ACCOUNTUM: INTERNAL HYSTERESIS RATIO PRESERVED</span>
+  <!-- SECTION 1A: FIXED GLOBAL BRAND HEADER -->
+    <header class="governance-header">
+        <div class="brand-title">ARCHAI</div>
+        <div class="sub-title">GOVERNANCE ENGINE V2</div>
+    </header>
+
+    <!-- SECTION 1B: RESPONSIVE TEMPORAL ENGINE LAYER (FLATTENED DEPLOYMENT) -->
+    <div class="temporal-viewport">
+        <div class="orbital-clock">
+            <div class="core-anchor"></div>
+            <div class="orbit-track track-1"><div class="orbital-node node-alpha"></div></div>
+            <div class="orbit-track track-2"><div class="orbital-node node-beta"></div></div>
+            <div class="orbit-track track-3"><div class="orbital-node node-gamma"></div></div>
         </div>
     </div>
 
-    <header>
-        <h1 class="brand-title">ARCHAI</h1>
-        <p class="brand-subtitle">GOVERNANCE ENGINE V2</p>
-    </header>
-
-    <main>
-        <!-- Centerpiece System Model Display -->
-        <section class="solar-system-container">
-            <div class="solar-system-stage" id="systemStage">
-                <div class="sun-anchor"></div>
-                <div class="orbit-track orbit-1" data-layer="INTENTUM"><div class="planet-node"></div></div>
-                <div class="orbit-track orbit-2" data-layer="PERIMARCH"><div class="planet-node"></div></div>
-                <div class="orbit-track orbit-3" data-layer="POLICUM"><div class="planet-node"></div></div>
-                <div class="orbit-track orbit-4" data-layer="ACCOUNTUM"><div class="planet-node"></div></div>
+    <!-- SECTION 1C: SCROLL-REACTIVE TELEMETRY SUBSTRATE -->
+    <div class="scroll-container">
+        
+        <!-- INTENTUM DIAGNOSTIC MONITOR -->
+        <section class="section">
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <span>[INTENTUM_FRACTION_SCALING_TELEMETRY]</span>
+                    <span class="status-dot">ZERO_DRIFT_LOCK</span>
+                </div>
+                <div class="terminal-content">
+                    <p class="timestamp">[1:13:51 PM.324]</p>
+                    <p class="log-text">Running GCD factorizations across matrix tree...</p>
+                    <p class="log-highlight">Euclidean_Done</p>
+                    
+                    <p class="timestamp">[1:13:52 PM.924]</p>
+                    <p class="log-text">Executing identity-preserving manifold maps...</p>
+                    <p class="log-highlight">0.0000000000 drift</p>
+                    
+                    <p class="timestamp">[1:13:54 PM.524]</p>
+                    <p class="log-text">Deconstructing payload coefficients...</p>
+                    <p class="log-highlight">BigInt_Register</p>
+                    
+                    <p class="timestamp">[1:13:56 PM.124]</p>
+                    <p class="log-text">Aligning manifold projection dimension grids...</p>
+                    <p class="log-highlight">128_Dimensional</p>
+                </div>
             </div>
         </section>
 
-        <!-- Arbitrary Precision Fraction Scaling Pipeline Simulator -->
-        <section class="pipeline-monitor">
-            <div class="monitor-header">
-              <span> [INTENTUM_FRACTION_SCALING_TELEMETRY]</span>
-              <span><span class="status-dot"></span><span style="color: #00ff00;" id="statusText">ZERO_DRIFT_LOCK</span></span>
-            </div>
-            <div class="log-terminal" id="terminalLogs"></div>
-        </section>
-
-        <!-- Structural Architecture Specification Panels -->
-        <section class="matrix-grid">
-            <div class="matrix-card" id="card-INTENTUM">
-                <div class="card-tag">LAYER_01 // VECTOR INTEGRITY</div>
-                <h3 class="card-title">INTENTUM</h3>
-                <p class="card-body">Processes incoming model tokens into absolute big-rational integer fractions, enforcing structural multidimensional boundaries with true zero-drift.</p>
-            </div>
-
-            <div class="matrix-card" id="card-PERIMARCH">
-                <div class="card-tag">LAYER_02 // TEMPORAL CONTROL</div>
-                <h3 class="card-title">PERIMARCH</h3>
-                <p class="card-body">Protects verification timelines against host rollback actions by pinning log sync streams exclusively to raw hardware monotonic tick rates.</p>
-            </div>
-
-            <div class="matrix-card" id="card-POLICUM">
-                <div class="card-tag">LAYER_03 // BITWISE SECURITY</div>
-                <h3 class="card-title">POLICUM</h3>
-                <p class="card-body">Executes core gate validation procedures using branchless bitwise arithmetic, establishing fixed clock cycle counts across all operations.</p>
-            </div>
-
-            <div class="matrix-card" id="card-ACCOUNTUM">
-                <div class="card-tag">LAYER_04 // CAPACITY PIPELINE</div>
-                <h3 class="card-title">ACCOUNTUM</h3>
-                <p class="card-body">Isolates host memories during sudden evaluation peaks using an automated 70% low-water mark hysteresis pipeline throttle.</p>
+        <!-- LAYER_01 DESCRIPTION PANEL -->
+        <section class="section">
+            <div class="content-panel">
+                <div class="layer-tag">LAYER_01 // VECTOR INTEGRITY</div>
+                <h2>INTENTUM</h2>
+                <p class="description-text">
+                    Processes incoming model tokens into absolute big-rational integer fractions, 
+                    enforcing structural multidimensional boundaries with true zero-drift.
+                </p>
             </div>
         </section>
-    </main>
 
-    <footer>
-        &copy; 2026 ARCHAI.SYSTEMS // SYSTEM IMMUTABILITY PRESERVED [CLOUDFLARE_PROTECTED]
-    </footer>
+        <!-- LAYER_02 DESCRIPTION PANEL -->
+        <section class="section">
+            <div class="content-panel">
+                <div class="layer-tag">LAYER_02 // TEMPORAL</div>
+                <h2>CHRONOS MATRIX</h2>
+                <p class="description-text">
+                    Decoupled astronomical time alignment framework. Converts discrete system intervals 
+                    into continuous vector-space rotations, clearing layout boundaries dynamically.
+                </p>
+            </div>
+        </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const logsContainer = document.getElementById('terminalLogs');
-            const orbitTracks = document.querySelectorAll('.orbit-track');
-            const cards = document.querySelectorAll('.matrix-card');
+    </div>
 
-            orbitTracks.forEach(track => {
-                const layer = track.getAttribute('data-layer');
-                const targetCard = document.getElementById(`card-${layer}`);
-                
-                track.addEventListener('mouseenter', () => {
-                    cards.forEach(c => c.style.borderColor = 'var(--border-gold)');
-                    if (targetCard) targetCard.style.borderColor = 'var(--primary-gold)';
-                });
-                track.addEventListener('mouseleave', () => {
-                    if (targetCard) targetCard.style.borderColor = 'var(--border-gold)';
-                });
-            });
-
-            function createLogStream() {
-                const processes = [
-                    { msg: "Deconstructing payload coefficients...", val: "BigInt_Register" },
-                    { msg: "Aligning manifold projection dimension grids...", val: "128_Dimensional" },
-                    { msg: "Running GCD factorizations across matrix tree...", val: "Euclidean_Done" },
-                    { msg: "Executing identity-preserving manifold maps...", val: "0x00_Variance" }
-                ];
-                let counter = 0;
-                setInterval(() => {
-                    const now = new Date();
-                    const timestamp = `[${now.toLocaleTimeString()}.${String(now.getMilliseconds()).padStart(3, '0')}]`;
-                    const currentProcess = processes[counter % processes.length];
-                    const logRow = document.createElement('div');
-                    logRow.className = 'log-row';
-                    logRow.innerHTML = `
-                        <span class="log-ts">${timestamp}</span>
-                        <span class="log-msg">${currentProcess.msg}</span>
-                        <span class="log-val">${counter % 4 === 3 ? '<span style="color:#D4AF37;">0.0000000000 drift</span>' : currentProcess.val}</span>
-                    `;
-                    logsContainer.appendChild(logRow);
-                    counter++;
-                    if (logsContainer.children.length > 5) { logsContainer.removeChild(logsContainer.firstChild); }
-                }, 1600);
-            }
-            createLogStream();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
+/* ==========================================================================
+   ARCHAI SYSTEMS FLUID TYPOGRAPHY & LAYOUT SCHEMATIC
+   ========================================================================== */
 
+:root {
+    --bg-color: #050505;
+    --gold-primary: #d4af37;
+    --gold-dim: #9a7b1c;
+    --gold-glow: rgba(212, 175, 55, 0.15);
+    --terminal-border: rgba(212, 175, 55, 0.25);
+    --text-muted: #8c8c8c;
+    --text-bright: #e0e0e0;
+}
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    background-color: var(--bg-color);
+    color: var(--text-bright);
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* FIXED HEADER PROTOCOL */
+.governance-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 32px 0 20px 0;
+    text-align: center;
+    background: linear-gradient(to bottom, var(--bg-color) 70%, rgba(5,5,5,0));
+    z-index: 100;
+}
+
+.brand-title {
+    color: var(--gold-primary);
+    font-size: 1.8rem;
+    letter-spacing: 10px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    text-shadow: 0 0 8px var(--gold-glow);
+}
+
+.sub-title {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 5px;
+}
+
+/* LAYER_02 DECOUPLED TEMPORAL MOTOR ENGINE */
+.temporal-viewport {
+    position: fixed;
+    top: 32%; /* Placed elegantly in upper-middle viewport */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85vw;
+    height: 85vw;
+    max-width: 380px;
+    max-height: 380px;
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.orbital-clock {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.core-anchor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: var(--gold-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--gold-primary);
+}
+
+.orbit-track {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px dashed rgba(212, 175, 55, 0.12);
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+}
+
+.track-1 { width: 35%; height: 35%; }
+.track-2 { width: 68%; height: 68%; }
+.track-3 { width: 100%; height: 100%; }
+
+.orbital-node {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--gold-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--gold-primary);
+}
+.node-alpha { top: 0; left: 50%; transform: translate(-50%, -50%); }
+.node-beta { bottom: 14%; right: 14%; }
+.node-gamma { top: 25%; left: 8%; }
+
+/* FLUID SCROLL PANELS */
+.scroll-container {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 120px;
+}
+
+.section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 160px 24px 60px 24px;
+}
+
+/* RESPONSIVE FLUID TERMINAL CARD */
+.terminal-box {
+    width: 100%;
+    max-width: 480px;
+    border: 1px solid var(--terminal-border);
+    background: rgba(5, 5, 5, 0.85);
+    padding: 16px;
+    font-size: 0.8rem;
+    box-sizing: border-box;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    color: var(--gold-primary);
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    color: #00ff66;
+    font-size: 0.75rem;
+    text-shadow: 0 0 6px rgba(0, 255, 102, 0.4);
+}
+
+.terminal-content {
+    line-height: 1.6;
+}
+
+.timestamp {
+    color: rgba(212, 175, 55, 0.5);
+    margin-top: 8px;
+}
+
+.log-text {
+    color: #b0b0b0;
+}
+
+.log-highlight {
+    color: var(--gold-primary);
+    font-weight: bold;
+}
+
+/* TYPOGRAPHY PANEL LAYOUT */
+.content-panel {
+    width: 100%;
+    max-width: 480px;
+    text-align: left;
+    background: rgba(5, 5, 5, 0.9);
+    padding: 24px;
+    border-left: 2px solid var(--gold-primary);
+}
+
+.layer-tag {
+    font-size: 0.7rem;
+    color: var(--gold-dim);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+h2 {
+    color: var(--gold-primary);
+    font-size: 1.6rem;
+    letter-spacing: 4px;
+    margin-bottom: 14px;
+}
+
+.description-text {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   MOBILE CORE MEDIA ADAPTATION (UNDER 768PX MOBILE PHONES)
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    .temporal-viewport {
+        top: 26%; /* Lift clock higher on short phone screens */
+        max-width: 290px;
+        max-height: 290px;
+    }
+/**
+ * ARCHAI SYSTEMS TEMPORAL DECOUPLING MOTOR
+ * Translates page vertical tracking positions straight into matrix rotational vectors.
+ */
+
+window.addEventListener('scroll', () => {
+    // 1. Calculate relative depth translation metric
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    if (maxScroll <= 0) return; // Prevent division errors on short compiles
+    
+    const scrollPercent = window.scrollY / maxScroll;
+    
+    // 2. Map fluid rotations to decoupled orbital tracks
+    const track1 = document.querySelector('.track-1');
+    const track2 = document.querySelector('.track-2');
+    const track3 = document.querySelector('.track-3');
+    const coreAnchor = document.querySelector('.core-anchor');
+    
+    if (track1 && track2 && track3) {
+        track1.style.transform = `translate(-50%, -50%) rotate(${scrollPercent * 360}deg)`;
+        track2.style.transform = `translate(-50%, -50%) rotate(${scrollPercent * -180}deg)`;
+        track3.style.transform = `translate(-50%, -50%) rotate(${scrollPercent * 90}deg)`;
+    }
+    
+    // 3. Subtly grow core anchor configuration based on user depth
+    if (coreAnchor) {
+        const scaleFactor = 1 + (scrollPercent * 0.2);
+        coreAnchor.style.transform = `translate(-50%, -50%) scale(${scaleFactor})`;
+    }
+});
+
+    .brand-title {
+        font-size: 1.4rem;
+        letter-spacing: 6px;
+    }
+
+    .section {
+        padding-top: 140px; /* Forces elements to wait till screen header clears */
+    }
+
+    .terminal-box, .content-panel {
+        max-width: calc(100vw - 32px); /* Leaves mandatory 16px margins on phone display edges */
+    }
+}
