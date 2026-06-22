@@ -1,0 +1,226 @@
+:root {
+    --bg-color: #050505;
+    --gold-primary: #d4af37;
+    --gold-dim: #9a7b1c;
+    --gold-glow: rgba(212, 175, 55, 0.15);
+    --terminal-border: rgba(212, 175, 55, 0.25);
+    --text-muted: #8c8c8c;
+    --text-bright: #e0e0e0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    background-color: var(--bg-color);
+    color: var(--text-bright);
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* FIXED HEADER PROTOCOL */
+.governance-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 32px 0 20px 0;
+    text-align: center;
+    background: linear-gradient(to bottom, var(--bg-color) 70%, rgba(5,5,5,0));
+    z-index: 100;
+}
+
+.brand-title {
+    color: var(--gold-primary);
+    font-size: 1.8rem;
+    letter-spacing: 10px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    text-shadow: 0 0 8px var(--gold-glow);
+}
+
+.sub-title {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 5px;
+}
+
+/* LAYER_02 DECOUPLED TEMPORAL MOTOR ENGINE */
+.temporal-viewport {
+    position: fixed;
+    top: 32%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85vw;
+    height: 85vw;
+    max-width: 380px;
+    max-height: 380px;
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.orbital-clock {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.core-anchor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: var(--gold-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--gold-primary);
+}
+
+.orbit-track {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px dashed rgba(212, 175, 55, 0.12);
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+}
+
+.track-1 { width: 35%; height: 35%; }
+.track-2 { width: 68%; height: 68%; }
+.track-3 { width: 100%; height: 100%; }
+
+.orbital-node {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--gold-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--gold-primary);
+}
+.node-alpha { top: 0; left: 50%; transform: translate(-50%, -50%); }
+.node-beta { bottom: 14%; right: 14%; }
+.node-gamma { top: 25%; left: 8%; }
+
+/* FLUID SCROLL PANELS */
+.scroll-container {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 120px;
+}
+
+.section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 160px 24px 60px 24px;
+}
+
+/* RESPONSIVE FLUID TERMINAL CARD */
+.terminal-box {
+    width: 100%;
+    max-width: 480px;
+    border: 1px solid var(--terminal-border);
+    background: rgba(5, 5, 5, 0.85);
+    padding: 16px;
+    font-size: 0.8rem;
+    box-sizing: border-box;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    color: var(--gold-primary);
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    color: #00ff66;
+    font-size: 0.75rem;
+    text-shadow: 0 0 6px rgba(0, 255, 102, 0.4);
+}
+
+.terminal-content {
+    line-height: 1.6;
+}
+
+.timestamp {
+    color: rgba(212, 175, 55, 0.5);
+    margin-top: 8px;
+}
+
+.log-text {
+    color: #b0b0b0;
+}
+
+.log-highlight {
+    color: var(--gold-primary);
+    font-weight: bold;
+}
+
+/* TYPOGRAPHY PANEL LAYOUT */
+.content-panel {
+    width: 100%;
+    max-width: 480px;
+    text-align: left;
+    background: rgba(5, 5, 5, 0.9);
+    padding: 24px;
+    border-left: 2px solid var(--gold-primary);
+}
+
+.layer-tag {
+    font-size: 0.7rem;
+    color: var(--gold-dim);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+h2 {
+    color: var(--gold-primary);
+    font-size: 1.6rem;
+    letter-spacing: 4px;
+    margin-bottom: 14px;
+}
+
+.description-text {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+/* MOBILE MEDIA ADAPTATION */
+@media screen and (max-width: 768px) {
+    .temporal-viewport {
+        top: 26%;
+        max-width: 290px;
+        max-height: 290px;
+    }
+
+    .brand-title {
+        font-size: 1.4rem;
+        letter-spacing: 6px;
+    }
+
+    .section {
+        padding-top: 140px;
+    }
+
+    .terminal-box, .content-panel {
+        max-width: calc(100vw - 32px);
+    }
+}
