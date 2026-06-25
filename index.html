@@ -157,3 +157,144 @@
   </style>
 </head>
 <body>
+  <!-- NAVIGATION CORE -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24"><path fill="#c9a84c" d="M12 2L2 22h20L12 2zm0 3.99L19.53 19H4.47L12 5.99z"/></svg>
+        </div>
+        <div class="nav-brand-text">
+          <div class="nav-brand-name">Archonomy</div>
+          <div class="nav-brand-sub">Meta-Discipline</div>
+        </div>
+      </div>
+      
+      <div class="nav-links">
+        <button class="nav-link active" onclick="switchTab('framework-tab')">Framework</button>
+        <button class="nav-link" onclick="switchTab('systems-tab')">Systems</button>
+        <button class="nav-link" onclick="switchTab('specs-tab')">Specs</button>
+      </div>
+
+      <div class="nav-clock" id="sys-clock">00:00:00 UTC</div>
+      <a href="#" class="nav-cta" onclick="switchTab('systems-tab')">Initialize</a>
+    </div>
+  </nav>
+
+  <!-- PAGE CONTENT MODULES -->
+  <div id="framework-tab" class="tab-content active-tab">
+    <section class="hero">
+      <div class="hero-label">The Meta-Discipline Architecture</div>
+      <h1 class="hero-title">Unified Systems <span class="gold">Engineering</span></h1>
+      <p class="hero-sub">The architecture for cross-domain orchestration. Sync, compile, and govern high-integrity operations across distributed network environments.</p>
+      
+      <div class="hero-actions">
+        <button class="btn-gold" onclick="switchTab('systems-tab')">Launch Framework</button>
+        <button class="btn-outline" onclick="switchTab('specs-tab')">Read Specs</button>
+      </div>
+
+      <div class="stack-wrap">
+        <div class="stack-card">
+          <div class="stack-rings"><div class="stack-ring"></div><div class="stack-ring"></div><div class="stack-ring"></div></div>
+          <div class="stack-center">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <div class="stack-center-label">Core Engine</div>
+          </div>
+          <div class="stack-pills">
+            <div class="stack-pill"><div class="stack-pill-dot"></div><span><strong>Data</strong> Layer</span></div>
+            <div class="stack-pill"><div class="stack-pill-dot"></div><span><strong>Logic</strong> Synthesis</span></div>
+            <div class="stack-pill"><div class="stack-pill-dot"></div><span><strong>Network</strong> Mesh</span></div>
+            <div class="stack-pill"><div class="stack-pill-dot"></div><span><strong>Security</strong> Vault</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="systems-tab" class="tab-content">
+    <div class="dashboard-page">
+      <div class="page-header">
+        <h2 class="page-title">Systems Control Matrix</h2>
+        <div class="page-subtitle">Core Infrastructure Monitoring & Control</div>
+      </div>
+      <div class="grid-container">
+        <div class="dashboard-card">
+          <div class="card-meta">SYS-NODE // 01</div>
+          <h3 class="card-title">Orchestration Mesh</h3>
+          <p class="card-desc">Monitors live micro-service state vectors and guarantees real-time asynchronous multi-cloud operations pipeline governance.</p>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-meta">SYS-NODE // 02</div>
+          <h3 class="card-title">Cryptographic Ledger</h3>
+          <p class="card-desc">High-speed append-only transactional state storage layer ensuring zero-trust compliance validation checks.</p>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-meta">SYS-NODE // 03</div>
+          <h3 class="card-title">Telemetry Pipelines</h3>
+          <p class="card-desc">Aggregates edge matrix signals instantly, compiling performance vectors for visual parsing maps.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="specs-tab" class="tab-content">
+    <div class="dashboard-page">
+      <div class="page-header">
+        <h2 class="page-title">Technical Protocols</h2>
+        <div class="page-subtitle">Architecture Blueprints & Declarations</div>
+      </div>
+      <div class="grid-container">
+        <div class="dashboard-card">
+          <div class="card-meta">SPEC-DOC // ALPHA</div>
+          <h3 class="card-title">Deterministic Compilation</h3>
+          <p class="card-desc">A deep dive study on state replication environments with hardware bounds across isolated local structures.</p>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-meta">SPEC-DOC // BETA</div>
+          <h3 class="card-title">Mesh Latency Limits</h3>
+          <p class="card-desc">Establishes standard bounds on multi-regional packet sync routing protocols under global congestion events.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RUNNING TELEMETRY RIBBON -->
+  <div class="scroll-row">
+    <div class="scroll-track">
+      <div class="scroll-item">Automated Orchestration</div><div class="scroll-item-dot"></div>
+      <div class="scroll-item">High Integrity Data</div><div class="scroll-item-dot"></div>
+      <div class="scroll-item">Distributed Consensus</div><div class="scroll-item-dot"></div>
+      <div class="scroll-item">Deterministic State</div><div class="scroll-item-dot"></div>
+      <div class="scroll-item">Automated Orchestration</div><div class="scroll-item-dot"></div>
+      <div class="scroll-item">High Integrity Data</div><div class="scroll-item-dot"></div>
+    </div>
+  </div>
+
+  <!-- ENGINE SCRIPT LOGIC -->
+  <script>
+    // Handles tab swapping mechanics natively
+    function switchTab(tabId) {
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('active-tab'));
+      
+      const links = document.querySelectorAll('.nav-link');
+      links.forEach(link => link.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active-tab');
+      
+      const activeBtn = Array.from(document.querySelectorAll('.nav-link')).find(btn => btn.getAttribute('onclick').includes(tabId));
+      if(activeBtn) activeBtn.classList.add('active');
+      
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    // Handles live running clock update executions
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('sys-clock').innerText = now.toUTCString().replace('GMT', 'UTC');
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
