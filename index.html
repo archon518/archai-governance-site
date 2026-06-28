@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Acquire Core Architecture Framework — ARCHAI™</title>
-  <link rel="stylesheet" href="archai-shared.css" />
   
   <!-- Premium Luxury Typography Matrix Import -->
   <link rel="preconnect" href="https://googleapis.com">
@@ -13,13 +12,13 @@
 
   <style>
     :root {
-      --bg-main: #000000; /* Absolute Obsidian Black */
+      --bg-main: #000000;          /* Absolute Obsidian Black */
       --bg-card: rgba(12, 12, 14, 0.85); /* Dark Matte Black Core */
-      --border-gold: #d4af37; /* Pure Metallic Gold Boundary */
-      --text-gold: #f3e5ab; /* Soft Premium Champagne Gold */
-      --text-bright: #ffffff; /* Crisp High-Contrast White */
-      --text-mute: #71717a; /* Clean Structural Grey */
-      --font-luxury: 'Cinzel', serif; /* High-End Title Branding */
+      --border-gold: #d4af37;      /* Pure Metallic Gold Boundary */
+      --text-gold: #f3e5ab;        /* Soft Premium Champagne Gold */
+      --text-bright: #ffffff;      /* Crisp High-Contrast White */
+      --text-mute: #71717a;        /* Clean Structural Grey */
+      --font-luxury: 'Cinzel', serif; 
       --font-display: 'Space Grotesk', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
@@ -34,10 +33,107 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* FIXED HIGH-END NAVIGATION INTERFACE (Wipes Out Purple Overrides) */
+    .nav-bar {
+      background: rgba(3, 3, 5, 0.85) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15) !important;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      box-sizing: border-box;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none !important;
+      color: #ffffff !important;
+    }
+
+    .nav-brand-icon {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--border-gold) !important;
+    }
+
+    .nav-brand-text {
+      font-family: var(--font-luxury);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #ffffff !important;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .nav-brand-sub {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--text-mute) !important;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+    }
+
+    .nav-links-group {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    /* HARD LINK OVERRIDES (Guarantees Active Clicks, Blocks Purple Link Code) */
+    .nav-link {
+      font-family: var(--font-display);
+      color: var(--text-bright) !important;
+      text-decoration: none !important;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--border-gold) !important;
+      text-decoration: none !important;
+    }
+
+    .nav-cta {
+      font-family: var(--font-mono);
+      background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%) !important;
+      color: #000000 !important;
+      text-decoration: none !important;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: opacity 0.2s ease;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+    }
+
+    .nav-cta:hover {
+      opacity: 0.9;
+      text-decoration: none !important;
+    }
+
     .pricing-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 140px 24px 100px 24px;
+      padding: 160px 24px 100px 24px;
       box-sizing: border-box;
       position: relative;
       z-index: 2;
@@ -96,7 +192,7 @@
       background: var(--bg-card);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(212, 175, 55, 0.15); /* Delicate Gold Borders */
+      border: 1px solid rgba(212, 175, 55, 0.15);
       padding: 45px 40px;
       border-radius: 24px;
       display: flex;
@@ -139,132 +235,144 @@
     }
   </style>
 </head>
-<body>
+/**
+ * ARCHAI™ Unified Governance Suite — Master Architecture Stylesheet
+ * Color Palette: Obsidian Black (#000000) & Metallic Gold (#d4af37)
+ * Functional Logic: Controls layout padding, nav tabs, and clock metrics.
+ */
 
-<nav class="nav-bar">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-brand">
-      <div class="nav-brand-icon" style="color: var(--border-gold);">⬡</div>
-      <div>
-        <div class="nav-brand-text">ARCHAI</div>
-        <span class="nav-brand-sub">Agentic Governance Architecture</span>
-      </div>
-    </a>
-    <a href="index.html" class="nav-link">Overview</a>
-    <a href="archai.html" class="nav-link">ARCHAI</a>
-    <a href="identarch.html" class="nav-link">IDENTARCH</a>
-    <a href="agentum.html" class="nav-link">AGENTUM</a>
-    <a href="intentum.html" class="nav-link">INTENTUM</a>
-    <a href="mnemarch.html" class="nav-link">MNEMARCH</a>
-    <a href="accountum.html" class="nav-link">ACCOUNTUM</a>
-    <a href="framework.html" class="nav-link active">Enter Framework</a>
-  </div>
-</nav>
+:root {
+  --bg-dark-obsidian: #000000;
+  --bg-card-matte: #0c0c0e;
+  --gold-metallic: #d4af37;
+  --gold-champagne: #f3e5ab;
+  --text-white: #ffffff;
+  --text-grey-mute: #71717a;
+  --border-gold-low: rgba(212, 175, 55, 0.15);
+  --border-gold-high: rgba(212, 175, 55, 0.5);
+  --font-serif-luxury: 'Cinzel', serif;
+  --font-sans-display: 'Space Grotesk', sans-serif;
+  --font-mono-data: 'JetBrains Mono', monospace;
+}
 
-<main class="pricing-container">
-  <div class="header-group">
-    <span class="eyebrow">SYSTEM PROVISIONING</span>
-    <h1 class="page-title">Commercial Licensing & <span>Matrix Access</span></h1>
-    <p class="page-subtitle">Deploy the un-bypassable zero-drift constraints of the ARCHONOMY™ discipline into your engineering environment. Review full technical capabilities below.</p>
-  </div>
+/* Global Page Layout Foundations */
+body, html {
+  background-color: var(--bg-dark-obsidian) !important;
+  color: var(--text-white) !important;
+  font-family: var(--font-sans-display), -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 
-  <div class="tiers-grid">
-    
-    <!-- STARTER / THE GAP TIER -->
-    <div class="card-tier">
-      <div class="tier-meta">
-        <span style="font-family: var(--font-mono); color: var(--border-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">01 // DEVELOPER EXPERIMENTATION</span>
-        <h3 style="font-family: var(--font-luxury); font-size: 1.5rem; color: #fff; margin: 12px 0 6px 0; letter-spacing: 0.5px;">Developer Invariant Core</h3>
-        <p style="color: var(--text-mute); font-size: 0.85rem; margin: 0 0 30px 0; line-height: 1.4;">Isolated sandbox access engineered specifically to bridge the research accessibility gap.</p>
-        
-        <div style="margin-bottom: 35px;">
-          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: var(--text-gold);">$1,200</span>
-          <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.85rem; margin-left: 4px;">/ Perpetual License</span>
-        </div>
+/* Fixed High-End Navigation Bar & Tab Controls */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-gold-low);
+  z-index: 9999;
+  box-sizing: border-box;
+}
 
-        <div style="border-top: 1px solid rgba(212,175,55,0.15); padding-top: 25px;">
-          <h4 style="font-family: var(--font-mono); color: var(--text-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
-          <ul style="padding-left: 18px; margin: 0; color: #e4e4e7; font-size: 0.88rem; line-height: 2.2;">
-            <li><b>Substrate Binary:</b> Production <code>archonomy_core.py</code> execution engine asset payload.</li>
-            <li><b>Boundary Constraints:</b> Manual configuration layer for standalone 1-dimensional float arrays.</li>
-            <li><b>Traffic Capabilities:</b> Offline execution arrays mapping static client prompt evaluations.</li>
-            <li><b>Licensing Rights:</b> Single-seat developer workstation allocation. SaaS integration is barred.</li>
-          </ul>
-        </div>
-      </div>
-      <button onclick="triggerDirectDownload('Developer Invariant Core')" style="background: #ffffff; color: #000000; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: background 0.2s;">Download Substrate Binary</button>
-    </div>
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-    <!-- ENTRY LEVEL PROFESSIONAL TIER -->
-    <div class="card-tier">
-      <div class="tier-meta">
-        <span style="font-family: var(--font-mono); color: var(--border-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">02 // COMMERCIAL MVP / POC</span>
-        <h3 style="font-family: var(--font-luxury); font-size: 1.5rem; color: #fff; margin: 12px 0 6px 0; letter-spacing: 0.5px;">Model-Boundary Module</h3>
-        <p style="color: var(--text-mute); font-size: 0.85rem; margin: 0 0 30px 0; line-height: 1.4;">Real-time inline proxy containment for commercial startups running live pipelines.</p>
-        
-        <div style="margin-bottom: 35px;">
-          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: var(--text-gold);">$30,000</span>
-          <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.85rem; margin-left: 4px;">/ Annually</span>
-        </div>
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-white);
+  font-family: var(--font-sans-display);
+}
 
-        <div style="border-top: 1px solid rgba(212,175,55,0.15); padding-top: 25px;">
-          <h4 style="font-family: var(--font-mono); color: var(--text-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
-          <ul style="padding-left: 18px; margin: 0; color: #e4e4e7; font-size: 0.88rem; line-height: 2.2;">
-            <li><b>Substrate Binary:</b> Full pipeline array containing <code>wrangler.toml</code> and <code>archonomy_queue.js</code> controller code.</li>
-            <li><b>Boundary Constraints:</b> Asynchronous <code>waitUntilStable</code> queue loop tracking automated 30-second synchronization parameters.</li>
-            <li><b>Traffic Capabilities:</b> Direct proxy routing protecting <b>one (1) single production AI network stream</b> up to 5M actions/mo.</li>
-            <li><b>Licensing Rights:</b> User-based commercial application node license. Tied cryptographically to 1 single host system route.</li>
-          </ul>
-        </div>
-      </div>
-      <button onclick="triggerDirectDownload('Model-Boundary Module')" style="background: #ffffff; color: #000000; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: background 0.2s;">Download Production Substrate</button>
-    </div>
+.nav-brand-icon {
+  font-size: 1.6rem;
+  color: var(--gold-metallic);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
 
-    <!-- INSTITUTIONAL ENTERPRISE MATRIX TIER -->
-    <div class="card-tier enterprise">
-      <div class="badge-top">Sovereign Matrix</div>
-      <div class="tier-meta">
-        <span style="font-family: var(--font-mono); color: var(--border-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">03 // ENTERPRISE LIABILITY PROTECTION</span>
-        <h3 style="font-family: var(--font-luxury); font-size: 1.5rem; color: #fff; margin: 12px 0 6px 0; letter-spacing: 0.5px;">Global Sovereign Matrix</h3>
-        <p style="color: var(--text-mute); font-size: 0.85rem; margin: 0 0 30px 0; line-height: 1.4;">Legally-auditable containment infrastructure eliminating enterprise AI risk.</p>
-        
-        <div style="margin-bottom: 35px;">
-          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: var(--border-gold);">$90,000</span>
-          <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.85rem; margin-left: 4px;">/ Annually Recurring</span>
-        </div>
+.nav-brand-text {
+  font-family: var(--font-serif-luxury);
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+}
 
-        <div style="border-top: 1px solid rgba(212,175,55,0.15); padding-top: 25px;">
-          <h4 style="font-family: var(--font-mono); color: var(--text-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
-          <ul style="padding-left: 18px; margin: 0; color: #e4e4e7; font-size: 0.88rem; line-height: 2.2;">
-            <li><b>Substrate Binary:</b> Complete 5-Layer structural alignment infrastructure package (IDENTARCH™ through ACCOUNTUM™).</li>
-            <li><b>Boundary Constraints:</b> Custom Jacobi Constant allowed corridors and elliptical parametric background vector tracing variables.</li>
-            <li><b>Traffic Capabilities:</b> Uncapped transaction streams with active hardware-backed cryptographic agent token authorizations.</li>
-            <li><b>Licensing Rights:</b> Corporate site authorization license with 24/7 dedicated engineering support, 4-hour SLAs, and formal compliance output records.</li>
-          </ul>
-        </div>
-      </div>
-      <button onclick="triggerDirectDownload('Global Sovereign Matrix')" style="background: var(--border-gold); color: #000000; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(212,175,55,0.2);">Download Corporate Enterprise Suite</button>
-    </div>
+.nav-brand-sub {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--text-grey-mute);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
 
-  </div>
-</main>
-<script>
-  /**
-   * Instant File Transmission Engine
-   * Placeholder structures removed. Automatically initiates direct browser file download payload streams.
-   */
-  function triggerDirectDownload(tierName) {
-      console.log(`Initializing distribution channel for: [${tierName}]`);
-      
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.href = "https://github.com";
-      downloadAnchor.download = `ARCHAI_SUBSTRATE_${tierName.toUpperCase().replace(/ /g, "_")}.zip`;
-      
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      document.body.removeChild(downloadAnchor);
-  }
-</script>
+/* Unifying Active Tabs - Removes Purple/Blue Links */
+.nav-inner a.nav-link {
+  color: var(--text-grey-mute) !important;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
 
-</body>
-</html>
+.nav-inner a.nav-link:hover {
+  color: var(--gold-champagne) !important;
+}
+
+.nav-inner a.nav-link.active {
+  color: var(--gold-metallic) !important;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid var(--border-gold-low);
+}
+
+/* Call-To-Action Framework Tab Button */
+.nav-cta {
+  font-family: var(--font-mono-data);
+  background: var(--gold-metallic) !important;
+  color: #000000 !important;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.nav-cta:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Metrics Displays, Time Trackers, and Grid Components */
+.clock-display, #live-timestamp {
+  font-family: var(--font-mono-data) !important;
+  color: var(--gold-champagne) !important;
+  letter-spacing: 1px;
+}
+
+.drift-box, #hero-drift-score {
+  font-family: var(--font-mono-data) !important;
+  color: var(--gold-metallic) !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid var(--border-gold-high) !important;
+}
