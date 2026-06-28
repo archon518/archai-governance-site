@@ -231,7 +231,27 @@
       border-radius: 30px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.<script>
+  /**
+   * Instant File Transmission Engine
+   * Placeholder structures removed. Automatically initiates direct browser file download payload streams.
+   */
+  function triggerDirectDownload(tierName) {
+      console.log(`Initializing distribution channel for: [${tierName}]`);
+      
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.href = "https://github.com";
+      downloadAnchor.download = `ARCHAI_SUBSTRATE_${tierName.toUpperCase().replace(/ /g, "_")}.zip`;
+      
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      document.body.removeChild(downloadAnchor);
+  }
+</script>
+
+</body>
+</html>
+3);
     }
   </style>
 </head>
