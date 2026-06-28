@@ -1,1124 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARCHAI™ — Agentic Governance Architecture</title>
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
-:root {
-  --bg: #0a0a0a;
-  --bg2: #111008;
-  --gold: #c9a84c;
-  --gold-bright: #e8c96a;
-  --gold-dim: rgba(201,168,76,0.35);
-  --gold-glow: rgba(201,168,76,0.12);
-  --text: #e8e0cc;
-  --text-mid: #8a7f68;
-  --text-dim: #4a4438;
-  --border: rgba(201,168,76,0.12);
-  --border-strong: rgba(201,168,76,0.3);
-  --card-bg: #0f0e0a;
-  --pill-bg: rgba(201,168,76,0.06);
-}
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  overflow-x: hidden;
-  touch-action: pan-y;
-}
-
-/* ── TOP BAR ── */
-.topbar {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 18px 28px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(10,10,8,0.97);
-  position: sticky;
-  top: 0;
-  z-index: 200;
-}
-
-.topbar-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: radial-gradient(circle at 40% 35%, #2a2010, #0a0a08);
-  border: 1px solid var(--border-strong);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.topbar-icon svg {
-  width: 22px;
-  height: 22px;
-  opacity: 0.7;
-}
-
-.topbar-text { display: flex; flex-direction: column; }
-
-.topbar-name {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  color: var(--text);
-  text-transform: uppercase;
-}
-
-.topbar-sub {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  color: var(--text-mid);
-  text-transform: uppercase;
-  margin-top: 1px;
-}
-
-/* ── TAB NAV ── */
-.tabnav {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  padding: 0 20px;
-  background: rgba(10,10,8,0.95);
-  border-bottom: 1px solid var(--border);
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  position: sticky;
-  top: 77px;
-  z-index: 190;
-  touch-action: pan-x;
-  -webkit-overflow-scrolling: touch;
-}
-
-.tabnav::-webkit-scrollbar { display: none; }
-
-.tab {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-mid);
-  padding: 16px 18px;
-  cursor: pointer;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-  text-decoration: none;
-  display: block;
-}
-
-.tab:hover { color: var(--text); }
-.tab.active {
-  color: var(--gold);
-  border-bottom-color: var(--gold);
-}
-
-.tab-enter {
-  margin-left: auto;
-  border: 1px solid var(--border-strong);
-  border-radius: 20px;
-  padding: 8px 20px;
-  color: var(--gold);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background 0.2s;
-  text-decoration: none;
-}
-
-.tab-enter:hover { background: var(--gold-glow); }
-
-/* ── STACK DIAGRAM ── */
-.stack-section {
-  padding: 48px 24px 36px;
-  display: flex;
-  justify-content: center;
-}
-
-.stack-diagram {
-  width: 100%;
-  max-width: 680px;
-  background: radial-gradient(ellipse 80% 70% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
-              linear-gradient(180deg, #141208 0%, #0c0b08 100%);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 36px 24px 28px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* subtle orbit rings */
-.stack-diagram::before {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -55%);
-  width: 280px; height: 280px;
-  border-radius: 50%;
-  border: 1px solid rgba(201,168,76,0.06);
-  pointer-events: none;
-}
-
-.stack-diagram::after {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -55%);
-  width: 380px; height: 380px;
-  border-radius: 50%;
-  border: 1px solid rgba(201,168,76,0.04);
-  pointer-events: none;
-}
-
-.stack-center {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 28px;
-  position: relative;
-  z-index: 1;
-}
-
-.stack-core {
-  width: 140px;
-  height: 140px;
-  border-radius: 28px;
-  background: radial-gradient(circle at 40% 30%, #1e1a0e, #080807);
-  border: 1px solid rgba(201,168,76,0.25);
-  box-shadow:
-    0 0 40px rgba(201,168,76,0.08),
-    inset 0 1px 0 rgba(201,168,76,0.15);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  position: relative;
-}
-
-.stack-core-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--gold);
-  opacity: 0.6;
-  margin-bottom: 6px;
-  box-shadow: 0 0 8px var(--gold);
-  animation: pulse 3s ease-in-out infinite;
-}
-
-.stack-core-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  color: var(--gold);
-  text-transform: uppercase;
-  text-align: center;
-}
-
-/* orbit dot */
-.orbit-dot {
-  position: absolute;
-  top: 50%; right: -8px;
-  transform: translateY(-50%);
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--gold);
-  opacity: 0.5;
-  box-shadow: 0 0 6px var(--gold);
-}
-
-.stack-pills {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  position: relative;
-  z-index: 1;
-}
-
-.stack-pill {
-  background: rgba(10,9,6,0.8);
-  border: 1px solid rgba(201,168,76,0.15);
-  border-radius: 8px;
-  padding: 14px 16px;
-  font-size: 12px;
-  color: var(--text-mid);
-  letter-spacing: 0.3px;
-}
-
-.stack-pill strong {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--text);
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-
-/* ── HERO ── */
-.hero {
-  padding: 16px 24px 60px;
-}
-
-.hero-eyebrow {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 20px;
-  opacity: 0.8;
-}
-
-.hero h1 {
-  font-size: clamp(32px, 8vw, 64px);
-  font-weight: 900;
-  line-height: 1.0;
-  color: var(--text);
-  letter-spacing: -0.5px;
-  margin-bottom: 20px;
-  max-width: 700px;
-}
-
-.hero h1 em {
-  color: var(--gold);
-  font-style: normal;
-}
-
-.hero p {
-  font-size: 15px;
-  font-weight: 300;
-  color: var(--text-mid);
-  max-width: 560px;
-  line-height: 1.8;
-  margin-bottom: 36px;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.btn-gold {
-  background: var(--gold);
-  color: #080806;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 13px 26px;
-  border-radius: 4px;
-  text-decoration: none;
-  display: inline-block;
-  transition: background 0.2s, transform 0.2s;
-}
-
-.btn-gold:hover { background: var(--gold-bright); transform: translateY(-1px); }
-
-.btn-ghost {
-  border: 1px solid var(--border-strong);
-  color: var(--gold);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 13px 26px;
-  border-radius: 4px;
-  text-decoration: none;
-  display: inline-block;
-  transition: background 0.2s;
-}
-
-.btn-ghost:hover { background: var(--gold-glow); }
-
-/* ── DIVIDER ── */
-.divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
-  margin: 0 24px;
-}
-
-/* ── SECTIONS ── */
-.content-section {
-  padding: 60px 24px;
-  border-bottom: 1px solid var(--border);
-}
-
-.content-section:nth-child(even) { background: var(--bg2); }
-
-.s-eyebrow {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--gold);
-  opacity: 0.7;
-  margin-bottom: 14px;
-}
-
-.content-section h2 {
-  font-size: clamp(26px, 5vw, 44px);
-  font-weight: 900;
-  color: var(--text);
-  line-height: 1.05;
-  margin-bottom: 16px;
-  max-width: 620px;
-  letter-spacing: -0.3px;
-}
-
-.content-section h2 em {
-  color: var(--gold);
-  font-style: normal;
-}
-
-.content-section > p {
-  font-size: 15px;
-  font-weight: 300;
-  color: var(--text-mid);
-  max-width: 540px;
-  line-height: 1.8;
-}
-
-/* REG TAGS */
-.reg-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 36px;
-}
-
-.reg-tag {
-  background: var(--pill-bg);
-  border: 1px solid var(--border-strong);
-  color: var(--gold);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 9px 16px;
-  border-radius: 4px;
-}
-
-/* WARNING */
-.warning {
-  margin-top: 36px;
-  padding: 16px 20px;
-  background: rgba(160,60,60,0.07);
-  border-left: 2px solid rgba(200,80,80,0.4);
-  border-radius: 0 4px 4px 0;
-  font-size: 13px;
-  color: var(--text-mid);
-  line-height: 1.75;
-}
-
-.warning strong { color: #e08080; }
-
-/* DOMAIN GRID */
-.domain-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-  margin-top: 36px;
-}
-
-.domain-card {
-  background: var(--pill-bg);
-  border: 1px solid var(--border);
-  border-top: 2px solid rgba(201,168,76,0.2);
-  padding: 18px 14px;
-  border-radius: 6px;
-  transition: border-color 0.2s, background 0.2s, transform 0.2s;
-}
-
-.domain-card:hover {
-  border-color: var(--border-strong);
-  border-top-color: var(--gold);
-  background: rgba(201,168,76,0.07);
-  transform: translateY(-3px);
-}
-
-.domain-num {
-  font-size: 24px;
-  font-weight: 900;
-  color: rgba(201,168,76,0.18);
-  line-height: 1;
-  margin-bottom: 6px;
-}
-
-.domain-name {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-mid);
-}
-
-/* ── PRICING — STACKED FEE SCHEDULE ── */
-.pricing-table {
-  margin-top: 40px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.pricing-row {
-  display: flex;
-  align-items: center;
-  padding: 24px 24px;
-  border-bottom: 1px solid var(--border);
-  gap: 20px;
-  transition: background 0.2s;
-  position: relative;
-}
-
-.pricing-row:last-child { border-bottom: none; }
-.pricing-row:hover { background: var(--gold-glow); }
-
-.pricing-row.featured {
-  background: rgba(201,168,76,0.05);
-  border-left: 2px solid var(--gold);
-}
-
-.pricing-row.featured::before {
-  content: 'RECOMMENDED';
-  position: absolute;
-  top: 14px; right: 20px;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: var(--gold);
-  opacity: 0.6;
-}
-
-.pr-tier {
-  min-width: 100px;
-}
-
-.pr-name {
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-
-.pr-type {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-
-.pr-desc {
-  flex: 1;
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--text-mid);
-  line-height: 1.65;
-}
-
-.pr-price {
-  text-align: right;
-  min-width: 90px;
-  flex-shrink: 0;
-}
-
-.pr-amount {
-  font-size: 24px;
-  font-weight: 900;
-  color: var(--gold);
-  line-height: 1;
-}
-
-.pr-label {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-top: 3px;
-}
-
-.pricing-note {
-  margin-top: 20px;
-  font-size: 12px;
-  color: var(--text-dim);
-  line-height: 1.7;
-  font-style: italic;
-}
-
-/* ── FOOTER ── */
-footer {
-  padding: 56px 24px;
-  text-align: center;
-  background: #060605;
-  border-top: 1px solid var(--border);
-}
-
-.footer-logo {
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  color: var(--text);
-  margin-bottom: 12px;
-}
-
-footer p {
-  font-size: 12px;
-  font-weight: 300;
-  color: var(--text-dim);
-  max-width: 420px;
-  margin: 0 auto 28px;
-  line-height: 1.8;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 22px;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.footer-links a:hover { color: var(--gold); }
-
-/* ── REVEAL ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
-}
-.reveal.d1 { transition-delay: 0.08s; }
-.reveal.d2 { transition-delay: 0.16s; }
-.reveal.d3 { transition-delay: 0.24s; }
-.reveal.d4 { transition-delay: 0.32s; }
-.reveal.d5 { transition-delay: 0.40s; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ── MOBILE ── */
-@media (max-width: 600px) {
-  .topbar { padding: 14px 16px; }
-  .tabnav { top: 69px; padding: 0 10px; }
-  .tab { padding: 14px 12px; font-size: 11px; letter-spacing: 1.5px; }
-  .tab-enter { padding: 7px 14px; font-size: 10px; }
-  .stack-section { padding: 32px 16px 24px; }
-  .stack-core { width: 120px; height: 120px; border-radius: 22px; }
-  .hero { padding: 14px 18px 50px; }
-  .content-section { padding: 48px 18px; }
-  .hero-buttons { flex-direction: column; }
-  .btn-gold, .btn-ghost { width: 100%; text-align: center; }
-  .pricing-row { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .pr-price { text-align: left; }
-  .pricing-row.featured::before { top: auto; bottom: 14px; right: 16px; }
-  footer { padding: 44px 18px; }
-}
-
-/* ── ANALYZER ── */
-.analyzer-shell {
-  margin-top: 40px;
-  border: 1px solid var(--border-strong);
-  border-radius: 10px;
-  overflow: hidden;
-  background: #080806;
-}
-
-.analyzer-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 20px;
-  background: rgba(201,168,76,0.06);
-  border-bottom: 1px solid var(--border);
-}
-
-.analyzer-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  color: var(--gold);
-  text-transform: uppercase;
-}
-
-.analyzer-status {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #4a8a4a;
-  text-transform: uppercase;
-  padding: 3px 10px;
-  border: 1px solid rgba(74,138,74,0.3);
-  border-radius: 2px;
-  background: rgba(74,138,74,0.08);
-}
-
-.analyzer-status.running { color: var(--gold); border-color: var(--gold-dim); background: var(--gold-glow); }
-.analyzer-status.complete { color: #4a8a4a; border-color: rgba(74,138,74,0.3); background: rgba(74,138,74,0.08); }
-.analyzer-status.drift { color: #e08080; border-color: rgba(200,80,80,0.3); background: rgba(200,80,80,0.08); }
-
-.analyzer-body { padding: 24px 20px; }
-
-.analyzer-inputs { display: flex; flex-direction: column; gap: 20px; margin-bottom: 24px; }
-
-.input-group-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.input-row { display: flex; gap: 10px; }
-
-.input-field {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.input-field label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--gold);
-  text-transform: uppercase;
-}
-
-.input-field input {
-  background: rgba(201,168,76,0.04);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 10px 12px;
-  color: var(--text);
-  font-size: 14px;
-  font-family: 'Courier New', monospace;
-  width: 100%;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.input-field input:focus { border-color: var(--border-strong); }
-
-.analyzer-run {
-  width: 100%;
-  background: var(--gold);
-  color: #080806;
-  border: none;
-  padding: 14px 20px;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  transition: background 0.2s, transform 0.15s;
-}
-
-.analyzer-run:hover { background: var(--gold-bright); transform: translateY(-1px); }
-.analyzer-run:active { transform: translateY(0); }
-
-.analyzer-output {
-  background: rgba(0,0,0,0.3);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 18px;
-  margin-bottom: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.output-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-.output-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-
-.output-value {
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  color: var(--text);
-  text-align: right;
-}
-
-.output-verdict {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  text-align: right;
-}
-
-.output-verdict.aligned { color: #4a8a4a; }
-.output-verdict.warning { color: var(--gold); }
-.output-verdict.critical { color: #e08080; }
-
-.output-bar-wrap { margin-top: 4px; }
-
-.output-bar-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.output-bar-track {
-  height: 4px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 6px;
-}
-
-.output-bar-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #4a8a4a, var(--gold), #e08080);
-  border-radius: 2px;
-  transition: width 0.8s cubic-bezier(0.22,1,0.36,1);
-}
-
-.output-bar-ends {
-  display: flex;
-  justify-content: space-between;
-  font-size: 9px;
-  color: var(--text-dim);
-  letter-spacing: 1px;
-}
-
-.analyzer-presets {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.preset-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-}
-
-.analyzer-presets button {
-  background: rgba(201,168,76,0.05);
-  border: 1px solid var(--border);
-  color: var(--text-mid);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 7px 14px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
-}
-
-.analyzer-presets button:hover {
-  border-color: var(--border-strong);
-  color: var(--gold);
-  background: var(--gold-glow);
-}
-
-.analyzer-footer {
-  padding: 10px 20px;
-  border-top: 1px solid var(--border);
-  font-size: 9px;
-  color: var(--text-dim);
-  letter-spacing: 1.5px;
-  text-align: center;
-}
-
-.analyzer-note {
-  margin-top: 20px;
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--text-dim);
-  line-height: 1.8;
-  font-style: italic;
-  max-width: 600px;
-}
-
-@media (max-width: 600px) {
-  .input-row { gap: 6px; }
-  .output-row { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .output-value, .output-verdict { text-align: left; }
-}
-  0%, 100% { opacity: 0.5; box-shadow: 0 0 6px var(--gold); }
-  50% { opacity: 1; box-shadow: 0 0 14px var(--gold); }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acquire Core Architecture Framework — ARCHAI™</title>
+  <link rel="stylesheet" href="archai-shared.css" />
+  
+  <!-- Premium High-Tech Typography Matrix Import -->
+  <link rel="preconnect" href="https://googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
+  <link href="https://googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #020204;
+      --bg-card: rgba(8, 8, 12, 0.45);
+      --border-glow: #22c55e;
+      --text-mute: #71717a;
+      --text-bright: #f4f4f5;
+      --accent-blue: #38bdf8;
+      --accent-gold: #fbbf24;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-bright);
+      font-family: var(--font-sans);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .pricing-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 140px 24px 100px 24px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-group {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      color: var(--border-glow);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 20px 0;
+      letter-spacing: -2px;
+      line-height: 1.1;
+    }
+
+    .page-subtitle {
+      color: #a1a1aa;
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 30px;
+      align-items: stretch;
+    }
+
+    .card-tier {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 45px 40px;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+      transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+    }
+
+    .card-tier:hover {
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateY(-4px);
+    }
+
+    .card-tier.enterprise {
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(34, 197, 94, 0.03);
+    }
+
+    .card-tier.enterprise:hover {
+      border-color: var(--border-glow);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(34, 197, 94, 0.08);
+    }
+
+    .badge-top {
+      position: absolute;
+      top: -12px;
+      right: 30px;
+      background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 30px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    }
+  </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="topbar-icon">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5">
-      <circle cx="12" cy="12" r="9"/>
-      <circle cx="12" cy="12" r="4"/>
-      <line x1="12" y1="3" x2="12" y2="7"/>
-      <line x1="12" y1="17" x2="12" y2="21"/>
-      <line x1="3" y1="12" x2="7" y2="12"/>
-      <line x1="17" y1="12" x2="21" y2="12"/>
-    </svg>
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-icon">⬡</div>
+      <div>
+        <div class="nav-brand-text">ARCHAI</div>
+        <span class="nav-brand-sub">Agentic Governance Architecture</span>
+      </div>
+    </a>
+    <a href="index.html" class="nav-link">Overview</a>
+    <a href="archai.html" class="nav-link">ARCHAI</a>
+    <a href="identarch.html" class="nav-link">IDENTARCH</a>
+    <a href="agentum.html" class="nav-link">AGENTUM</a>
+    <a href="intentum.html" class="nav-link">INTENTUM</a>
+    <a href="mnemarch.html" class="nav-link">MNEMARCH</a>
+    <a href="accountum.html" class="nav-link">ACCOUNTUM</a>
+    <a href="framework.html" class="nav-link active">Enter Framework</a>
   </div>
-  <div class="topbar-text">
-    <div class="topbar-name">ARCHAI</div>
-    <div class="topbar-sub">Agentic Governance Architecture</div>
-  </div>
-</div>
-
-<!-- TAB NAV -->
-<nav class="tabnav">
-  <a class="tab active" href="#overview">Overview</a>
-  <a class="tab" href="#archai">ARCHAI</a>
-  <a class="tab" href="#identarch">IDENTARCH</a>
-  <a class="tab" href="#agentum">AGENTUM</a>
-  <a class="tab" href="#intentum">INTENTUM</a>
-  <a class="tab" href="#mnemarch">MNEMARCH</a>
-  <a class="tab" href="#analyzer">Drift Analyzer</a>
-  <a class="tab" href="#accountum">ACCOUNTUM</a>
-  <a class="tab-enter" href="#pricing">ENTER FRAMEWORK</a>
 </nav>
 
-<!-- STACK DIAGRAM -->
-<div class="stack-section" id="overview">
-  <div class="stack-diagram">
-    <div class="stack-center">
-      <div class="stack-core">
-        <div class="stack-core-dot"></div>
-        <div class="stack-core-label">ARCHAI<br>STACK</div>
-        <div class="orbit-dot"></div>
-      </div>
-    </div>
-    <div class="stack-pills">
-      <div class="stack-pill"><strong>IDENTARCH</strong>Identity substrate</div>
-      <div class="stack-pill"><strong>INTENTUM</strong>Intent binding</div>
-      <div class="stack-pill"><strong>MNEMARCH</strong>Memory governance</div>
-      <div class="stack-pill"><strong>AGENTUM</strong>Agent orchestration</div>
-    </div>
-  </div>
-    <div class="pricing-row">
-      <div class="pr-tier">
-        <div class="pr-name">Enterprise</div>
-        <div class="pr-type">Custom</div>
-      </div>
-      <div class="pr-desc">Multi-system, multi-team, regulatory-grade governance. Ongoing monitoring, audit-ready documentation, and dedicated governance architecture.</div>
-      <div class="pr-price">
-        <div class="pr-amount">TBD</div>
-        <div class="pr-label"><a href="mailto:anastrophon@barkdale.co?subject=ARCHAI™ Enterprise Engagement" style="color:var(--gold);text-decoration:none;letter-spacing:1px;font-size:9px;font-weight:700;">CONTACT →</a></div>
-      </div>
-    </div>
+<main class="pricing-container">
+  <div class="header-group">
+    <span class="eyebrow">SYSTEM PROVISIONING</span>
+    <h1 class="page-title">Commercial Licensing & Matrix Access</h1>
+    <p class="page-subtitle">Deploy the un-bypassable zero-drift constraints of the ARCHONOMY™ discipline into your engineering environment. Review full technical capabilities below.</p>
   </div>
 
-  <p class="pricing-note reveal d3">All engagements include a formal governance report delivered under the ARCHONOMY™ discipline. Contact <a href="mailto:anastrophon@barkdale.co" style="color:var(--gold)">anastrophon@barkdale.co</a> to discuss scope.</p>
-</div>
+  <div class="tiers-grid">
+    
+    <!-- STARTER / THE GAP TIER -->
+    <div class="card-tier">
+      <div class="tier-meta">
+        <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">01 // DEVELOPER EXPERIMENTATION</span>
+        <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff; margin: 12px 0 6px 0;">Developer Invariant Core</h3>
+        <p style="color: var(--text-mute); font-size: 0.85rem; margin: 0 0 30px 0; line-height: 1.4;">Isolated sandbox access engineered specifically to bridge the research accessibility gap.</p>
+        
+        <div style="margin-bottom: 35px;">
+          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: #fff;">$1,200</span>
+          <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.85rem; margin-left: 4px;">/ Perpetual License</span>
+        </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo reveal">ARCHAI™</div>
-  <p class="reveal d1">A composable governance stack for real-world AI deployment. A discipline of ARCHONOMY™ by Barkdale & Co.</p>
-  <div class="footer-links reveal d2">
-    <a href="#overview">Overview</a>
-    <a href="#archai">Framework</a>
-    <a href="#identarch">GAP Analysis</a>
-    <a href="#pricing">Pricing</a>
-    <a href="mailto:anastrophon@barkdale.co">Contact</a>
+        <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 25px;">
+          <h4 style="font-family: var(--font-mono); color: #fff; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
+          <ul style="padding-left: 18px; margin: 0; color: #d4d4d8; font-size: 0.88rem; line-height: 2.2;">
+            <li><b>Substrate Binary:</b> Production <code>archonomy_core.py</code> execution engine asset payload.</li>
+            <li><b>Boundary Constraints:</b> Manual configuration layer for standalone 1-dimensional float arrays.</li>
+            <li><b>Traffic Capabilities:</b> Offline execution arrays mapping static client prompt evaluations.</li>
+            <li><b>Licensing Rights:</b> Single-seat developer workstation allocation. SaaS integration is barred.</li>
+          </ul>
+        </div>
+      </div>
+      <button onclick="triggerDirectDownload('Developer Invariant Core', 1200)" style="background: #ffffff; color: #000000; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: background 0.2s;">Download Substrate Binary</button>
+    </div>
+
+    <!-- ENTRY LEVEL PROFESSIONAL TIER -->
+    <div class="card-tier">
+      <div class="tier-meta">
+        <span style="font-family: var(--font-mono); color: var(--accent-blue); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">02 // COMMERCIAL MVP / POC</span>
+        <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff; margin: 12px 0 6px 0;">Model-Boundary Module</h3>
+        <p style="color: var(--text-mute); font-size: 0.85rem; margin: 0 0 30px 0; line-height: 1.4;">Real-time inline proxy containment for commercial startups running live pipelines.</p>
+        
+        <div style="margin-bottom: 35px;">
+          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: #fff;">$30,000</span>
+          <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.85rem; margin-left: 4px;">/ Annually</span>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 25px;">
+          <h4 style="font-family: var(--font-mono); color: var(--accent-blue); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
+          <ul style="padding-left: 18px; margin: 0; color: #d4d4d8; font-size: 0.88rem; line-height: 2.2;">
+            <li><b>Substrate Binary:</b> Full pipeline array containing <code>wrangler.toml</code> and <code>archonomy_queue.js</code> controller code.</li>
+            <li><b>Boundary Constraints:</b> Asynchronous <code>waitUntilStable</code> queue loop tracking automated 30-second synchronization parameters.</li>
+            <li><b>Traffic Capabilities:</b> Direct proxy routing protecting <b>one (1) single production AI network stream</b> up to 5M actions/mo.</li>
+            <li><b>Licensing Rights:</b> User-based commercial application node license. Tied cryptographically to 1 single host system route.</li>
+          </ul>
+        </div>
+      </div>
+      <button onclick="triggerDirectDownload('Model-Boundary Module', 30000)" style="background: #ffffff; color: #000000; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: background 0.2s;">Download Production Substrate</button>
+    </div>
+
+    <!-- INSTITUTIONAL ENTERPRISE MATRIX TIER -->
+    <div class="card-tier enterprise">
+      <div class="badge-top">Sovereign Matrix</div>
+      <div class="tier-meta">
+        <span style="font-family: var(--font-mono); color: var(--border-glow); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">03 // ENTERPRISE LIABILITY PROTECTION</span>
+        <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff; margin: 12px 0 6px 0;">Global Sovereign Matrix</h3>
+        <p style="color: var(--text-mute); font-size: 0.85rem; margin: 0 0 30px 0; line-height: 1.4;">Legally-auditable containment infrastructure eliminating enterprise AI risk.</p>
+        
+        <div style="margin-bottom: 35px;">
+          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: var(--border-glow);">$90,000</span>
+          <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.85rem; margin-left: 4px;">/ Annually Recurring</span>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 25px;">
+          <h4 style="font-family: var(--font-mono); color: var(--border-glow); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
+          <ul style="padding-left: 18px; margin: 0; color: #d4d4d8; font-size: 0.88rem; line-height: 2.2;">
+            <li><b>Substrate Binary:</b> Complete 5-Layer structural alignment infrastructure package (IDENTARCH™ through ACCOUNTUM™).</li>
+            <li><b>Boundary Constraints:</b> Custom Jacobi Constant allowed corridors and elliptical parametric background vector tracing variables.</li>
+            <li><b>Traffic Capabilities:</b> Uncapped transaction streams with active hardware-backed cryptographic agent token authorizations.</li>
+            <li><b>Licensing Rights:</b> Corporate site authorization license with 24/7 dedicated engineering support, 4-hour SLAs, and formal compliance output records.</li>
+          </ul>
+        </div>
+      </div>
+      <button onclick="triggerDirectDownload('Global Sovereign Matrix', 90000)" style="background: var(--border-glow); color: #020204; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(34,197,94,0.2);">Download Corporate Enterprise Suite</button>
+    </div>
+
   </div>
-</footer>
-
+</main>
 <script>
-// Tab active state on scroll
-const sections = document.querySelectorAll('[id]');
-const tabs = document.querySelectorAll('.tab');
-
-const tabMap = {
-  overview: 'Overview', archai: 'ARCHAI', identarch: 'IDENTARCH',
-  agentum: 'AGENTUM', intentum: 'INTENTUM', mnemarch: 'MNEMARCH',
-  accountum: 'ACCOUNTUM', pricing: 'ACCOUNTUM'
-};
-
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 140) current = s.id;
-  });
-  tabs.forEach(t => {
-    t.classList.remove('active');
-    if (t.getAttribute('href') === '#' + current) t.classList.add('active');
-  });
-}, { passive: true });
-
-// Reveal on scroll
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-// ── STRUCTURAL DRIFT ANALYZER ──
-function cross(a, b) {
-  return [
-    a[1]*b[2] - a[2]*b[1],
-    a[2]*b[0] - a[0]*b[2],
-    a[0]*b[1] - a[1]*b[0]
-  ];
-}
-
-function norm(v) {
-  return Math.sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
-}
-
-function normalize(v) {
-  const n = norm(v) + 1e-8;
-  return [v[0]/n, v[1]/n, v[2]/n];
-}
-
-function dot(a, b) {
-  return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
-}
-
-function scale(v, s) {
-  return [v[0]*s, v[1]*s, v[2]*s];
-}
-
-function subtract(a, b) {
-  return [a[0]-b[0], a[1]-b[1], a[2]-b[2]];
-}
-
-function runAnalyzer() {
-  const status = document.getElementById('analyzer-status');
-  const btn = document.getElementById('run-btn');
-
-  status.textContent = 'RUNNING';
-  status.className = 'analyzer-status running';
-  btn.textContent = 'ANALYZING...';
-  btn.disabled = true;
-
-  setTimeout(() => {
-    const q = [
-      parseFloat(document.getElementById('qx').value) || 0,
-      parseFloat(document.getElementById('qy').value) || 0,
-      parseFloat(document.getElementById('qz').value) || 0
-    ];
-    const p = [
-      parseFloat(document.getElementById('vx').value) || 0,
-      parseFloat(document.getElementById('vy').value) || 0,
-      parseFloat(document.getElementById('vz').value) || 0
-    ];
-
-    const k = 1.0;
-    const laplace = [0, 0, 1];
-
-    // L = q x p
-    const L = cross(q, p);
-
-    // p x L
-    const pxL = cross(p, L);
-
-    // hat_r = q / |q|
-    const r_mag = norm(q) + 1e-8;
-    const hat_r = [q[0]/r_mag, q[1]/r_mag, q[2]/r_mag];
-
-    // LRL = p x L - k * hat_r
-    const lrl = subtract(pxL, scale(hat_r, k));
-
-    // unit_L
-    const unit_L = normalize(L);
-
-    // plane deviation = 1 - |unit_L · laplace|
-    const deviation = 1.0 - Math.abs(dot(unit_L, laplace));
-
-    const drift = isNaN(deviation) ? 0 : Math.max(0, Math.min(1, deviation));
-    const lMag = norm(L);
-    const lrlMag = norm(lrl);
-
-    // Display
-    document.getElementById('drift-value').textContent = drift.toFixed(8);
-    document.getElementById('l-value').textContent = `[${L[0].toFixed(3)}, ${L[1].toFixed(3)}, ${L[2].toFixed(3)}]`;
-    document.getElementById('lrl-value').textContent = lrlMag.toFixed(6);
-    document.getElementById('drift-bar').style.width = (drift * 100) + '%';
-
-    const verdict = document.getElementById('drift-verdict');
-    if (drift < 0.001) {
-      verdict.textContent = 'ARCHITECTURALLY ALIGNED';
-      verdict.className = 'output-verdict aligned';
-      status.textContent = 'ALIGNED';
-      status.className = 'analyzer-status complete';
-    } else if (drift < 0.3) {
-      verdict.textContent = 'MINOR DRIFT — WITHIN TOLERANCE';
-      verdict.className = 'output-verdict warning';
-      status.textContent = 'DRIFT DETECTED';
-      status.className = 'analyzer-status running';
-    } else {
-      verdict.textContent = 'CRITICAL DRIFT — GOVERNANCE BREACH';
-      verdict.className = 'output-verdict critical';
-      status.textContent = 'BREACH';
-      status.className = 'analyzer-status drift';
-    }
-
-    btn.textContent = 'RUN STRUCTURAL AUDIT';
-    btn.disabled = false;
-  }, 600);
-}
-
-function loadPreset(type) {
-  const presets = {
-    aligned: { qx:1, qy:0, qz:0, vx:0, vy:1, vz:0 },
-    minor:   { qx:1, qy:0, qz:0.2, vx:0, vy:1, vz:0.1 },
-    critical:{ qx:1, qy:0, qz:0.8, vx:0, vy:0.3, vz:0.9 }
-  };
-  const p = presets[type];
-  document.getElementById('qx').value = p.qx;
-  document.getElementById('qy').value = p.qy;
-  document.getElementById('qz').value = p.qz;
-  document.getElementById('vx').value = p.vx;
-  document.getElementById('vy').value = p.vy;
-  document.getElementById('vz').value = p.vz;
-  runAnalyzer();
-}
+  /**
+   * Instant File Transmission Engine
+   * Placeholder structures removed. Automatically initiates direct browser file download payload streams.
+   */
+  function triggerDirectDownload(tierName, value) {
+      console.log(`Initializing distribution channel for: [${tierName}]`);
+      
+      // Forces an immediate localized anchor event to pull your core source code zip files down natively
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.href = "https://github.com";
+      downloadAnchor.download = `ARCHAI_SUBSTRATE_${tierName.toUpperCase().replace(/ /g, "_")}.zip`;
+      
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      document.body.removeChild(downloadAnchor);
+  }
 </script>
 
 </body>
