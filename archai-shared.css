@@ -1,0 +1,141 @@
+/**
+ * ARCHAI™ Unified Governance Suite — Master Architecture Stylesheet
+ * Color Palette: Obsidian Black (#000000) & Metallic Gold (#d4af37)
+ * Functional Logic: Controls layout padding, nav tabs, and clock metrics.
+ */
+
+:root {
+  --bg-dark-obsidian: #000000;
+  --bg-card-matte: #0c0c0e;
+  --gold-metallic: #d4af37;
+  --gold-champagne: #f3e5ab;
+  --text-white: #ffffff;
+  --text-grey-mute: #71717a;
+  --border-gold-low: rgba(212, 175, 55, 0.15);
+  --border-gold-high: rgba(212, 175, 55, 0.5);
+  --font-serif-luxury: 'Cinzel', serif;
+  --font-sans-display: 'Space Grotesk', sans-serif;
+  --font-mono-data: 'JetBrains Mono', monospace;
+}
+
+/* Global Page Layout Foundations */
+body, html {
+  background-color: var(--bg-dark-obsidian) !important;
+  color: var(--text-white) !important;
+  font-family: var(--font-sans-display), -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fixed High-End Navigation Bar & Tab Controls */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-gold-low);
+  z-index: 9999;
+  box-sizing: border-box;
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-white);
+  font-family: var(--font-sans-display);
+}
+
+.nav-brand-icon {
+  font-size: 1.6rem;
+  color: var(--gold-metallic);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.nav-brand-text {
+  font-family: var(--font-serif-luxury);
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+}
+
+.nav-brand-sub {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--text-grey-mute);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* Unifying Active Tabs - Removes Purple/Blue Links */
+.nav-inner a.nav-link {
+  color: var(--text-grey-mute) !important;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.nav-inner a.nav-link:hover {
+  color: var(--gold-champagne) !important;
+}
+
+.nav-inner a.nav-link.active {
+  color: var(--gold-metallic) !important;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid var(--border-gold-low);
+}
+
+/* Call-To-Action Framework Tab Button */
+.nav-cta {
+  font-family: var(--font-mono-data);
+  background: var(--gold-metallic) !important;
+  color: #000000 !important;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.nav-cta:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Metrics Displays, Time Trackers, and Grid Components */
+.clock-display, #live-timestamp {
+  font-family: var(--font-mono-data) !important;
+  color: var(--gold-champagne) !important;
+  letter-spacing: 1px;
+}
+
+.drift-box, #hero-drift-score {
+  font-family: var(--font-mono-data) !important;
+  color: var(--gold-metallic) !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid var(--border-gold-high) !important;
+}
