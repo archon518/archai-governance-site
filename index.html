@@ -6,21 +6,20 @@
   <title>Acquire Core Architecture Framework — ARCHAI™</title>
   <link rel="stylesheet" href="archai-shared.css" />
   
-  <!-- Premium High-Tech Typography Matrix Import -->
+  <!-- Premium Luxury Typography Matrix Import -->
   <link rel="preconnect" href="https://googleapis.com">
   <link rel="preconnect" href="https://gstatic.com" crossorigin>
-  <link href="https://googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-main: #020204;
-      --bg-card: rgba(8, 8, 12, 0.45);
-      --border-glow: #22c55e;
-      --text-mute: #71717a;
-      --text-bright: #f4f4f5;
-      --accent-blue: #38bdf8;
-      --accent-gold: #fbbf24;
-      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --bg-main: #000000; /* Absolute Obsidian Black */
+      --bg-card: rgba(12, 12, 14, 0.85); /* Dark Matte Black Core */
+      --border-gold: #d4af37; /* Pure Metallic Gold Boundary */
+      --text-gold: #f3e5ab; /* Soft Premium Champagne Gold */
+      --text-bright: #ffffff; /* Crisp High-Contrast White */
+      --text-mute: #71717a; /* Clean Structural Grey */
+      --font-luxury: 'Cinzel', serif; /* High-End Title Branding */
       --font-display: 'Space Grotesk', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
@@ -28,7 +27,7 @@
     body {
       background-color: var(--bg-main);
       color: var(--text-bright);
-      font-family: var(--font-sans);
+      font-family: var(--font-display);
       margin: 0;
       padding: 0;
       overflow-x: hidden;
@@ -51,23 +50,30 @@
 
     .eyebrow {
       font-family: var(--font-mono);
-      color: var(--border-glow);
+      color: var(--border-gold);
       font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 4px;
+      letter-spacing: 5px;
       text-transform: uppercase;
       display: block;
       margin-bottom: 12px;
     }
 
     .page-title {
-      font-family: var(--font-display);
+      font-family: var(--font-luxury);
       font-size: 3.5rem;
       font-weight: 700;
       color: #ffffff;
       margin: 0 0 20px 0;
-      letter-spacing: -2px;
+      letter-spacing: 1px;
       line-height: 1.1;
+    }
+
+    .page-title span {
+      background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
     }
 
     .page-subtitle {
@@ -90,38 +96,38 @@
       background: var(--bg-card);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.15); /* Delicate Gold Borders */
       padding: 45px 40px;
       border-radius: 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255,255,255,0.02);
       transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
       position: relative;
     }
 
     .card-tier:hover {
-      border-color: rgba(255, 255, 255, 0.12);
+      border-color: rgba(212, 175, 55, 0.4);
       transform: translateY(-4px);
     }
 
     .card-tier.enterprise {
-      border: 1px solid rgba(34, 197, 94, 0.25);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(34, 197, 94, 0.03);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95), 0 0 40px rgba(212, 175, 55, 0.05);
     }
 
     .card-tier.enterprise:hover {
-      border-color: var(--border-glow);
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(34, 197, 94, 0.08);
+      border-color: var(--border-gold);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 1), 0 0 50px rgba(212, 175, 55, 0.15);
     }
 
     .badge-top {
       position: absolute;
       top: -12px;
       right: 30px;
-      background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
-      color: #ffffff;
+      background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
+      color: #000000;
       font-family: var(--font-mono);
       font-size: 0.7rem;
       font-weight: 700;
@@ -129,7 +135,7 @@
       border-radius: 30px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
     }
   </style>
 </head>
@@ -138,7 +144,7 @@
 <nav class="nav-bar">
   <div class="nav-inner">
     <a href="index.html" class="nav-brand">
-      <div class="nav-brand-icon">⬡</div>
+      <div class="nav-brand-icon" style="color: var(--border-gold);">⬡</div>
       <div>
         <div class="nav-brand-text">ARCHAI</div>
         <span class="nav-brand-sub">Agentic Governance Architecture</span>
@@ -158,7 +164,7 @@
 <main class="pricing-container">
   <div class="header-group">
     <span class="eyebrow">SYSTEM PROVISIONING</span>
-    <h1 class="page-title">Commercial Licensing & Matrix Access</h1>
+    <h1 class="page-title">Commercial Licensing & <span>Matrix Access</span></h1>
     <p class="page-subtitle">Deploy the un-bypassable zero-drift constraints of the ARCHONOMY™ discipline into your engineering environment. Review full technical capabilities below.</p>
   </div>
 
@@ -167,18 +173,18 @@
     <!-- STARTER / THE GAP TIER -->
     <div class="card-tier">
       <div class="tier-meta">
-        <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">01 // DEVELOPER EXPERIMENTATION</span>
-        <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff; margin: 12px 0 6px 0;">Developer Invariant Core</h3>
+        <span style="font-family: var(--font-mono); color: var(--border-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">01 // DEVELOPER EXPERIMENTATION</span>
+        <h3 style="font-family: var(--font-luxury); font-size: 1.5rem; color: #fff; margin: 12px 0 6px 0; letter-spacing: 0.5px;">Developer Invariant Core</h3>
         <p style="color: var(--text-mute); font-size: 0.85rem; margin: 0 0 30px 0; line-height: 1.4;">Isolated sandbox access engineered specifically to bridge the research accessibility gap.</p>
         
         <div style="margin-bottom: 35px;">
-          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: #fff;">$1,200</span>
+          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: var(--text-gold);">$1,200</span>
           <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.85rem; margin-left: 4px;">/ Perpetual License</span>
         </div>
 
-        <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 25px;">
-          <h4 style="font-family: var(--font-mono); color: #fff; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
-          <ul style="padding-left: 18px; margin: 0; color: #d4d4d8; font-size: 0.88rem; line-height: 2.2;">
+        <div style="border-top: 1px solid rgba(212,175,55,0.15); padding-top: 25px;">
+          <h4 style="font-family: var(--font-mono); color: var(--text-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
+          <ul style="padding-left: 18px; margin: 0; color: #e4e4e7; font-size: 0.88rem; line-height: 2.2;">
             <li><b>Substrate Binary:</b> Production <code>archonomy_core.py</code> execution engine asset payload.</li>
             <li><b>Boundary Constraints:</b> Manual configuration layer for standalone 1-dimensional float arrays.</li>
             <li><b>Traffic Capabilities:</b> Offline execution arrays mapping static client prompt evaluations.</li>
@@ -186,24 +192,24 @@
           </ul>
         </div>
       </div>
-      <button onclick="triggerDirectDownload('Developer Invariant Core', 1200)" style="background: #ffffff; color: #000000; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: background 0.2s;">Download Substrate Binary</button>
+      <button onclick="triggerDirectDownload('Developer Invariant Core')" style="background: #ffffff; color: #000000; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: background 0.2s;">Download Substrate Binary</button>
     </div>
 
     <!-- ENTRY LEVEL PROFESSIONAL TIER -->
     <div class="card-tier">
       <div class="tier-meta">
-        <span style="font-family: var(--font-mono); color: var(--accent-blue); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">02 // COMMERCIAL MVP / POC</span>
-        <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff; margin: 12px 0 6px 0;">Model-Boundary Module</h3>
+        <span style="font-family: var(--font-mono); color: var(--border-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">02 // COMMERCIAL MVP / POC</span>
+        <h3 style="font-family: var(--font-luxury); font-size: 1.5rem; color: #fff; margin: 12px 0 6px 0; letter-spacing: 0.5px;">Model-Boundary Module</h3>
         <p style="color: var(--text-mute); font-size: 0.85rem; margin: 0 0 30px 0; line-height: 1.4;">Real-time inline proxy containment for commercial startups running live pipelines.</p>
         
         <div style="margin-bottom: 35px;">
-          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: #fff;">$30,000</span>
+          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: var(--text-gold);">$30,000</span>
           <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.85rem; margin-left: 4px;">/ Annually</span>
         </div>
 
-        <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 25px;">
-          <h4 style="font-family: var(--font-mono); color: var(--accent-blue); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
-          <ul style="padding-left: 18px; margin: 0; color: #d4d4d8; font-size: 0.88rem; line-height: 2.2;">
+        <div style="border-top: 1px solid rgba(212,175,55,0.15); padding-top: 25px;">
+          <h4 style="font-family: var(--font-mono); color: var(--text-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
+          <ul style="padding-left: 18px; margin: 0; color: #e4e4e7; font-size: 0.88rem; line-height: 2.2;">
             <li><b>Substrate Binary:</b> Full pipeline array containing <code>wrangler.toml</code> and <code>archonomy_queue.js</code> controller code.</li>
             <li><b>Boundary Constraints:</b> Asynchronous <code>waitUntilStable</code> queue loop tracking automated 30-second synchronization parameters.</li>
             <li><b>Traffic Capabilities:</b> Direct proxy routing protecting <b>one (1) single production AI network stream</b> up to 5M actions/mo.</li>
@@ -211,25 +217,25 @@
           </ul>
         </div>
       </div>
-      <button onclick="triggerDirectDownload('Model-Boundary Module', 30000)" style="background: #ffffff; color: #000000; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: background 0.2s;">Download Production Substrate</button>
+      <button onclick="triggerDirectDownload('Model-Boundary Module')" style="background: #ffffff; color: #000000; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: background 0.2s;">Download Production Substrate</button>
     </div>
 
     <!-- INSTITUTIONAL ENTERPRISE MATRIX TIER -->
     <div class="card-tier enterprise">
       <div class="badge-top">Sovereign Matrix</div>
       <div class="tier-meta">
-        <span style="font-family: var(--font-mono); color: var(--border-glow); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">03 // ENTERPRISE LIABILITY PROTECTION</span>
-        <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff; margin: 12px 0 6px 0;">Global Sovereign Matrix</h3>
+        <span style="font-family: var(--font-mono); color: var(--border-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">03 // ENTERPRISE LIABILITY PROTECTION</span>
+        <h3 style="font-family: var(--font-luxury); font-size: 1.5rem; color: #fff; margin: 12px 0 6px 0; letter-spacing: 0.5px;">Global Sovereign Matrix</h3>
         <p style="color: var(--text-mute); font-size: 0.85rem; margin: 0 0 30px 0; line-height: 1.4;">Legally-auditable containment infrastructure eliminating enterprise AI risk.</p>
         
         <div style="margin-bottom: 35px;">
-          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: var(--border-glow);">$90,000</span>
+          <span style="font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: var(--border-gold);">$90,000</span>
           <span style="font-family: var(--font-mono); color: var(--text-mute); font-size: 0.85rem; margin-left: 4px;">/ Annually Recurring</span>
         </div>
 
-        <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 25px;">
-          <h4 style="font-family: var(--font-mono); color: var(--border-glow); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
-          <ul style="padding-left: 18px; margin: 0; color: #d4d4d8; font-size: 0.88rem; line-height: 2.2;">
+        <div style="border-top: 1px solid rgba(212,175,55,0.15); padding-top: 25px;">
+          <h4 style="font-family: var(--font-mono); color: var(--text-gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0;">Technical Specifications:</h4>
+          <ul style="padding-left: 18px; margin: 0; color: #e4e4e7; font-size: 0.88rem; line-height: 2.2;">
             <li><b>Substrate Binary:</b> Complete 5-Layer structural alignment infrastructure package (IDENTARCH™ through ACCOUNTUM™).</li>
             <li><b>Boundary Constraints:</b> Custom Jacobi Constant allowed corridors and elliptical parametric background vector tracing variables.</li>
             <li><b>Traffic Capabilities:</b> Uncapped transaction streams with active hardware-backed cryptographic agent token authorizations.</li>
@@ -237,7 +243,7 @@
           </ul>
         </div>
       </div>
-      <button onclick="triggerDirectDownload('Global Sovereign Matrix', 90000)" style="background: var(--border-glow); color: #020204; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(34,197,94,0.2);">Download Corporate Enterprise Suite</button>
+      <button onclick="triggerDirectDownload('Global Sovereign Matrix')" style="background: var(--border-gold); color: #000000; border: none; width: 100%; padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 40px; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(212,175,55,0.2);">Download Corporate Enterprise Suite</button>
     </div>
 
   </div>
@@ -247,10 +253,9 @@
    * Instant File Transmission Engine
    * Placeholder structures removed. Automatically initiates direct browser file download payload streams.
    */
-  function triggerDirectDownload(tierName, value) {
+  function triggerDirectDownload(tierName) {
       console.log(`Initializing distribution channel for: [${tierName}]`);
       
-      // Forces an immediate localized anchor event to pull your core source code zip files down natively
       const downloadAnchor = document.createElement('a');
       downloadAnchor.href = "https://github.com";
       downloadAnchor.download = `ARCHAI_SUBSTRATE_${tierName.toUpperCase().replace(/ /g, "_")}.zip`;
