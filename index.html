@@ -1,88 +1,935 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Load High-End Editorial Serif for Body Copy -->
-<link rel="preconnect" href="https://googleapis.com">
-<link rel="preconnect" href="https://gstatic.com" crossorigin>
-<link href="https://googleapis.com/css2?family=Cinzel:wght@700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARCHAI — AI Governance Infrastructure</title>
+  <meta name="description" content="Every AI decision your systems make is ungoverned. ARCHAI changes that." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a0a0f;
+      --ink-deep: #050508;
+      --gold: #c8952a;
+      --gold-pale: #e8c97a;
+      --gold-dim: rgba(200,149,42,0.15);
+      --gold-line: rgba(200,149,42,0.25);
+      --white: #f5f3ef;
+      --white-dim: rgba(245,243,239,0.55);
+      --white-faint: rgba(245,243,239,0.12);
+      --grey: #6b6b6b;
+      --display: 'Cormorant Garamond', Georgia, serif;
+      --body: 'Inter', system-ui, sans-serif;
+      --mono: 'IBM Plex Mono', monospace;
+    }
 
-    <title>ARCHAI // GOVERNANCE ENGINE</title>
-    <link rel="stylesheet" href="style.css">
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--ink);
+      color: var(--white);
+      font-family: var(--body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 40px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(5,5,8,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--white-faint);
+    }
+
+    .nav-mark {
+      display: flex; align-items: center; gap: 14px;
+      text-decoration: none;
+    }
+
+    .nav-sigil {
+      width: 28px; height: 28px; position: relative; flex-shrink: 0;
+    }
+
+    .nav-sigil svg { width: 100%; height: 100%; }
+
+    .nav-wordmark {
+      font-family: var(--display);
+      font-size: 1.1rem; font-weight: 600;
+      letter-spacing: 0.18em; color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .nav-sub {
+      display: block;
+      font-family: var(--mono); font-size: 0.52rem;
+      color: var(--grey); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-top: 1px;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 32px; list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--body); font-size: 0.78rem; font-weight: 400;
+      color: var(--white-dim); text-decoration: none;
+      letter-spacing: 0.02em; transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-acquire {
+      font-family: var(--mono); font-size: 0.68rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--ink) !important;
+      background: var(--gold);
+      padding: 8px 18px; border-radius: 3px;
+      text-decoration: none !important;
+      transition: background 0.2s;
+    }
+
+    .nav-acquire:hover { background: var(--gold-pale); }
+
+    /* ── HERO ────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-canvas {
+      position: absolute; inset: 0;
+      pointer-events: none;
+    }
+
+    .hero-canvas canvas {
+      width: 100%; height: 100%;
+      opacity: 0.6;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+    .hero-status {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-bottom: 52px;
+      padding: 5px 14px 5px 10px;
+      background: rgba(34,197,94,0.06);
+      border: 1px solid rgba(34,197,94,0.18);
+      border-radius: 100px;
+    }
+
+    .status-pulse {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.85)} }
+
+    .status-text {
+      font-family: var(--mono); font-size: 0.6rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: #4ade80;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono); font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 24px;
+    }
+
+    .hero-headline {
+      font-family: var(--display);
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 700; line-height: 0.95;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 0;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: var(--gold-pale);
+    }
+
+    .hero-rule {
+      width: 1px; height: 56px;
+      background: linear-gradient(to bottom, transparent, var(--gold-line), transparent);
+      margin: 40px auto;
+    }
+
+    .hero-body {
+      font-size: 1rem; font-weight: 300; line-height: 1.8;
+      color: var(--white-dim); max-width: 520px; margin: 0 auto 48px;
+    }
+
+    .hero-body strong { color: var(--white); font-weight: 500; }
+
+    .hero-ctas {
+      display: flex; gap: 14px;
+      justify-content: center; flex-wrap: wrap;
+    }
+
+    .cta-primary {
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--ink); background: var(--gold);
+      padding: 14px 28px; border-radius: 3px;
+      text-decoration: none; transition: background 0.2s, transform 0.2s;
+    }
+
+    .cta-primary:hover { background: var(--gold-pale); transform: translateY(-1px); }
+
+    .cta-secondary {
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--gold); background: transparent;
+      border: 1px solid var(--gold-line);
+      padding: 14px 28px; border-radius: 3px;
+      text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+
+    .cta-secondary:hover { border-color: var(--gold); color: var(--gold-pale); }
+
+    /* ── PROBLEM ─────────────────────────────────────── */
+    .problem {
+      padding: 120px 40px;
+      max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center;
+    }
+
+    .section-label {
+      font-family: var(--mono); font-size: 0.6rem; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block; width: 24px; height: 1px;
+      background: var(--gold);
+    }
+
+    .problem-title {
+      font-family: var(--display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 600; line-height: 1.15;
+      color: var(--white); margin-bottom: 24px;
+    }
+
+    .problem-title em { font-style: italic; color: var(--gold-pale); }
+
+    .problem-body {
+      font-size: 0.9rem; font-weight: 300; line-height: 1.85;
+      color: var(--white-dim);
+    }
+
+    .problem-body + .problem-body { margin-top: 16px; }
+    .problem-body strong { color: var(--white); font-weight: 500; }
+
+    .risk-list {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+
+    .risk-item {
+      padding: 20px 24px;
+      background: var(--white-faint);
+      border-left: 2px solid transparent;
+      border-radius: 2px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .risk-item:hover {
+      border-left-color: var(--gold);
+      background: rgba(200,149,42,0.06);
+    }
+
+    .risk-label {
+      font-family: var(--mono); font-size: 0.58rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 6px;
+    }
+
+    .risk-desc {
+      font-size: 0.82rem; color: var(--white-dim); line-height: 1.6;
+    }
+
+    /* ── WHAT IT IS ──────────────────────────────────── */
+    .what {
+      background: var(--ink-deep);
+      border-top: 1px solid var(--white-faint);
+      border-bottom: 1px solid var(--white-faint);
+      padding: 100px 40px;
+    }
+
+    .what-inner {
+      max-width: 800px; margin: 0 auto; text-align: center;
+    }
+
+    .what-title {
+      font-family: var(--display);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 700; line-height: 1.1;
+      color: var(--white); margin-bottom: 32px;
+    }
+
+    .what-title em { font-style: italic; color: var(--gold-pale); }
+
+    .what-body {
+      font-size: 1rem; font-weight: 300; line-height: 1.85;
+      color: var(--white-dim); max-width: 600px; margin: 0 auto;
+    }
+
+    .what-body strong { color: var(--white); font-weight: 500; }
+
+    .what-body + .what-body { margin-top: 18px; }
+
+    .what-position {
+      margin-top: 56px; padding: 28px 36px;
+      border: 1px solid var(--gold-line);
+      border-radius: 4px; display: inline-block;
+      background: rgba(200,149,42,0.04);
+    }
+
+    .what-position-text {
+      font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.08em; color: var(--gold-pale);
+      line-height: 1.7;
+    }
+
+    .what-position-text span { color: var(--white-dim); }
+
+    /* ── CHAIN ───────────────────────────────────────── */
+    .chain-section {
+      padding: 120px 40px;
+      max-width: 1000px; margin: 0 auto;
+    }
+
+    .chain-header { margin-bottom: 60px; }
+
+    .chain-title {
+      font-family: var(--display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 600; color: var(--white);
+      margin-top: 16px; line-height: 1.15;
+    }
+
+    .chain-subtitle {
+      font-size: 0.88rem; font-weight: 300;
+      color: var(--white-dim); margin-top: 12px;
+      max-width: 480px; line-height: 1.7;
+    }
+
+    .chain-list { display: flex; flex-direction: column; }
+
+    .chain-connector {
+      width: 1px; height: 24px;
+      background: linear-gradient(to bottom, var(--gold-line), transparent);
+      margin-left: 28px;
+    }
+
+    .mechanism {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 0 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--white-faint);
+      text-decoration: none;
+      transition: background 0.2s;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .mechanism:hover { background: var(--white-faint); padding-left: 12px; padding-right: 12px; margin: 0 -12px; }
+    .mechanism:last-child { border-bottom: none; }
+
+    .mech-num {
+      font-family: var(--mono); font-size: 0.58rem;
+      color: var(--gold); opacity: 0.5; padding-top: 6px;
+      letter-spacing: 0.1em;
+    }
+
+    .mech-name {
+      font-family: var(--display); font-size: 1.3rem;
+      font-weight: 600; letter-spacing: 0.08em;
+      color: var(--white); margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .mech-function {
+      font-family: var(--mono); font-size: 0.58rem;
+      color: var(--gold); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 10px;
+    }
+
+    .mech-desc {
+      font-size: 0.82rem; color: var(--white-dim);
+      line-height: 1.7; max-width: 560px;
+    }
+
+    .mech-arrow {
+      display: inline-block; margin-left: 8px;
+      font-family: var(--mono); color: var(--gold);
+      opacity: 0; transition: opacity 0.2s, transform 0.2s;
+      transform: translateX(-4px);
+    }
+
+    .mechanism:hover .mech-arrow { opacity: 1; transform: translateX(0); }
+
+    /* ── GUARANTEE ───────────────────────────────────── */
+    .guarantee {
+      background: var(--ink-deep);
+      border-top: 1px solid var(--white-faint);
+      padding: 80px 40px;
+    }
+
+    .guarantee-inner {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 2px;
+    }
+
+    .g-card {
+      padding: 36px 28px;
+      background: var(--white-faint);
+      border-radius: 2px;
+    }
+
+    .g-number {
+      font-family: var(--display); font-size: 3.5rem;
+      font-weight: 700; color: var(--gold);
+      line-height: 1; margin-bottom: 12px;
+    }
+
+    .g-label {
+      font-family: var(--mono); font-size: 0.6rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--grey); margin-bottom: 10px;
+    }
+
+    .g-desc {
+      font-size: 0.8rem; color: var(--white-dim); line-height: 1.65;
+    }
+
+    /* ── PRICING ─────────────────────────────────────── */
+    .pricing {
+      padding: 120px 40px;
+      max-width: 1000px; margin: 0 auto;
+    }
+
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 2px; margin-top: 56px;
+    }
+
+    .tier {
+      background: var(--white-faint);
+      padding: 40px 32px;
+      display: flex; flex-direction: column; gap: 24px;
+      position: relative; border-radius: 2px;
+      transition: background 0.2s;
+    }
+
+    .tier:hover { background: rgba(200,149,42,0.06); }
+
+    .tier.highlight {
+      background: rgba(200,149,42,0.08);
+      border: 1px solid var(--gold-line);
+    }
+
+    .tier-badge {
+      position: absolute; top: -10px; left: 28px;
+      background: var(--gold); color: var(--ink);
+      font-family: var(--mono); font-size: 0.55rem;
+      font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 3px 12px;
+      border-radius: 2px;
+    }
+
+    .tier-label {
+      font-family: var(--mono); font-size: 0.58rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .tier-name {
+      font-family: var(--display); font-size: 1.6rem;
+      font-weight: 600; color: var(--white); letter-spacing: 0.05em;
+    }
+
+    .tier-price {
+      display: flex; align-items: baseline; gap: 4px;
+    }
+
+    .tier-currency {
+      font-family: var(--mono); font-size: 0.9rem;
+      color: var(--gold); font-weight: 500;
+    }
+
+    .tier-amount {
+      font-family: var(--display); font-size: 2.8rem;
+      font-weight: 700; color: var(--white); line-height: 1;
+    }
+
+    .tier-cadence {
+      font-family: var(--mono); font-size: 0.58rem;
+      color: var(--grey); text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .tier-divider {
+      height: 1px; background: var(--white-faint);
+    }
+
+    .tier-desc {
+      font-size: 0.8rem; color: var(--white-dim);
+      line-height: 1.7; font-weight: 300;
+    }
+
+    .tier-features {
+      list-style: none; display: flex;
+      flex-direction: column; gap: 10px; flex: 1;
+    }
+
+    .tier-features li {
+      display: flex; gap: 10px; align-items: flex-start;
+      font-size: 0.78rem; color: var(--white-dim); line-height: 1.5;
+    }
+
+    .tier-features li::before {
+      content: '—';
+      font-family: var(--mono); font-size: 0.6rem;
+      color: var(--gold); opacity: 0.5; flex-shrink: 0; margin-top: 3px;
+    }
+
+    .tier-cta {
+      display: block; text-align: center;
+      font-family: var(--mono); font-size: 0.68rem;
+      font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.12em; padding: 12px 20px;
+      border-radius: 3px; text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .tier-cta-gold {
+      color: var(--ink); background: var(--gold);
+    }
+
+    .tier-cta-gold:hover { background: var(--gold-pale); }
+
+    .tier-cta-outline {
+      color: var(--gold); border: 1px solid var(--gold-line);
+    }
+
+    .tier-cta-outline:hover { border-color: var(--gold); color: var(--gold-pale); }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--white-faint);
+      padding: 48px 40px;
+    }
+
+    .footer-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+
+    .footer-brand {
+      font-family: var(--display); font-size: 1rem;
+      font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold);
+    }
+
+    .footer-links {
+      display: flex; gap: 24px; list-style: none;
+    }
+
+    .footer-links a {
+      font-family: var(--mono); font-size: 0.62rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--grey); text-decoration: none; transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-copy {
+      font-family: var(--mono); font-size: 0.58rem;
+      color: var(--grey); letter-spacing: 0.05em;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 800px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 24px 60px; }
+      .problem { grid-template-columns: 1fr; gap: 48px; padding: 80px 24px; }
+      .what { padding: 80px 24px; }
+      .chain-section { padding: 80px 24px; }
+      .guarantee-inner { grid-template-columns: 1fr; }
+      .pricing { padding: 80px 24px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; flex-wrap: wrap; }
+      .what-position { padding: 20px 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-headline { font-size: 2.6rem; }
+      .hero-ctas { flex-direction: column; }
+      .cta-primary, .cta-secondary { text-align: center; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- FIXED GLOBAL BRAND HEADER -->
-    <header class="governance-header">
-        <div class="brand-title">ARCHAI</div>
-        <div class="sub-title">GOVERNANCE ENGINE V2</div>
-    </header>
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-mark">
+    <div class="nav-sigil">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="14,1 27,7.5 27,20.5 14,27 1,20.5 1,7.5" fill="none" stroke="#c8952a" stroke-width="1"/>
+        <polygon points="14,6 22,10 22,18 14,22 6,18 6,10" fill="none" stroke="#c8952a" stroke-width="0.5" opacity="0.4"/>
+        <circle cx="14" cy="14" r="2.5" fill="#c8952a"/>
+        <line x1="14" y1="1" x2="14" y2="6" stroke="#c8952a" stroke-width="0.5" opacity="0.3"/>
+        <line x1="14" y1="22" x2="14" y2="27" stroke="#c8952a" stroke-width="0.5" opacity="0.3"/>
+      </svg>
+    </div>
+    <div>
+      <div class="nav-wordmark">ARCHAI</div>
+      <span class="nav-sub">AI Governance Infrastructure</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/archai.html">Architecture</a></li>
+    <li><a href="/identarch.html">Mechanisms</a></li>
+    <li><a href="/docs.html">Docs</a></li>
+    <li><a href="/api/govern/status" target="_blank">API</a></li>
+    <li><a href="#pricing" class="nav-acquire">Acquire</a></li>
+  </ul>
+</nav>
 
-    <!-- RESPONSIVE TEMPORAL ENGINE LAYER (FLATTENED DEPLOYMENT) -->
-    <div class="temporal-viewport">
-        <div class="orbital-clock">
-            <div class="core-anchor"></div>
-            <div class="orbit-track track-1"><div class="orbital-node node-alpha"></div></div>
-            <div class="orbit-track track-2"><div class="orbital-node node-beta"></div></div>
-            <div class="orbit-track track-3"><div class="orbital-node node-gamma"></div></div>
-        </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-canvas" id="heroCanvas"></div>
+  <div class="hero-content">
+    <div class="hero-status">
+      <div class="status-pulse"></div>
+      <span class="status-text">Governance Proxy Live — archai.systems</span>
+    </div>
+    <p class="hero-eyebrow">AI Governance Infrastructure</p>
+    <h1 class="hero-headline">
+      Every AI decision<br>your systems make<br>is <em>ungoverned.</em>
+    </h1>
+    <div class="hero-rule"></div>
+    <p class="hero-body">
+      No verifiable record of who authorized it. No documented reason it was permitted. No immutable log of what it did. <strong>ARCHAI changes that — before the model responds, not after.</strong>
+    </p>
+    <div class="hero-ctas">
+      <a href="#pricing" class="cta-primary">Acquire ARCHAI</a>
+      <a href="/api/govern/status" class="cta-secondary" target="_blank">View Live Status</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div>
+    <p class="section-label">The Problem</p>
+    <h2 class="problem-title">AI systems act.<br><em>No record remains.</em></h2>
+    <p class="problem-body">Every organization deploying AI faces the same exposure. When a consequential decision is made by an AI system, there is no governance trail showing it was authorized, no record of the reasoning that permitted it, and no way to prove compliance after the fact.</p>
+    <p class="problem-body"><strong>Regulators are no longer asking if you have an AI policy. They are asking for evidence of enforcement.</strong></p>
+  </div>
+  <div class="risk-list">
+    <div class="risk-item">
+      <div class="risk-label">No Identity Verification</div>
+      <div class="risk-desc">Any system, agent, or process can make requests with no verified authority behind them.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-label">No Intent Record</div>
+      <div class="risk-desc">Actions execute without a documented reason. There is nothing to audit or defend.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-label">No Execution Control</div>
+      <div class="risk-desc">Agents run outside authorized pipelines. Scope boundaries are not enforced.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-label">No Accountability Ledger</div>
+      <div class="risk-desc">Decisions leave no permanent, tamper-evident record. Compliance cannot be demonstrated.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IT IS -->
+<div class="what">
+  <div class="what-inner">
+    <p class="section-label" style="justify-content:center;">What ARCHAI Is</p>
+    <h2 class="what-title">Not a policy.<br>Not a framework document.<br><em>Running infrastructure.</em></h2>
+    <p class="what-body">ARCHAI is a <strong>deployed governance proxy</strong> — a live system that intercepts every AI request before it reaches the model, runs it through a five-mechanism governance chain, and produces a cryptographic record of what was authorized, by whom, and why.</p>
+    <p class="what-body">It is not software you install and configure once. It is infrastructure that operates continuously, governing every request your AI systems make — with no exceptions and no bypasses.</p>
+    <div class="what-position">
+      <div class="what-position-text">
+        <span>Your Application</span> → <strong>ARCHAI Governance Proxy</strong> → <span>Your AI Model</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAIN -->
+<div class="chain-section">
+  <div class="chain-header">
+    <p class="section-label">The Governance Chain</p>
+    <h2 class="chain-title">Five mechanisms.<br>One unbroken sequence.</h2>
+    <p class="chain-subtitle">Every request passes through all five in order. No mechanism can be skipped. No action executes without completing the full chain.</p>
+  </div>
+
+  <div class="chain-list">
+    <a href="/identarch.html" class="mechanism">
+      <div class="mech-num">01</div>
+      <div>
+        <div class="mech-name">IDENTARCH <span class="mech-arrow">→</span></div>
+        <div class="mech-function">Identity Substrate</div>
+        <div class="mech-desc">Establishes and verifies the cryptographic identity of every node making a request. Issues a time-bounded anchor that all subsequent mechanisms require. Without a valid anchor, the chain does not start.</div>
+      </div>
+    </a>
+    <a href="/intentum.html" class="mechanism">
+      <div class="mech-num">02</div>
+      <div>
+        <div class="mech-name">INTENTUM <span class="mech-arrow">→</span></div>
+        <div class="mech-function">Intent Binding</div>
+        <div class="mech-desc">Captures the declared purpose of the request and binds it cryptographically to the verified identity. Actions that deviate from their declared intent are blocked. Unjustified actions do not proceed.</div>
+      </div>
+    </a>
+    <a href="/agentum.html" class="mechanism">
+      <div class="mech-num">03</div>
+      <div>
+        <div class="mech-name">AGENTUM <span class="mech-arrow">→</span></div>
+        <div class="mech-function">Execution Governance</div>
+        <div class="mech-desc">Routes validated requests through registered, authorized pipelines only. Executes each step in sequence and halts the entire chain on failure. No action runs outside a pre-registered pipeline.</div>
+      </div>
+    </a>
+    <a href="/mnemarch.html" class="mechanism">
+      <div class="mech-num">04</div>
+      <div>
+        <div class="mech-name">MNEMARCH <span class="mech-arrow">→</span></div>
+        <div class="mech-function">Memory Governance</div>
+        <div class="mech-desc">Writes an attributed, schema-validated memory record of every governed action — bound to the identity that authorized it, with a retention policy and decay schedule. Memory without authorization cannot be written.</div>
+      </div>
+    </a>
+    <a href="/accountum.html" class="mechanism">
+      <div class="mech-num">05</div>
+      <div>
+        <div class="mech-name">ACCOUNTUM <span class="mech-arrow">→</span></div>
+        <div class="mech-function">Accountability Ledger</div>
+        <div class="mech-desc">Records every governance event to an immutable, hash-chained ledger. Each entry is cryptographically linked to the previous. Tampering with any entry breaks the chain and is detected instantly on verification.</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- GUARANTEE -->
+<div class="guarantee">
+  <div class="guarantee-inner">
+    <div class="g-card">
+      <div class="g-number">5</div>
+      <div class="g-label">Governance Mechanisms</div>
+      <div class="g-desc">Every request passes through all five in sequence. The chain cannot run out of order or skip a mechanism.</div>
+    </div>
+    <div class="g-card">
+      <div class="g-number">0</div>
+      <div class="g-label">Ungoverned Requests</div>
+      <div class="g-desc">There are no exceptions. Every AI request your application makes produces a complete governance record.</div>
+    </div>
+    <div class="g-card">
+      <div class="g-number">∞</div>
+      <div class="g-label">Tamper Evidence</div>
+      <div class="g-desc">The accountability ledger is hash-chained. Any modification to any historical entry is detected on the next verification.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing" id="pricing">
+  <p class="section-label">Acquisition</p>
+  <h2 class="problem-title" style="margin-top:16px;">Governance Tiers</h2>
+  <p class="problem-body" style="margin-top:12px;max-width:480px;">One-time acquisition. You own the governance architecture. No subscriptions.</p>
+
+  <div class="pricing-grid">
+
+    <div class="tier">
+      <div>
+        <div class="tier-label">Tier 01</div>
+        <div class="tier-name">Foundation</div>
+      </div>
+      <div class="tier-price">
+        <span class="tier-currency">$</span>
+        <span class="tier-amount">2,500</span>
+        <span class="tier-cadence">one-time</span>
+      </div>
+      <div class="tier-divider"></div>
+      <p class="tier-desc">The complete ARCHAI canonical specification. All five mechanism definitions, governance chain architecture, and implementation reference. You build the integration.</p>
+      <ul class="tier-features">
+        <li>Complete canonical specification</li>
+        <li>All five mechanism definitions</li>
+        <li>Governance chain architecture document</li>
+        <li>Implementation reference guide</li>
+        <li>Single-entity license</li>
+      </ul>
+      <a href="https://archon79.gumroad.com/l/vneqi" class="tier-cta tier-cta-outline" target="_blank">Acquire Foundation</a>
     </div>
 
-    <!-- SCROLL-REACTIVE TELEMETRY SUBSTRATE -->
-    <div class="scroll-container">
-        
-        <!-- INTENTUM DIAGNOSTIC MONITOR -->
-        <section class="section">
-            <div class="terminal-box">
-                <div class="terminal-header">
-                    <span>[INTENTUM_FRACTION_SCALING_TELEMETRY]</span>
-                    <span class="status-dot">ZERO_DRIFT_LOCK</span>
-                </div>
-                <div class="terminal-content">
-                    <p class="timestamp">[1:13:51 PM.324]</p>
-                    <p class="log-text">Running GCD factorizations across matrix tree...</p>
-                    <p class="log-highlight">Euclidean_Done</p>
-                    
-                    <p class="timestamp">[1:13:52 PM.924]</p>
-                    <p class="log-text">Executing identity-preserving manifold maps...</p>
-                    <p class="log-highlight">0.0000000000 drift</p>
-                    
-                    <p class="timestamp">[1:13:54 PM.524]</p>
-                    <p class="log-text">Deconstructing payload coefficients...</p>
-                    <p class="log-highlight">BigInt_Register</p>
-                    
-                    <p class="timestamp">[1:13:56 PM.124]</p>
-                    <p class="log-text">Aligning manifold projection dimension grids...</p>
-                    <p class="log-highlight">128_Dimensional</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- LAYER_01 DESCRIPTION PANEL -->
-        <section class="section">
-            <div class="content-panel">
-                <div class="layer-tag">LAYER_01 // VECTOR INTEGRITY</div>
-                <h2>INTENTUM</h2>
-                <p class="description-text">
-                    Processes incoming model tokens into absolute big-rational integer fractions, 
-                    enforcing structural multidimensional boundaries with true zero-drift.
-                </p>
-            </div>
-        </section>
-
-        <!-- LAYER_02 DESCRIPTION PANEL -->
-        <section class="section">
-            <div class="content-panel">
-                <div class="layer-tag">LAYER_02 // TEMPORAL</div>
-                <h2>CHRONOS MATRIX</h2>
-                <p class="description-text">
-                    Decoupled astronomical time alignment framework. Converts discrete system intervals 
-                    into continuous vector-space rotations, clearing layout boundaries dynamically.
-                </p>
-            </div>
-        </section>
-
+    <div class="tier highlight">
+      <div class="tier-badge">Recommended</div>
+      <div>
+        <div class="tier-label">Tier 02</div>
+        <div class="tier-name">Professional</div>
+      </div>
+      <div class="tier-price">
+        <span class="tier-currency">$</span>
+        <span class="tier-amount">7,500</span>
+        <span class="tier-cadence">one-time</span>
+      </div>
+      <div class="tier-divider"></div>
+      <p class="tier-desc">Everything in Foundation plus the five compiled mechanism binaries and the proxy router deployment package. ARCHAI running in your environment.</p>
+      <ul class="tier-features">
+        <li>Everything in Foundation</li>
+        <li>Five compiled mechanism binaries</li>
+        <li>Proxy router deployment package</li>
+        <li>Cloudflare deployment configuration</li>
+        <li>Technical integration support</li>
+        <li>Multi-environment license</li>
+      </ul>
+      <a href="mailto:anastrophon@barkdale.co?subject=ARCHAI Professional" class="tier-cta tier-cta-gold">Acquire Professional</a>
     </div>
 
-    <script src="script.js"></script>
+    <div class="tier">
+      <div>
+        <div class="tier-label">Tier 03</div>
+        <div class="tier-name">Enterprise</div>
+      </div>
+      <div class="tier-price">
+        <span class="tier-amount" style="font-size:2rem;">Custom</span>
+      </div>
+      <div class="tier-divider"></div>
+      <p class="tier-desc">Barkdale & Co. deploys ARCHAI into your AI infrastructure directly — custom configuration, compliance documentation, and ongoing governance retainer.</p>
+      <ul class="tier-features">
+        <li>Everything in Professional</li>
+        <li>Direct implementation engagement</li>
+        <li>Custom mechanism configuration</li>
+        <li>Compliance documentation package</li>
+        <li>Ongoing governance retainer</li>
+        <li>Enterprise license with derivative rights</li>
+      </ul>
+      <a href="mailto:anastrophon@barkdale.co?subject=ARCHAI Enterprise" class="tier-cta tier-cta-outline">Contact Barkdale & Co.</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-brand">ARCHAI</span>
+    <ul class="footer-links">
+      <li><a href="/archai.html">Architecture</a></li>
+      <li><a href="/identarch.html">Mechanisms</a></li>
+      <li><a href="/docs.html">Documentation</a></li>
+      <li><a href="/api/govern/status" target="_blank">API Status</a></li>
+      <li><a href="mailto:anastrophon@barkdale.co">Contact</a></li>
+    </ul>
+    <span class="footer-copy">Barkdale &amp; Co. &mdash; archai.systems</span>
+  </div>
+</footer>
+
+<!-- ORBITAL ANIMATION -->
+<script>
+(function() {
+  const canvas = document.createElement('canvas');
+  const container = document.getElementById('heroCanvas');
+  container.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const cx = () => canvas.width / 2;
+  const cy = () => canvas.height / 2;
+
+  const orbs = [
+    { r: 140, speed: 0.0004, angle: 0,       size: 3,   opacity: 0.7 },
+    { r: 200, speed: 0.0003, angle: Math.PI, size: 4,   opacity: 0.5 },
+    { r: 260, speed: 0.0002, angle: 1.2,     size: 2.5, opacity: 0.4 },
+    { r: 320, speed: 0.00015,angle: 2.8,     size: 3.5, opacity: 0.3 },
+    { r: 380, speed: 0.0001, angle: 0.6,     size: 2,   opacity: 0.25 },
+  ];
+
+  const rings = [140, 200, 260, 320, 380];
+
+  let last = performance.now();
+
+  function draw(now) {
+    const dt = now - last; last = now;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const x = cx(), y = cy();
+
+    // Draw orbital rings
+    rings.forEach((r, i) => {
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(200,149,42,${0.06 - i * 0.008})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+
+    // Central point
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(200,149,42,0.5)';
+    ctx.fill();
+
+    // Draw orbs
+    orbs.forEach(orb => {
+      orb.angle += orb.speed * dt;
+      const ox = x + Math.cos(orb.angle) * orb.r;
+      const oy = y + Math.sin(orb.angle) * orb.r;
+
+      // Glow
+      const grd = ctx.createRadialGradient(ox, oy, 0, ox, oy, orb.size * 4);
+      grd.addColorStop(0, `rgba(200,149,42,${orb.opacity})`);
+      grd.addColorStop(1, 'rgba(200,149,42,0)');
+      ctx.beginPath();
+      ctx.arc(ox, oy, orb.size * 4, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      // Core
+      ctx.beginPath();
+      ctx.arc(ox, oy, orb.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(232,201,122,${orb.opacity})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
+})();
+</script>
+
 </body>
 </html>
