@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARCHAI — Governance Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #07070d;
+      --ink-card: #0e0e18;
+      --ink-border: rgba(255,255,255,0.06);
+      --gold: #c8952a;
+      --gold-pale: #e8c97a;
+      --gold-dim: rgba(200,149,42,0.15);
+      --gold-line: rgba(200,149,42,0.2);
+      --white: #f0ede8;
+      --white-dim: rgba(240,237,232,0.5);
+      --white-faint: rgba(240,237,232,0.06);
+      --green: #22c55e;
+      --green-dim: rgba(34,197,94,0.12);
+      --red: #ef4444;
+      --red-dim: rgba(239,68,68,0.12);
+      --display: 'Cormorant Garamond', serif;
+      --body: 'Inter', sans-serif;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    body {
+      background: var(--ink);
+      color: var(--white);
+      font-family: var(--body);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--ink-border);
+      background: rgba(7,7,13,0.95);
+      position: sticky; top: 0; z-index: 50;
+    }
+
+    .header-brand {
+      display: flex; align-items: center; gap: 14px;
+      text-decoration: none;
+    }
+
+    .brand-sigil {
+      width: 32px; height: 32px;
+    }
+
+    .brand-name {
+      font-family: var(--display);
+      font-size: 1.1rem; font-weight: 600;
+      letter-spacing: 0.2em; color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      display: block; font-family: var(--mono);
+      font-size: 0.52rem; color: var(--gold);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .header-right {
+      display: flex; align-items: center; gap: 20px;
+    }
+
+    .live-indicator {
+      display: flex; align-items: center; gap: 7px;
+      font-family: var(--mono); font-size: 0.62rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--green);
+    }
+
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .clock {
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--white-dim); letter-spacing: 0.08em;
+    }
+
+    .version-tag {
+      font-family: var(--mono); font-size: 0.6rem;
+      color: var(--gold); letter-spacing: 0.1em;
+      background: var(--gold-dim);
+      padding: 4px 10px; border-radius: 3px;
+      border: 1px solid var(--gold-line);
+    }
+
+    /* ── LAYOUT ── */
+    .dashboard {
+      max-width: 1400px; margin: 0 auto;
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto;
+      gap: 16px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--ink-card);
+      border: 1px solid var(--ink-border);
+      border-radius: 8px;
+      padding: 24px;
+    }
+
+    .card-label {
+      font-family: var(--mono); font-size: 0.58rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .card-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--gold-line);
+    }
+
+    /* ── STAT CARDS ── */
+    .stats-row {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: var(--ink-card);
+      border: 1px solid var(--ink-border);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+
+    .stat-card.active { border-color: rgba(34,197,94,0.3); }
+    .stat-card.pending { border-color: rgba(200,149,42,0.2); }
+
+    .stat-num {
+      font-family: var(--display);
+      font-size: 2.2rem; font-weight: 700;
+      color: var(--white); line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-num.green { color: var(--green); }
+    .stat-num.gold { color: var(--gold); }
+
+    .stat-label {
+      font-family: var(--mono); font-size: 0.55rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--white-dim);
+    }
+
+    .stat-mech {
+      font-family: var(--display); font-size: 0.85rem;
+      font-weight: 600; letter-spacing: 0.1em;
+      color: var(--white); margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .stat-status {
+      font-family: var(--mono); font-size: 0.55rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 3px;
+      display: inline-block; margin-top: 4px;
+    }
+
+    .status-active {
+      color: var(--green);
+      background: var(--green-dim);
+    }
+
+    .status-pending {
+      color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .status-error {
+      color: var(--red);
+      background: var(--red-dim);
+    }
+
+    /* ── CHAIN VISUAL ── */
+    .chain-section {
+      grid-column: 1 / 3;
+    }
+
+    .chain-flow {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+
+    .chain-step {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px;
+      background: var(--white-faint);
+      border: 1px solid var(--ink-border);
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+
+    .chain-step.running {
+      border-color: rgba(200,149,42,0.4);
+      background: rgba(200,149,42,0.05);
+      animation: stepPulse 1s ease-in-out infinite;
+    }
+
+    .chain-step.passed {
+      border-color: rgba(34,197,94,0.3);
+      background: rgba(34,197,94,0.04);
+    }
+
+    @keyframes stepPulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    .step-num {
+      font-family: var(--mono); font-size: 0.6rem;
+      color: var(--gold); opacity: 0.5;
+      width: 20px; flex-shrink: 0;
+    }
+
+    .step-name {
+      font-family: var(--display); font-size: 0.95rem;
+      font-weight: 600; letter-spacing: 0.08em;
+      color: var(--white); flex: 1;
+      text-transform: uppercase;
+    }
+
+    .step-function {
+      font-family: var(--mono); font-size: 0.55rem;
+      color: var(--white-dim); letter-spacing: 0.08em;
+    }
+
+    .step-indicator {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--white-faint);
+      flex-shrink: 0; transition: background 0.3s;
+    }
+
+    .step-indicator.active { background: var(--green); box-shadow: 0 0 8px rgba(34,197,94,0.5); }
+    .step-indicator.running { background: var(--gold); animation: pulse 0.8s infinite; }
+    .step-indicator.error { background: var(--red); }
+
+    .connector {
+      width: 1px; height: 8px;
+      background: var(--gold-line);
+      margin-left: 28px;
+    }
+
+    /* ── LEDGER ── */
+    .ledger-section {
+      grid-column: 1 / -1;
+    }
+
+    .ledger-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .ledger-stats {
+      display: flex; gap: 20px;
+    }
+
+    .ledger-stat {
+      font-family: var(--mono); font-size: 0.6rem;
+      letter-spacing: 0.08em; color: var(--white-dim);
+    }
+
+    .ledger-stat span {
+      color: var(--gold); font-weight: 500;
+    }
+
+    .ledger-table {
+      width: 100%; border-collapse: collapse;
+    }
+
+    .ledger-table th {
+      font-family: var(--mono); font-size: 0.55rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--white-dim); padding: 8px 12px;
+      border-bottom: 1px solid var(--ink-border);
+      text-align: left; font-weight: 400;
+    }
+
+    .ledger-table td {
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--white-dim); padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      vertical-align: middle;
+    }
+
+    .ledger-table tr:hover td { background: var(--white-faint); }
+
+    .ledger-table td.seq {
+      color: var(--gold); font-weight: 500; width: 50px;
+    }
+
+    .ledger-table td.action { color: var(--white); }
+
+    .ledger-table td.outcome-success {
+      color: var(--green);
+    }
+
+    .ledger-table td.outcome-failure {
+      color: var(--red);
+    }
+
+    .ledger-empty {
+      text-align: center; padding: 40px;
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--white-dim); letter-spacing: 0.08em;
+    }
+
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+
+    /* ── REQUEST TESTER ── */
+    .tester-section {
+      grid-column: 3;
+      grid-row: 2 / 4;
+    }
+
+    .test-form { display: flex; flex-direction: column; gap: 12px; }
+
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+
+    .field-label {
+      font-family: var(--mono); font-size: 0.58rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--white-dim);
+    }
+
+    .field-input {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--ink-border);
+      border-radius: 4px; padding: 10px 12px;
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--white); outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .field-input:focus { border-color: var(--gold-line); }
+
+    .field-input::placeholder { color: rgba(240,237,232,0.2); }
+
+    .btn-govern {
+      font-family: var(--mono); font-size: 0.7rem;
+      font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink); background: var(--gold);
+      border: none; border-radius: 4px;
+      padding: 12px 20px; cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      width: 100%;
+    }
+
+    .btn-govern:hover { background: var(--gold-pale); }
+    .btn-govern:active { transform: scale(0.98); }
+    .btn-govern:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .result-box {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--ink-border);
+      border-radius: 4px; padding: 12px;
+      font-family: var(--mono); font-size: 0.6rem;
+      color: var(--white-dim); line-height: 1.6;
+      max-height: 240px; overflow-y: auto;
+      white-space: pre-wrap; word-break: break-all;
+      min-height: 60px;
+    }
+
+    .result-box.success { border-color: rgba(34,197,94,0.3); color: #86efac; }
+    .result-box.error { border-color: rgba(239,68,68,0.3); color: #fca5a5; }
+
+    /* ── CHAIN HASH ── */
+    .hash-display {
+      font-family: var(--mono); font-size: 0.6rem;
+      color: var(--gold); letter-spacing: 0.05em;
+      word-break: break-all; line-height: 1.6;
+      padding: 12px; background: rgba(200,149,42,0.05);
+      border: 1px solid var(--gold-line); border-radius: 4px;
+    }
+
+    .hash-label {
+      font-family: var(--mono); font-size: 0.55rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--white-dim); margin-bottom: 6px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .dashboard { grid-template-columns: 1fr 1fr; }
+      .stats-row { grid-template-columns: repeat(3, 1fr); }
+      .chain-section { grid-column: 1 / 2; }
+      .tester-section { grid-column: 2; grid-row: auto; }
+      .ledger-section { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 700px) {
+      header { padding: 16px 20px; }
+      .dashboard { grid-template-columns: 1fr; padding: 16px 20px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .chain-section, .tester-section, .ledger-section { grid-column: 1; }
+      .clock { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="header-brand">
+    <svg class="brand-sigil" viewBox="0 0 32 32" fill="none">
+      <polygon points="16,1 31,8.5 31,23.5 16,31 1,23.5 1,8.5" fill="none" stroke="#c8952a" stroke-width="1"/>
+      <polygon points="16,7 25,11.5 25,20.5 16,25 7,20.5 7,11.5" fill="none" stroke="#c8952a" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="16" cy="16" r="3" fill="#c8952a"/>
+    </svg>
+    <div>
+      <div class="brand-name">ARCHAI</div>
+      <span class="brand-sub">Governance Dashboard</span>
+    </div>
+  </a>
+  <div class="header-right">
+    <div class="live-indicator">
+      <div class="live-dot"></div>
+      Live
+    </div>
+    <div class="clock" id="clock">--:--:-- UTC</div>
+    <div class="version-tag" id="versionTag">v--</div>
+  </div>
+</header>
+
+<div class="dashboard">
+
+  <!-- STATS ROW -->
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card" id="stat-IDENTARCH">
+      <div class="stat-mech">IDENTARCH</div>
+      <div class="stat-label">Identity Substrate</div>
+      <div class="stat-status status-pending" id="status-IDENTARCH">LOADING</div>
+    </div>
+    <div class="stat-card" id="stat-INTENTUM">
+      <div class="stat-mech">INTENTUM</div>
+      <div class="stat-label">Intent Binding</div>
+      <div class="stat-status status-pending" id="status-INTENTUM">LOADING</div>
+    </div>
+    <div class="stat-card" id="stat-AGENTUM">
+      <div class="stat-mech">AGENTUM</div>
+      <div class="stat-label">Execution Gov.</div>
+      <div class="stat-status status-pending" id="status-AGENTUM">LOADING</div>
+    </div>
+    <div class="stat-card" id="stat-MNEMARCH">
+      <div class="stat-mech">MNEMARCH</div>
+      <div class="stat-label">Memory Gov.</div>
+      <div class="stat-status status-pending" id="status-MNEMARCH">LOADING</div>
+    </div>
+    <div class="stat-card" id="stat-ACCOUNTUM">
+      <div class="stat-mech">ACCOUNTUM</div>
+      <div class="stat-label">Accountability</div>
+      <div class="stat-status status-pending" id="status-ACCOUNTUM">LOADING</div>
+    </div>
+  </div>
+
+  <!-- CHAIN VISUAL -->
+  <div class="card chain-section">
+    <div class="card-label">Governance Chain</div>
+    <div class="chain-flow" id="chainFlow">
+      <div class="chain-step" id="step-IDENTARCH">
+        <div class="step-num">01</div>
+        <div>
+          <div class="step-name">IDENTARCH</div>
+          <div class="step-function">Identity Substrate</div>
+        </div>
+        <div class="step-indicator" id="ind-IDENTARCH"></div>
+      </div>
+      <div class="connector"></div>
+      <div class="chain-step" id="step-INTENTUM">
+        <div class="step-num">02</div>
+        <div>
+          <div class="step-name">INTENTUM</div>
+          <div class="step-function">Intent Binding</div>
+        </div>
+        <div class="step-indicator" id="ind-INTENTUM"></div>
+      </div>
+      <div class="connector"></div>
+      <div class="chain-step" id="step-AGENTUM">
+        <div class="step-num">03</div>
+        <div>
+          <div class="step-name">AGENTUM</div>
+          <div class="step-function">Execution Governance</div>
+        </div>
+        <div class="step-indicator" id="ind-AGENTUM"></div>
+      </div>
+      <div class="connector"></div>
+      <div class="chain-step" id="step-MNEMARCH">
+        <div class="step-num">04</div>
+        <div>
+          <div class="step-name">MNEMARCH</div>
+          <div class="step-function">Memory Governance</div>
+        </div>
+        <div class="step-indicator" id="ind-MNEMARCH"></div>
+      </div>
+      <div class="connector"></div>
+      <div class="chain-step" id="step-ACCOUNTUM">
+        <div class="step-num">05</div>
+        <div>
+          <div class="step-name">ACCOUNTUM</div>
+          <div class="step-function">Accountability Ledger</div>
+        </div>
+        <div class="step-indicator" id="ind-ACCOUNTUM"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REQUEST TESTER -->
+  <div class="card tester-section">
+    <div class="card-label">Govern a Request</div>
+    <div class="test-form">
+      <div class="field-group">
+        <div class="field-label">Node ID</div>
+        <input class="field-input" id="nodeId" type="text" placeholder="enterprise-node-001" value="enterprise-node-001" />
+      </div>
+      <div class="field-group">
+        <div class="field-label">Role</div>
+        <input class="field-input" id="nodeRole" type="text" placeholder="EXECUTION_AGENT" value="EXECUTION_AGENT" />
+      </div>
+      <div class="field-group">
+        <div class="field-label">Authority</div>
+        <input class="field-input" id="nodeAuth" type="text" placeholder="Barkdale & Co." value="Barkdale & Co." />
+      </div>
+      <div class="field-group">
+        <div class="field-label">Action</div>
+        <input class="field-input" id="action" type="text" placeholder="GOVERN_AI_REQUEST" value="GOVERN_AI_REQUEST" />
+      </div>
+      <div class="field-group">
+        <div class="field-label">Justification</div>
+        <input class="field-input" id="justification" type="text" placeholder="Enter justification (min 20 chars)" value="Testing the live ARCHAI governance chain." />
+      </div>
+      <div class="field-group">
+        <div class="field-label">Request Payload</div>
+        <input class="field-input" id="payload" type="text" placeholder="AI request content" value="Test governed AI request payload." />
+      </div>
+      <button class="btn-govern" id="governBtn" onclick="sendGovernedRequest()">
+        Run Governance Chain
+      </button>
+      <div class="result-box" id="resultBox">Waiting for request...</div>
+    </div>
+  </div>
+
+  <!-- LEDGER -->
+  <div class="card ledger-section">
+    <div class="ledger-header">
+      <div class="card-label" style="margin-bottom:0;">Accountability Ledger</div>
+      <div class="ledger-stats">
+        <div class="ledger-stat">Total Entries: <span id="totalEntries">—</span></div>
+        <div class="ledger-stat">Chain Hash: <span id="chainHashShort">—</span></div>
+        <div class="ledger-stat">Storage: <span id="storageType">—</span></div>
+      </div>
+    </div>
+    <table class="ledger-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Entry ID</th>
+          <th>Node</th>
+          <th>Action</th>
+          <th>Outcome</th>
+          <th>Recorded</th>
+          <th>Chain Hash</th>
+        </tr>
+      </thead>
+      <tbody id="ledgerBody">
+        <tr><td colspan="7" class="ledger-empty">No entries yet. Run a governed request to populate the ledger.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+const API = '';  // Same origin
+
+// ── Clock ──────────────────────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── Fetch chain status ─────────────────────────────────────────────────────
+const mechs = ['IDENTARCH','INTENTUM','AGENTUM','MNEMARCH','ACCOUNTUM'];
+
+async function fetchStatus() {
+  try {
+    const res = await fetch(API + '/api/govern/status');
+    const data = await res.json();
+
+    document.getElementById('versionTag').textContent = 'v' + (data.version || '--');
+
+    if (data.chain) {
+      data.chain.forEach(m => {
+        const isActive = m.status === 'ACTIVE';
+        const statusEl = document.getElementById('status-' + m.mechanism);
+        const statCard = document.getElementById('stat-' + m.mechanism);
+        const ind = document.getElementById('ind-' + m.mechanism);
+        const step = document.getElementById('step-' + m.mechanism);
+
+        if (statusEl) {
+          statusEl.textContent = m.status;
+          statusEl.className = 'stat-status ' + (isActive ? 'status-active' : 'status-pending');
+        }
+        if (statCard) statCard.className = 'stat-card ' + (isActive ? 'active' : 'pending');
+        if (ind) { ind.className = 'step-indicator ' + (isActive ? 'active' : ''); }
+        if (step) { step.className = 'chain-step ' + (isActive ? 'passed' : ''); }
+      });
+    }
+
+    if (data.ledger) {
+      document.getElementById('totalEntries').textContent = data.ledger.entries || 0;
+      document.getElementById('chainHashShort').textContent = data.ledger.chainHash ? data.ledger.chainHash.slice(0,12) + '...' : '—';
+    }
+
+    if (data.storage) {
+      document.getElementById('storageType').textContent = data.storage;
+    }
+
+  } catch(e) {
+    document.getElementById('versionTag').textContent = 'OFFLINE';
+  }
+}
+
+// ── Fetch ledger ───────────────────────────────────────────────────────────
+async function fetchLedger() {
+  try {
+    const res = await fetch(API + '/api/govern/audit');
+    const data = await res.json();
+    const tbody = document.getElementById('ledgerBody');
+
+    if (!data.ledger || data.ledger.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" class="ledger-empty">No entries yet. Run a governed request to populate the ledger.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = [...data.ledger].reverse().map(e => `
+      <tr>
+        <td class="seq">${e.sequence}</td>
+        <td>${e.entryId ? e.entryId.slice(0,8) + '...' : '—'}</td>
+        <td>${e.nodeId || '—'}</td>
+        <td class="action">${e.action || '—'}</td>
+        <td class="outcome-${(e.outcome||'').toLowerCase()}">${e.outcome || '—'}</td>
+        <td>${e.recordedAt ? new Date(e.recordedAt).toISOString().replace('T',' ').slice(0,19) : '—'}</td>
+        <td>${e.entryHash || '—'}</td>
+      </tr>
+    `).join('');
+
+    document.getElementById('totalEntries').textContent = data.total || data.entries || 0;
+
+  } catch(e) {
+    console.error('Ledger fetch error:', e);
+  }
+}
+
+// ── Send governed request ──────────────────────────────────────────────────
+async function sendGovernedRequest() {
+  const btn = document.getElementById('governBtn');
+  const resultBox = document.getElementById('resultBox');
+
+  btn.disabled = true;
+  btn.textContent = 'Running Chain...';
+  resultBox.className = 'result-box';
+  resultBox.textContent = 'Running governance chain...';
+
+  // Animate chain steps
+  mechs.forEach(m => {
+    const step = document.getElementById('step-' + m);
+    const ind = document.getElementById('ind-' + m);
+    if (step) step.className = 'chain-step';
+    if (ind) ind.className = 'step-indicator';
+  });
+
+  const animateChain = async () => {
+    for (const m of mechs) {
+      const step = document.getElementById('step-' + m);
+      const ind = document.getElementById('ind-' + m);
+      if (step) step.className = 'chain-step running';
+      if (ind) ind.className = 'step-indicator running';
+      await new Promise(r => setTimeout(r, 350));
+      if (step) step.className = 'chain-step passed';
+      if (ind) ind.className = 'step-indicator active';
+    }
+  };
+
+  try {
+    const body = {
+      node: {
+        id: document.getElementById('nodeId').value || 'enterprise-node-001',
+        role: document.getElementById('nodeRole').value || 'EXECUTION_AGENT',
+        authority: document.getElementById('nodeAuth').value || 'Barkdale & Co.',
+      },
+      intent: {
+        action: document.getElementById('action').value || 'GOVERN_AI_REQUEST',
+        justification: document.getElementById('justification').value || 'Dashboard test request.',
+      },
+      request: {
+        prompt: document.getElementById('payload').value || 'Test request',
+      }
+    };
+
+    const [res] = await Promise.all([
+      fetch(API + '/api/govern/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      }),
+      animateChain(),
+    ]);
+
+    const data = await res.json();
+
+    if (data.success) {
+      resultBox.className = 'result-box success';
+      resultBox.textContent =
+        '✓ GOVERNANCE ID: ' + data.governanceId + '\n' +
+        '✓ IDENTARCH: ' + (data.chain?.IDENTARCH?.status || '—') + '\n' +
+        '✓ INTENTUM:  ' + (data.chain?.INTENTUM?.status || '—') + '\n' +
+        '✓ AGENTUM:   ' + (data.chain?.AGENTUM?.status || '—') + '\n' +
+        '✓ MNEMARCH:  ' + (data.chain?.MNEMARCH?.status || '—') + '\n' +
+        '✓ ACCOUNTUM: ' + (data.chain?.ACCOUNTUM?.status || '—') + '\n' +
+        '✓ LEDGER SEQ: #' + (data.chain?.ACCOUNTUM?.sequence || '—') + '\n' +
+        '✓ CHAIN HASH: ' + (data.chain?.ACCOUNTUM?.chainHash || '—');
+    } else {
+      resultBox.className = 'result-box error';
+      resultBox.textContent = '✗ ' + (data.code || 'ERROR') + ': ' + (data.message || JSON.stringify(data));
+    }
+
+    // Refresh status and ledger
+    await fetchStatus();
+    await fetchLedger();
+
+  } catch(e) {
+    resultBox.className = 'result-box error';
+    resultBox.textContent = '✗ Network error: ' + e.message;
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Run Governance Chain';
+}
+
+// ── Auto-refresh ───────────────────────────────────────────────────────────
+fetchStatus();
+fetchLedger();
+setInterval(() => { fetchStatus(); fetchLedger(); }, 10000);
+</script>
+
+</body>
+</html>
