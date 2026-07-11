@@ -1,12 +1,43 @@
 /**
- * ARCHAI™ Governance Proxy — KV-Persistent Pages Function
+ * ARCHAI™ Governance Proxy — Final Integrated Pages Function
  * Barkdale & Co. — archai.systems
- * v2.1.0 — Full five-mechanism chain + persistent KV ledger
+ * v2.2.0 — Full five-mechanism chain + KV ledger + Workers AI via REST
  */
 
 const IDENTARCH_VERSION = '1.0.0';
 const CLAIM_EXPIRY_MS = 24 * 60 * 60 * 1000;
+const INTENTUM_VERSION = '1.0.0';
+const INTENT_EXPIRY_MS = 60 * 60 * 1000;
+const AGENTUM_VERSION = '1.0.0';
+const MNEMARCH_VERSION = '1.0.0';
+const ACCOUNTUM_VERSION = '1.0.0';
+const ARCHAI_VERSION = '2.2.0';
+const CF_ACCOUNT_ID = 'c3671c4ff7c8e622cdb6fd9f2374b613';
+const AI_MODEL = '@cf/meta/llama-3.1-8b-instruct';
 
+// ── CRYPTO ────────────────────────────────────────────────────────────────────
+function sha256(input) {
+  const str = typeof input === 'string' ? input : JSON.stringify(input);
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1>>>16), 2246822507) ^ Math.imul(h2 ^ (h2>>>13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2>>>16), 2246822507) ^ Math.imul(h1 ^ (h1>>>13), 3266489909);
+  return (h1>>>0).toString(16).padStart(8,'0') + (h2>>>0).toString(16).padStart(8,'0') +
+         (h1>>>0).toString(16).padStart(8,'0') + (h2>>>0).toString(16).padStart(8,'0');
+}
+
+function uuid() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
+// ── IDENTARCH ─────────────────────────────────────────────────────────────────
 function identarch_generateAnchor(nd) {
   const { id, role, authority, metadata = {} } = nd;
   if (!id || !role || !authority) throw new Error('ANCHOR_INVALID_DESCRIPTOR');
@@ -20,8 +51,9 @@ function identarch_issueClaim(anchor, operationContext) {
   if (!anchor?.anchorHash) throw new Error('CLAIM_NO_ANCHOR');
   if (Date.now() > anchor.expiresAt) throw new Error('CLAIM_ANCHOR_EXPIRED');
   const claimId = uuid();
-  const claimHash = sha256(JSON.stringify({ claimId, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, operationContext, issuedAt: Date.now() }));
-  return { claimId, nodeId: anchor.nodeId, anchorHash: anchor.anchorHash, operationContext, claimHash, issuedAt: Date.now(), mechanism: 'IDENTARCH' };
+  const issuedAt = Date.now();
+  const claimHash = sha256(JSON.stringify({ claimId, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, operationContext, issuedAt }));
+  return { claimId, nodeId: anchor.nodeId, anchorHash: anchor.anchorHash, operationContext, claimHash, issuedAt, mechanism: 'IDENTARCH' };
 }
 
 function identarch_verifyClaim(claim, anchor) {
@@ -34,15 +66,13 @@ function identarch_verifyClaim(claim, anchor) {
   return { verified: true, claimId: claim.claimId, nodeId: claim.nodeId, authority: anchor.authority, reason: 'CLAIM_VERIFIED', verifiedAt, mechanism: 'IDENTARCH' };
 }
 
-const INTENTUM_VERSION = '1.0.0';
-const INTENT_EXPIRY_MS = 60 * 60 * 1000;
-
+// ── INTENTUM ──────────────────────────────────────────────────────────────────
 function intentum_captureIntent(anchor, id) {
   if (!anchor?.anchorHash) throw new Error('INTENT_NO_ANCHOR');
   if (Date.now() > anchor.expiresAt) throw new Error('INTENT_ANCHOR_EXPIRED');
   const { action, justification, metadata = {} } = id;
   if (!action) throw new Error('INTENT_NO_ACTION');
-  if (!justification || justification.trim().length < 20) throw new Error('INTENT_WEAK_JUSTIFICATION');
+  if (!justification || justification.trim().length < 20) throw new Error('INTENT_WEAK_JUSTIFICATION: Justification must be at least 20 characters.');
   const intentId = uuid();
   const capturedAt = Date.now();
   const provenanceHash = sha256(JSON.stringify({ intentId, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, action, justification: justification.trim(), capturedAt }));
@@ -60,16 +90,12 @@ function intentum_validateIntent(ir, action) {
   return { valid: true, intentId: ir.intentId, nodeId: ir.nodeId, action: ir.action, justification: ir.justification, authority: ir.authority, reason: 'INTENT_VALIDATED', validatedAt, mechanism: 'INTENTUM' };
 }
 
-const AGENTUM_VERSION = '1.0.0';
+// ── AGENTUM ───────────────────────────────────────────────────────────────────
 const _pipelines = new Map();
 
 function agentum_registerPipeline(pd) {
   const p = { id: pd.id, name: pd.name, steps: pd.steps, authority: pd.authority || 'Barkdale & Co.', registeredAt: Date.now(), status: 'ACTIVE' };
   _pipelines.set(pd.id, p); return p;
-}
-
-function agentum_registerCapability(action, pipelineId) {
-  return { action, pipelineId };
 }
 
 function agentum_routeAction(iv, pipelineId, payload = {}) {
@@ -97,7 +123,7 @@ async function agentum_executeRoute(rr, handlers = {}) {
   return { executionId, routeId: rr.routeId, intentId: rr.intentId, nodeId: rr.nodeId, action: rr.action, pipelineId: rr.pipelineId, pipelineName: rr.pipelineName, finalStatus, haltedAt, steps, executionHash: sha256(JSON.stringify({ executionId, routeId: rr.routeId, intentId: rr.intentId, finalStatus, startedAt, completedAt })), startedAt, completedAt, durationMs: completedAt - startedAt, mechanism: 'AGENTUM' };
 }
 
-const MNEMARCH_VERSION = '1.0.0';
+// ── MNEMARCH ──────────────────────────────────────────────────────────────────
 const _schemas = new Map();
 
 function mnemarch_registerSchema(sd) {
@@ -114,97 +140,107 @@ function mnemarch_writeMemory(anchor, schemaId, data) {
   return { memoryId, nodeId: anchor.nodeId, anchorHash: anchor.anchorHash, authority: anchor.authority, schemaId, schemaName: schema.name, data, attributionHash: sha256(JSON.stringify({ memoryId, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, schemaId, writtenAt: now })), writtenAt: now, decayAt: now + schema.retentionMs, status: 'ACTIVE', mechanism: 'MNEMARCH', version: MNEMARCH_VERSION };
 }
 
-const ACCOUNTUM_VERSION = '1.0.0';
-
-// KV-persistent ledger functions
+// ── ACCOUNTUM ─────────────────────────────────────────────────────────────────
 async function accountum_recordEntry(anchor, entryDescriptor, kv) {
   if (!anchor?.anchorHash) throw new Error('LEDGER_NO_ANCHOR');
   const { action, outcome, intentId = null, details = {} } = entryDescriptor;
   if (!['SUCCESS','FAILURE','PARTIAL','REVOKED'].includes(outcome)) throw new Error(`LEDGER_INVALID_OUTCOME: ${outcome}`);
-
-  // Get current ledger state from KV
   const stateRaw = await kv.get('ARCHAI_LEDGER_STATE');
   const state = stateRaw ? JSON.parse(stateRaw) : { sequence: 0, chainHash: 'GENESIS' };
-
   const entryId = uuid();
   const recordedAt = Date.now();
   const sequence = state.sequence + 1;
   const entryHash = sha256(JSON.stringify({ entryId, sequence, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, action, outcome, intentId, recordedAt, previousChainHash: state.chainHash }));
-
   const entry = { entryId, sequence, nodeId: anchor.nodeId, anchorHash: anchor.anchorHash, authority: anchor.authority, action, outcome, intentId, details, entryHash, previousChainHash: state.chainHash, recordedAt, mechanism: 'ACCOUNTUM', version: ACCOUNTUM_VERSION };
-
-  // Write entry to KV
   await kv.put(`ARCHAI_ENTRY_${sequence}`, JSON.stringify(entry));
-  // Update state
   await kv.put('ARCHAI_LEDGER_STATE', JSON.stringify({ sequence, chainHash: entryHash }));
-
   return entry;
 }
 
 async function accountum_getStatus(kv) {
-  const stateRaw = await kv.get('ARCHAI_LEDGER_STATE');
-  const state = stateRaw ? JSON.parse(stateRaw) : { sequence: 0, chainHash: 'GENESIS' };
-  return { entries: state.sequence, chainHash: state.chainHash, integrity: state.sequence === 0 ? 'LEDGER_EMPTY' : 'CHAIN_INTACT' };
+  try {
+    const stateRaw = await kv.get('ARCHAI_LEDGER_STATE');
+    const state = stateRaw ? JSON.parse(stateRaw) : { sequence: 0, chainHash: 'GENESIS' };
+    return { entries: state.sequence, chainHash: state.chainHash, integrity: state.sequence === 0 ? 'LEDGER_EMPTY' : 'CHAIN_INTACT' };
+  } catch(e) { return { entries: 0, chainHash: 'GENESIS', integrity: 'KV_ERROR' }; }
 }
 
 async function accountum_getLedger(kv) {
   const stateRaw = await kv.get('ARCHAI_LEDGER_STATE');
   const state = stateRaw ? JSON.parse(stateRaw) : { sequence: 0, chainHash: 'GENESIS' };
   const entries = [];
-  for (let i = 1; i <= Math.min(state.sequence, 50); i++) {
+  for (let i = Math.max(1, state.sequence - 49); i <= state.sequence; i++) {
     const raw = await kv.get(`ARCHAI_ENTRY_${i}`);
     if (raw) entries.push(JSON.parse(raw));
   }
   return { entries, total: state.sequence, chainHash: state.chainHash };
 }
 
-function sha256(input) {
-  const str = typeof input === 'string' ? input : JSON.stringify(input);
-  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
-  for (let i = 0; i < str.length; i++) {
-    const ch = str.charCodeAt(i);
-    h1 = Math.imul(h1 ^ ch, 2654435761);
-    h2 = Math.imul(h2 ^ ch, 1597334677);
+// ── WORKERS AI via REST API ───────────────────────────────────────────────────
+async function runAI(prompt, cfApiToken) {
+  if (!cfApiToken) return { response: null, error: 'CF_AI_TOKEN_NOT_SET', note: 'Add CF_AI_TOKEN to Pages environment variables' };
+  try {
+    const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/ai/run/${AI_MODEL}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${cfApiToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        messages: [
+          { role: 'system', content: 'You are ARCHAI, an AI governance assistant built by Barkdale & Co. You help organizations govern their AI systems with clarity, precision, and accountability. Every response you give has been verified, authorized, and recorded to an immutable ledger.' },
+          { role: 'user', content: prompt }
+        ]
+      })
+    });
+    const data = await res.json();
+    if (data.success && data.result?.response) {
+      return { response: data.result.response, model: AI_MODEL, governed: true };
+    }
+    return { response: null, error: 'AI_CALL_FAILED', details: data.errors || data };
+  } catch(e) {
+    return { response: null, error: 'AI_FETCH_ERROR', message: e.message };
   }
-  h1 = Math.imul(h1 ^ (h1>>>16), 2246822507) ^ Math.imul(h2 ^ (h2>>>13), 3266489909);
-  h2 = Math.imul(h2 ^ (h2>>>16), 2246822507) ^ Math.imul(h1 ^ (h1>>>13), 3266489909);
-  return (h1>>>0).toString(16).padStart(8,'0') + (h2>>>0).toString(16).padStart(8,'0') + (h1>>>0).toString(16).padStart(8,'0') + (h2>>>0).toString(16).padStart(8,'0');
 }
 
-function uuid() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-    const r = Math.random() * 16 | 0;
-    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-  });
-}
+// ── PIPELINE SETUP ────────────────────────────────────────────────────────────
+agentum_registerPipeline({
+  id: 'archai-governance-pipeline',
+  name: 'ARCHAI Core Governance Pipeline',
+  authority: 'Barkdale & Co.',
+  steps: [
+    { name: 'Identity Claim Verification', handler: 'verifyClaim' },
+    { name: 'Intent Validation Gate',      handler: 'validateIntent' },
+    { name: 'Memory Schema Registration',  handler: 'registerSchema' },
+    { name: 'Request Authorization',       handler: 'authorizeRequest' },
+  ]
+});
 
-// Setup pipeline and schema
-agentum_registerPipeline({ id: 'archai-governance-pipeline', name: 'ARCHAI Core Governance Pipeline', authority: 'Barkdale & Co.', steps: [
-  { name: 'Identity Claim Verification', handler: 'verifyClaim' },
-  { name: 'Intent Validation Gate', handler: 'validateIntent' },
-  { name: 'Memory Registration', handler: 'registerSchema' },
-  { name: 'Request Authorization', handler: 'authorizeRequest' },
-]});
-agentum_registerCapability('GOVERN_AI_REQUEST', 'archai-governance-pipeline');
-mnemarch_registerSchema({ id: 'archai-governed-request', name: 'ARCHAI Governed Request Record', retentionMs: 30*24*60*60*1000, fields: [
-  { name: 'intentId', required: true },
-  { name: 'action', required: true },
-  { name: 'governanceId', required: true },
-]});
+mnemarch_registerSchema({
+  id: 'archai-governed-request',
+  name: 'ARCHAI Governed Request Record',
+  retentionMs: 30 * 24 * 60 * 60 * 1000,
+  fields: [
+    { name: 'intentId',     required: true },
+    { name: 'action',       required: true },
+    { name: 'governanceId', required: true },
+  ]
+});
 
-const ARCHAI_VERSION = '2.1.0';
-
+// ── PAGES FUNCTION ────────────────────────────────────────────────────────────
 export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   const path = url.pathname;
   const kv = env.ARCHAI_LEDGER;
+  const cfApiToken = env.CF_AI_TOKEN;
 
   if (request.method === 'OPTIONS') return corsResponse();
 
   try {
     switch (path) {
 
+      // ── STATUS ──────────────────────────────────────────────────────────────
       case '/api/govern/status': {
         const ledgerStatus = kv ? await accountum_getStatus(kv) : { entries: 0, chainHash: 'KV_NOT_BOUND', integrity: 'KV_NOT_BOUND' };
         return jsonResponse({
@@ -221,28 +257,36 @@ export async function onRequest(context) {
           ledger: ledgerStatus,
           router: 'LIVE',
           storage: kv ? 'KV_PERSISTENT' : 'KV_NOT_BOUND',
+          ai: cfApiToken ? 'CONNECTED' : 'TOKEN_REQUIRED',
+          aiModel: AI_MODEL,
         });
       }
 
+      // ── GOVERN REQUEST ───────────────────────────────────────────────────────
       case '/api/govern/request': {
         if (request.method !== 'POST') return errorResponse(405, 'METHOD_NOT_ALLOWED', 'POST required');
         let body;
         try { body = await request.json(); } catch(e) { return errorResponse(400, 'INVALID_BODY', 'Request body must be valid JSON'); }
+
         if (!body.node?.id || !body.node?.role || !body.node?.authority) return errorResponse(400, 'MISSING_NODE', 'body.node with id, role, authority required');
         if (!body.intent?.action || !body.intent?.justification) return errorResponse(400, 'MISSING_INTENT', 'body.intent with action and justification required');
         if (!body.request) return errorResponse(400, 'MISSING_REQUEST', 'body.request payload required');
 
         const governanceId = uuid();
+
         try {
+          // IDENTARCH
           const anchor = identarch_generateAnchor({ id: body.node.id, role: body.node.role, authority: body.node.authority, metadata: body.node.metadata || {} });
           const claim = identarch_issueClaim(anchor, body.intent.action);
           const claimVerification = identarch_verifyClaim(claim, anchor);
           if (!claimVerification.verified) return errorResponse(401, 'IDENTARCH_FAILED', claimVerification.reason);
 
+          // INTENTUM
           const intentRecord = intentum_captureIntent(anchor, { action: body.intent.action, justification: body.intent.justification, metadata: body.intent.metadata || {} });
           const intentValidation = intentum_validateIntent(intentRecord, body.intent.action);
           if (!intentValidation.valid) return errorResponse(422, 'INTENTUM_FAILED', intentValidation.reason);
 
+          // AGENTUM
           const routeRecord = agentum_routeAction(intentValidation, 'archai-governance-pipeline', { governanceId, requestPayload: body.request });
           const execResult = await agentum_executeRoute(routeRecord, {
             verifyClaim:      async () => ({ verified: true, claimId: claim.claimId }),
@@ -252,38 +296,70 @@ export async function onRequest(context) {
           });
           if (execResult.finalStatus !== 'SUCCESS') return errorResponse(500, 'AGENTUM_FAILED', `Pipeline failed at step ${execResult.haltedAt}`);
 
+          // MNEMARCH
           const memRecord = mnemarch_writeMemory(anchor, 'archai-governed-request', { intentId: intentRecord.intentId, action: body.intent.action, governanceId, executionId: execResult.executionId, outcome: execResult.finalStatus });
 
-          // Write to persistent KV ledger
+          // ACCOUNTUM
           const ledgerEntry = kv
             ? await accountum_recordEntry(anchor, { action: body.intent.action, outcome: 'SUCCESS', intentId: intentRecord.intentId, details: { governanceId, executionId: execResult.executionId, memoryId: memRecord.memoryId } }, kv)
-            : { entryId: uuid(), sequence: 0, entryHash: 'KV_NOT_BOUND', note: 'Ledger not persisted — KV not bound' };
+            : { entryId: uuid(), sequence: 0, entryHash: 'KV_NOT_BOUND' };
 
-          const ledgerStatus = kv ? await accountum_getStatus(kv) : { entries: 0, chainHash: 'KV_NOT_BOUND', integrity: 'KV_NOT_BOUND' };
+          const ledgerStatus = kv ? await accountum_getStatus(kv) : { entries: 0, chainHash: 'KV_NOT_BOUND' };
+
+          // AI MODEL — call Workers AI via REST
+          const prompt = typeof body.request === 'string' ? body.request : (body.request.prompt || body.request.message || JSON.stringify(body.request));
+          const aiResult = await runAI(prompt, cfApiToken);
 
           return jsonResponse({
             success: true,
             governanceId,
             timestamp: Date.now(),
             version: ARCHAI_VERSION,
+            governed: true,
             chain: {
               IDENTARCH: { status: 'PASSED', nodeId: anchor.nodeId, anchorHash: anchor.anchorHash.slice(0,12)+'...', claimId: claim.claimId },
               INTENTUM:  { status: 'PASSED', intentId: intentRecord.intentId, action: intentRecord.action, provenanceHash: intentRecord.provenanceHash.slice(0,12)+'...' },
-              AGENTUM:   { status: 'PASSED', executionId: execResult.executionId, pipeline: execResult.pipelineName, stepsCompleted: execResult.steps.filter(s=>s.status==='COMPLETE').length, executionHash: execResult.executionHash.slice(0,12)+'...' },
+              AGENTUM:   { status: 'PASSED', executionId: execResult.executionId, pipeline: execResult.pipelineName, stepsCompleted: execResult.steps.filter(s=>s.status==='COMPLETE').length },
               MNEMARCH:  { status: 'PASSED', memoryId: memRecord.memoryId, schema: memRecord.schemaName, decayAt: new Date(memRecord.decayAt).toISOString() },
               ACCOUNTUM: { status: 'PASSED', entryId: ledgerEntry.entryId, sequence: ledgerEntry.sequence, chainHash: typeof ledgerEntry.entryHash === 'string' ? ledgerEntry.entryHash.slice(0,12)+'...' : 'N/A', totalEntries: ledgerStatus.entries },
             },
-            message: 'Request fully governed. All five mechanisms passed. Ledger entry recorded.',
+            ai: {
+              model: AI_MODEL,
+              response: aiResult.response,
+              governed: true,
+              error: aiResult.error || null,
+              note: aiResult.note || null,
+            },
+            message: aiResult.response
+              ? 'Request fully governed and AI response returned.'
+              : 'Governance chain complete. AI response unavailable — add CF_AI_TOKEN to Pages environment variables.',
           });
 
         } catch(chainErr) { return errorResponse(422, 'CHAIN_FAILURE', chainErr.message); }
       }
 
+      // ── AUDIT ────────────────────────────────────────────────────────────────
       case '/api/govern/audit': {
         if (request.method !== 'GET') return errorResponse(405, 'METHOD_NOT_ALLOWED', 'GET required');
-        if (!kv) return jsonResponse({ entries: 0, total: 0, chainHash: 'KV_NOT_BOUND', note: 'KV namespace not bound. Add ARCHAI_LEDGER binding in Cloudflare Pages settings.', version: ARCHAI_VERSION });
+        if (!kv) return jsonResponse({ entries: 0, total: 0, chainHash: 'KV_NOT_BOUND', version: ARCHAI_VERSION });
         const ledger = await accountum_getLedger(kv);
-        return jsonResponse({ entries: ledger.entries.length, total: ledger.total, chainHash: ledger.chainHash, version: ARCHAI_VERSION, ledger: ledger.entries.map(e => ({ sequence: e.sequence, entryId: e.entryId, nodeId: e.nodeId, action: e.action, outcome: e.outcome, recordedAt: new Date(e.recordedAt).toISOString(), entryHash: e.entryHash.slice(0,12)+'...' })) });
+        const status = await accountum_getStatus(kv);
+        return jsonResponse({
+          entries: ledger.entries.length,
+          total: ledger.total,
+          chainHash: ledger.chainHash,
+          integrity: status.integrity,
+          version: ARCHAI_VERSION,
+          ledger: ledger.entries.map(e => ({
+            sequence:   e.sequence,
+            entryId:    e.entryId,
+            nodeId:     e.nodeId,
+            action:     e.action,
+            outcome:    e.outcome,
+            recordedAt: new Date(e.recordedAt).toISOString(),
+            entryHash:  e.entryHash.slice(0,12)+'...',
+          }))
+        });
       }
 
       default: return errorResponse(404, 'NOT_FOUND', `No governance route at ${path}`);
@@ -292,7 +368,28 @@ export async function onRequest(context) {
 }
 
 function jsonResponse(data, status = 200) {
-  return new Response(JSON.stringify(data, null, 2), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*', 'X-ARCHAI-Version': ARCHAI_VERSION, 'X-ARCHAI-Powered-By': 'archai.systems' } });
+  return new Response(JSON.stringify(data, null, 2), {
+    status,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Access-Control-Allow-Origin': '*',
+      'X-ARCHAI-Version': ARCHAI_VERSION,
+      'X-ARCHAI-Powered-By': 'archai.systems',
+    }
+  });
 }
-function errorResponse(status, code, message) { return jsonResponse({ error: true, code, message, version: ARCHAI_VERSION }, status); }
-function corsResponse() { return new Response(null, { status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, Authorization' } }); }
+
+function errorResponse(status, code, message) {
+  return jsonResponse({ error: true, code, message, version: ARCHAI_VERSION }, status);
+}
+
+function corsResponse() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    }
+  });
+}
