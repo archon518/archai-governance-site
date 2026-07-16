@@ -177,16 +177,9 @@ async function accountum_getLedger(kv) {
 }
 
 // ── WORKERS AI via REST API ───────────────────────────────────────────────────
-async function runAI(prompt, cfApiToken) {
-  if (!cfApiToken) return { response: null, error: 'CF_AI_TOKEN_NOT_SET', note: 'Add CF_AI_TOKEN to Pages environment variables' };
-  try {
-    const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/ai/run/${AI_MODEL}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${cfApiToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+const data = await context.env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
+  prompt: "..."
+});
         messages: [
           { role: 'system', content: 'You are ARCHAI, an AI governance assistant built by Barkdale & Co. You help organizations govern their AI systems with clarity, precision, and accountability. Every response you give has been verified, authorized, and recorded to an immutable ledger.' },
           { role: 'user', content: prompt }
