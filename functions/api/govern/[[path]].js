@@ -1,7 +1,8 @@
+```javascript
 /**
  * ARCHAI™ Governance Proxy — Final Integrated Pages Function
  * Barkdale & Co. — archai.systems
- * v2.2.0 — Full five-mechanism chain + KV ledger + Workers AI via REST
+ * v2.3.0 — Full five-mechanism chain + KV ledger + Workers AI via Binding
  */
 
 const IDENTARCH_VERSION = '1.0.0';
@@ -11,8 +12,7 @@ const INTENT_EXPIRY_MS = 60 * 60 * 1000;
 const AGENTUM_VERSION = '1.0.0';
 const MNEMARCH_VERSION = '1.0.0';
 const ACCOUNTUM_VERSION = '1.0.0';
-const ARCHAI_VERSION = '2.2.0';
-const CF_ACCOUNT_ID = 'c3671c4ff7c8e622cdb6fd9f2374b613';
+const ARCHAI_VERSION = '2.3.0';
 const AI_MODEL = '@cf/meta/llama-3.1-8b-instruct';
 
 // ── CRYPTO ────────────────────────────────────────────────────────────────────
@@ -176,21 +176,16 @@ async function accountum_getLedger(kv) {
   return { entries, total: state.sequence, chainHash: state.chainHash };
 }
 
-// ── WORKERS AI via REST API ───────────────────────────────────────────────────
-const data = await context.env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
-  prompt: "..."
-});
-        messages: [
-          { role: 'system', content: 'You are ARCHAI, an AI governance assistant built by Barkdale & Co. You help organizations govern their AI systems with clarity, precision, and accountability. Every response you give has been verified, authorized, and recorded to an immutable ledger.' },
-          { role: 'user', content: prompt }
-        ]
-      })
+// ── WORKERS AI via Binding ────────────────────────────────────────────────────
+async function runAI(prompt, ai) {
+  try {
+    const data = await ai.run(AI_MODEL, {
+      messages: [
+        { role: 'system', content: 'You are ARCHAI, an AI governance assistant built by Barkdale & Co. You help organizations govern their AI systems with clarity, precision, and accountability. Every response you give has been verified, authorized, and recorded to an immutable ledger.' },
+        { role: 'user', content: prompt }
+      ]
     });
-    const data = await res.json();
-    if (data.success && data.result?.response) {
-      return { response: data.result.response, model: AI_MODEL, governed: true };
-    }
-    return { response: null, error: 'AI_CALL_FAILED', details: data.errors || data };
+    return { response: data.response, model: AI_MODEL, governed: true };
   } catch(e) {
     return { response: null, error: 'AI_FETCH_ERROR', message: e.message };
   }
@@ -226,7 +221,7 @@ export async function onRequest(context) {
   const url = new URL(request.url);
   const path = url.pathname;
   const kv = env.ARCHAI_LEDGER;
-  const cfApiToken = env.CF_AI_TOKEN;
+  const ai = env.AI;
 
   if (request.method === 'OPTIONS') return corsResponse();
 
@@ -250,7 +245,7 @@ export async function onRequest(context) {
           ledger: ledgerStatus,
           router: 'LIVE',
           storage: kv ? 'KV_PERSISTENT' : 'KV_NOT_BOUND',
-          ai: cfApiToken ? 'CONNECTED' : 'TOKEN_REQUIRED',
+          ai: ai ? 'CONNECTED' : 'BINDING_REQUIRED',
           aiModel: AI_MODEL,
         });
       }
@@ -299,9 +294,9 @@ export async function onRequest(context) {
 
           const ledgerStatus = kv ? await accountum_getStatus(kv) : { entries: 0, chainHash: 'KV_NOT_BOUND' };
 
-          // AI MODEL — call Workers AI via REST
+          // AI MODEL — call Workers AI via binding
           const prompt = typeof body.request === 'string' ? body.request : (body.request.prompt || body.request.message || JSON.stringify(body.request));
-          const aiResult = await runAI(prompt, cfApiToken);
+          const aiResult = await runAI(prompt, ai);
 
           return jsonResponse({
             success: true,
@@ -321,11 +316,10 @@ export async function onRequest(context) {
               response: aiResult.response,
               governed: true,
               error: aiResult.error || null,
-              note: aiResult.note || null,
             },
             message: aiResult.response
               ? 'Request fully governed and AI response returned.'
-              : 'Governance chain complete. AI response unavailable — add CF_AI_TOKEN to Pages environment variables.',
+              : 'Governance chain complete. AI response unavailable — check AI binding configuration.',
           });
 
         } catch(chainErr) { return errorResponse(422, 'CHAIN_FAILURE', chainErr.message); }
@@ -343,39 +337,19 @@ export async function onRequest(context) {
           chainHash: ledger.chainHash,
           integrity: status.integrity,
           version: ARCHAI_VERSION,
-          ledger: ledger.entries.map(e => ({
-            sequence:   e.sequence,
-            entryId:    e.entryId,
-            nodeId:     e.nodeId,
-            action:     e.action,
-            outcome:    e.outcome,
-            recordedAt: new Date(e.recordedAt).toISOString(),
-            entryHash:  e.entryHash.slice(0,12)+'...',
-          }))
+          ledger: ledger.entries,
         });
       }
 
-      default: return errorResponse(404, 'NOT_FOUND', `No governance route at ${path}`);
+      default:
+        return errorResponse(404, 'ROUTE_NOT_FOUND', `Path ${path} not recognized`);
     }
-  } catch(err) { return errorResponse(500, 'INTERNAL_ERROR', err.message || 'Unexpected error'); }
+  } catch(e) {
+    return errorResponse(500, 'INTERNAL_ERROR', e.message);
+  }
 }
 
-function jsonResponse(data, status = 200) {
-  return new Response(JSON.stringify(data, null, 2), {
-    status,
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Access-Control-Allow-Origin': '*',
-      'X-ARCHAI-Version': ARCHAI_VERSION,
-      'X-ARCHAI-Powered-By': 'archai.systems',
-    }
-  });
-}
-
-function errorResponse(status, code, message) {
-  return jsonResponse({ error: true, code, message, version: ARCHAI_VERSION }, status);
-}
-
+// ── HELPERS ───────────────────────────────────────────────────────────────────
 function corsResponse() {
   return new Response(null, {
     status: 204,
@@ -383,6 +357,21 @@ function corsResponse() {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    }
+    },
   });
 }
+
+function jsonResponse(data, status = 200) {
+  return new Response(JSON.stringify(data, null, 2), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
+}
+
+function errorResponse(status, error, message) {
+  return jsonResponse({ success: false, error, message }, status);
+}
+```
