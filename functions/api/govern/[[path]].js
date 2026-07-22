@@ -323,7 +323,7 @@ export async function onRequest(context) {
             },
             message: aiResult.response
               ? 'Request fully governed and AI response returned.'
-              : 'Governance chain complete. AI response unavailable — add CF_AI_TOKEN to Pages environment variables.',
+            : 'Governance chain complete. AI response unavailable — verify the AI binding is configured in Pages settings.', response unavailable — add CF_AI_TOKEN to Pages environment variables.',
           });
 
         } catch(chainErr) { return errorResponse(422, 'CHAIN_FAILURE', chainErr.message); }
