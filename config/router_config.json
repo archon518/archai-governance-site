@@ -1,0 +1,5 @@
+{
+  "core": { "mode": "active" },
+  "auth": { "maxAttempts": 5 },
+  "data": { "autosave": true }
+}

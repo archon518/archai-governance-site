@@ -1,0 +1,5 @@
+{ "subsystems": [
+  { "id": "core", "definition": "core_subsystem.json" },
+  { "id": "auth", "definition": "auth_subsystem.json" },
+  { "id": "data", "definition": "data_subsystem.json" }
+] }

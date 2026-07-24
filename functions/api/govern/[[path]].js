@@ -12,7 +12,7 @@ const AGENTUM_VERSION = '1.0.0';
 const MNEMARCH_VERSION = '1.0.0';
 const ACCOUNTUM_VERSION = '1.0.0';
 const ARCHAI_VERSION = '2.3.0';
-const AI_MODEL = '@cf/meta/llama-3.1-8b-instruct';
+const AI_MODEL = '@cf/meta/llama-3.3-70b-instruct';
 
 // ── CRYPTO ────────────────────────────────────────────────────────────────────
 function sha256(input) {

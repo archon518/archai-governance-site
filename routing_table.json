@@ -1,0 +1,7 @@
+{
+  "routes": {
+    "core.ping": { "subsystem": "core", "handler": "ping" },
+    "auth.login": { "subsystem": "auth", "handler": "login" },
+    "data.save": { "subsystem": "data", "handler": "save" }
+  }
+}

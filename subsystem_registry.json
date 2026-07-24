@@ -1,0 +1,5 @@
+{
+  "core": { "definition": "core_subsystem.json", "path": "core/" },
+  "auth": { "definition": "auth_subsystem.json", "path": "auth/" },
+  "data": { "definition": "data_subsystem.json", "path": "data/" }
+}

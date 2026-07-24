@@ -1,0 +1,5 @@
+{
+  "core": [],
+  "auth": ["core"],
+  "data": ["core", "auth"]
+}
