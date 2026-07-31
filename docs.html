@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation — ARCHAI</title>
+  <link rel="stylesheet" href="/docs.css">
+  <style>
+    .docs-nav { max-width: 1100px; margin: 40px auto 0; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; font-family: system-ui, sans-serif; }
+    .docs-nav a { color: var(--bright-gold); text-decoration: none; font-size: 0.95rem; }
+    .docs-frame h2 { margin-top: 36px; }
+    .docs-frame p { color: var(--text-mid); line-height: 1.6; }
+    pre { background: var(--deep-black); border: 1px solid var(--bright-gold-soft); border-radius: 8px; padding: 16px; overflow-x: auto; color: var(--text-light); font-size: 0.85rem; }
+    code { color: var(--bright-gold); }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--bright-gold-soft); color: var(--text-mid); font-size: 0.9rem; }
+    th { color: var(--bright-gold); }
+  </style>
+</head>
+<body>
+
+<div class="docs-nav">
+  <a href="/">← ARCHAI</a>
+  <a href="/api/govern/status" target="_blank">Live Status</a>
+</div>
+
+<div class="docs-frame">
+  <h1>ARCHAI Governance API</h1>
+  <p>Three endpoints, one governed request path. Every call to <code>/api/govern/request</code> passes through IDENTARCH, INTENTUM, AGENTUM, MNEMARCH, and ACCOUNTUM before an AI provider is ever reached — and every step is logged to an immutable, hash-chained ledger.</p>
+
+  <h2>Endpoints</h2>
+  <div class="docs-grid">
+    <div class="docs-card">
+      <a href="#status">GET /api/govern/status</a>
+      <p>Live health of the five mechanisms, the ledger, and the AI binding.</p>
+    </div>
+    <div class="docs-card">
+      <a href="#request">POST /api/govern/request</a>
+      <p>Submit a governed AI request. Runs the full mechanism chain, then forwards to your AI provider.</p>
+    </div>
+    <div class="docs-card">
+      <a href="#audit">GET /api/govern/audit</a>
+      <p>Read the last 50 entries of the accountability ledger, with chain-integrity status.</p>
+    </div>
+  </div>
+
+  <h2 id="status">GET /api/govern/status</h2>
+  <p>No auth, no body. Returns the operational state of every mechanism.</p>
+  <pre><code>curl https://archai.systems/api/govern/status</code></pre>
+  <pre><code>{
+  "status": "OPERATIONAL",
+  "version": "2.3.0",
+  "chain": [
+    { "mechanism": "IDENTARCH", "status": "ACTIVE", "version": "1.0.0" },
+    { "mechanism": "INTENTUM",  "status": "ACTIVE", "version": "1.0.0" },
+    { "mechanism": "AGENTUM",   "status": "ACTIVE", "version": "1.0.0" },
+    { "mechanism": "MNEMARCH",  "status": "ACTIVE", "version": "1.0.0" },
+    { "mechanism": "ACCOUNTUM", "status": "ACTIVE", "version": "1.0.0" }
+  ],
+  "ledger": { "entries": 13, "chainHash": "...", "integrity": "CHAIN_INTACT" },
+  "router": "LIVE",
+  "storage": "KV_PERSISTENT",
+  "ai": "CONNECTED",
+  "aiModel": "@cf/meta/llama-3.3-70b-instruct"
+}</code></pre>
+
+  <h2 id="request">POST /api/govern/request</h2>
+  <p>The core governance call. Requires a node identity, a justified intent, and the request payload itself.</p>
+  <pre><code>curl -X POST https://archai.systems/api/govern/request \
+  -H "Content-Type: application/json" \
+  -d '{
+    "node": {
+      "id": "agent-01",
+      "role": "customer-support-agent",
+      "authority": "Acme Corp"
+    },
+    "intent": {
+      "action": "answer-support-query",
+      "justification": "Responding to an inbound customer support ticket."
+    },
+    "request": {
+      "prompt": "Summarize this customer complaint."
+    }
+  }'</code></pre>
+
+  <h3>Fields</h3>
+  <table>
+    <tr><th>Field</th><th>Required</th><th>Notes</th></tr>
+    <tr><td><code>node.id / role / authority</code></td><td>Yes</td><td>Identity anchor for this request — who is asking, in what capacity, under whose authority.</td></tr>
+    <tr><td><code>intent.action</code></td><td>Yes</td><td>Short label for what's being attempted.</td></tr>
+    <tr><td><code>intent.justification</code></td><td>Yes</td><td>Minimum 20 characters. Rejected below that.</td></tr>
+    <tr><td><code>request</code></td><td>Yes</td><td>String or object. If an object, <code>prompt</code> or <code>message</code> is used as the model input.</td></tr>
+    <tr><td><code>provider</code></td><td>No</td><td>Omit to route to Workers AI. Include to govern your own AI stack instead — see below.</td></tr>
+  </table>
+
+  <h3>Bringing your own AI provider</h3>
+  <p>By default, governed requests are forwarded to Cloudflare Workers AI. To govern your own OpenAI-compatible endpoint instead, add a <code>provider</code> object:</p>
+  <pre><code>"provider": {
+  "baseUrl": "https://api.openai.com/v1",
+  "model": "gpt-4o",
+  "apiKeyEnvVar": "OPENAI_API_KEY"
+}</code></pre>
+  <p><code>apiKeyEnvVar</code> names an environment variable bound in your Pages project settings — the key itself is never sent in the request body.</p>
+
+  <h3>Response</h3>
+  <pre><code>{
+  "success": true,
+  "governanceId": "...",
+  "version": "2.3.0",
+  "governed": true,
+  "chain": {
+    "IDENTARCH": { "status": "PASSED", "nodeId": "agent-01", "claimId": "..." },
+    "INTENTUM":  { "status": "PASSED", "action": "answer-support-query" },
+    "AGENTUM":   { "status": "PASSED", "stepsCompleted": 4 },
+    "MNEMARCH":  { "status": "PASSED", "memoryId": "..." },
+    "ACCOUNTUM": { "status": "PASSED", "sequence": 14, "totalEntries": 14 }
+  },
+  "ai": { "model": "gpt-4o", "response": "...", "governed": true },
+  "message": "Request fully governed and AI response returned."
+}</code></pre>
+  <p>If any mechanism in the chain fails, the request halts there — no downstream mechanism runs, and the AI provider is never called. The response includes which mechanism failed and why.</p>
+
+  <h2 id="audit">GET /api/govern/audit</h2>
+  <p>No auth, no body. Returns the most recent ledger entries and chain-integrity status.</p>
+  <pre><code>curl https://archai.systems/api/govern/audit</code></pre>
+  <pre><code>{
+  "entries": 14,
+  "total": 14,
+  "chainHash": "...",
+  "integrity": "CHAIN_INTACT",
+  "ledger": [
+    { "sequence": 14, "nodeId": "agent-01", "action": "answer-support-query", "outcome": "SUCCESS", "recordedAt": "...", "entryHash": "..." }
+  ]
+}</code></pre>
+  <p>Each entry's hash is computed from the previous entry's chain hash, so any tampering with an earlier entry invalidates every entry after it — that's what <code>integrity: "CHAIN_INTACT"</code> is verifying.</p>
+
+  <h2>The Five Mechanisms</h2>
+  <div class="docs-grid">
+    <div class="docs-card"><a href="/identarch.html">IDENTARCH</a><p>Identity anchoring and claim verification.</p></div>
+    <div class="docs-card"><a href="/intentum.html">INTENTUM</a><p>Intent capture and justification validation.</p></div>
+    <div class="docs-card"><a href="/agentum.html">AGENTUM</a><p>Pipeline routing and execution.</p></div>
+    <div class="docs-card"><a href="/mnemarch.html">MNEMARCH</a><p>Governed memory writes with schema and decay.</p></div>
+    <div class="docs-card"><a href="/accountum.html">ACCOUNTUM</a><p>Immutable, hash-chained accountability ledger.</p></div>
+  </div>
+
+</div>
+
+</body>
+</html>
