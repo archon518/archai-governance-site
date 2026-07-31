@@ -1,7 +1,7 @@
 /**
  * ARCHAI™ Governance Proxy — Final Integrated Pages Function
  * Barkdale & Co. — archai.systems
- * v2.2.0 — Full five-mechanism chain + KV ledger + Workers AI via REST
+ * v2.3.0 — Full five-mechanism chain + KV ledger + external provider proxy + SHA-256
  */
 
 const IDENTARCH_VERSION = '1.0.0';
@@ -15,18 +15,11 @@ const ARCHAI_VERSION = '2.3.0';
 const AI_MODEL = '@cf/meta/llama-3.3-70b-instruct';
 
 // ── CRYPTO ────────────────────────────────────────────────────────────────────
-function sha256(input) {
+async function sha256(input) {
   const str = typeof input === 'string' ? input : JSON.stringify(input);
-  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
-  for (let i = 0; i < str.length; i++) {
-    const ch = str.charCodeAt(i);
-    h1 = Math.imul(h1 ^ ch, 2654435761);
-    h2 = Math.imul(h2 ^ ch, 1597334677);
-  }
-  h1 = Math.imul(h1 ^ (h1>>>16), 2246822507) ^ Math.imul(h2 ^ (h2>>>13), 3266489909);
-  h2 = Math.imul(h2 ^ (h2>>>16), 2246822507) ^ Math.imul(h1 ^ (h1>>>13), 3266489909);
-  return (h1>>>0).toString(16).padStart(8,'0') + (h2>>>0).toString(16).padStart(8,'0') +
-         (h1>>>0).toString(16).padStart(8,'0') + (h2>>>0).toString(16).padStart(8,'0');
+  const data = new TextEncoder().encode(str);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 function uuid() {
@@ -37,36 +30,36 @@ function uuid() {
 }
 
 // ── IDENTARCH ─────────────────────────────────────────────────────────────────
-function identarch_generateAnchor(nd) {
+async function identarch_generateAnchor(nd) {
   const { id, role, authority, metadata = {} } = nd;
   if (!id || !role || !authority) throw new Error('ANCHOR_INVALID_DESCRIPTOR');
   const issuedAt = Date.now();
   const expiresAt = issuedAt + (metadata.expiryMs || CLAIM_EXPIRY_MS);
-  const anchorHash = sha256(JSON.stringify({ nodeId: id, role, authority, issuedAt, expiresAt }));
+  const anchorHash = await sha256(JSON.stringify({ nodeId: id, role, authority, issuedAt, expiresAt }));
   return { nodeId: id, role, authority, anchorHash, issuedAt, expiresAt, metadata, version: IDENTARCH_VERSION, mechanism: 'IDENTARCH' };
 }
 
-function identarch_issueClaim(anchor, operationContext) {
+async function identarch_issueClaim(anchor, operationContext) {
   if (!anchor?.anchorHash) throw new Error('CLAIM_NO_ANCHOR');
   if (Date.now() > anchor.expiresAt) throw new Error('CLAIM_ANCHOR_EXPIRED');
   const claimId = uuid();
   const issuedAt = Date.now();
-  const claimHash = sha256(JSON.stringify({ claimId, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, operationContext, issuedAt }));
+  const claimHash = await sha256(JSON.stringify({ claimId, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, operationContext, issuedAt }));
   return { claimId, nodeId: anchor.nodeId, anchorHash: anchor.anchorHash, operationContext, claimHash, issuedAt, mechanism: 'IDENTARCH' };
 }
 
-function identarch_verifyClaim(claim, anchor) {
+async function identarch_verifyClaim(claim, anchor) {
   const verifiedAt = Date.now();
   if (!claim || !anchor) return { verified: false, reason: 'MISSING_INPUTS', verifiedAt };
   if (claim.anchorHash !== anchor.anchorHash) return { verified: false, reason: 'ANCHOR_HASH_MISMATCH', verifiedAt };
   if (claim.nodeId !== anchor.nodeId) return { verified: false, reason: 'NODE_ID_MISMATCH', verifiedAt };
-  const expectedHash = sha256(JSON.stringify({ claimId: claim.claimId, anchorHash: claim.anchorHash, nodeId: claim.nodeId, operationContext: claim.operationContext, issuedAt: claim.issuedAt }));
+  const expectedHash = await sha256(JSON.stringify({ claimId: claim.claimId, anchorHash: claim.anchorHash, nodeId: claim.nodeId, operationContext: claim.operationContext, issuedAt: claim.issuedAt }));
   if (expectedHash !== claim.claimHash) return { verified: false, reason: 'CLAIM_HASH_TAMPERED', verifiedAt };
   return { verified: true, claimId: claim.claimId, nodeId: claim.nodeId, authority: anchor.authority, reason: 'CLAIM_VERIFIED', verifiedAt, mechanism: 'IDENTARCH' };
 }
 
 // ── INTENTUM ──────────────────────────────────────────────────────────────────
-function intentum_captureIntent(anchor, id) {
+async function intentum_captureIntent(anchor, id) {
   if (!anchor?.anchorHash) throw new Error('INTENT_NO_ANCHOR');
   if (Date.now() > anchor.expiresAt) throw new Error('INTENT_ANCHOR_EXPIRED');
   const { action, justification, metadata = {} } = id;
@@ -74,17 +67,17 @@ function intentum_captureIntent(anchor, id) {
   if (!justification || justification.trim().length < 20) throw new Error('INTENT_WEAK_JUSTIFICATION: Justification must be at least 20 characters.');
   const intentId = uuid();
   const capturedAt = Date.now();
-  const provenanceHash = sha256(JSON.stringify({ intentId, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, action, justification: justification.trim(), capturedAt }));
+  const provenanceHash = await sha256(JSON.stringify({ intentId, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, action, justification: justification.trim(), capturedAt }));
   return { intentId, nodeId: anchor.nodeId, anchorHash: anchor.anchorHash, authority: anchor.authority, action, justification: justification.trim(), provenanceHash, capturedAt, expiresAt: capturedAt + INTENT_EXPIRY_MS, status: 'BOUND', version: INTENTUM_VERSION, mechanism: 'INTENTUM' };
 }
 
-function intentum_validateIntent(ir, action) {
+async function intentum_validateIntent(ir, action) {
   const validatedAt = Date.now();
   if (!ir) return { valid: false, reason: 'MISSING_INTENT_RECORD', validatedAt };
   if (ir.action !== action) return { valid: false, intentId: ir.intentId, reason: 'ACTION_MISMATCH', validatedAt };
   if (validatedAt > ir.expiresAt) return { valid: false, intentId: ir.intentId, reason: 'INTENT_EXPIRED', validatedAt };
   if (ir.status !== 'BOUND') return { valid: false, intentId: ir.intentId, reason: 'INTENT_STATUS_INVALID', validatedAt };
-  const expectedHash = sha256(JSON.stringify({ intentId: ir.intentId, anchorHash: ir.anchorHash, nodeId: ir.nodeId, action: ir.action, justification: ir.justification, capturedAt: ir.capturedAt }));
+  const expectedHash = await sha256(JSON.stringify({ intentId: ir.intentId, anchorHash: ir.anchorHash, nodeId: ir.nodeId, action: ir.action, justification: ir.justification, capturedAt: ir.capturedAt }));
   if (expectedHash !== ir.provenanceHash) return { valid: false, intentId: ir.intentId, reason: 'PROVENANCE_HASH_TAMPERED', validatedAt };
   return { valid: true, intentId: ir.intentId, nodeId: ir.nodeId, action: ir.action, justification: ir.justification, authority: ir.authority, reason: 'INTENT_VALIDATED', validatedAt, mechanism: 'INTENTUM' };
 }
@@ -119,7 +112,8 @@ async function agentum_executeRoute(rr, handlers = {}) {
     } catch(e) { step.status = 'FAILED'; step.completedAt = Date.now(); step.result = { error: e.message }; finalStatus = 'FAILED'; haltedAt = step.sequence; break; }
   }
   const completedAt = Date.now();
-  return { executionId, routeId: rr.routeId, intentId: rr.intentId, nodeId: rr.nodeId, action: rr.action, pipelineId: rr.pipelineId, pipelineName: rr.pipelineName, finalStatus, haltedAt, steps, executionHash: sha256(JSON.stringify({ executionId, routeId: rr.routeId, intentId: rr.intentId, finalStatus, startedAt, completedAt })), startedAt, completedAt, durationMs: completedAt - startedAt, mechanism: 'AGENTUM' };
+  const executionHash = await sha256(JSON.stringify({ executionId, routeId: rr.routeId, intentId: rr.intentId, finalStatus, startedAt, completedAt }));
+  return { executionId, routeId: rr.routeId, intentId: rr.intentId, nodeId: rr.nodeId, action: rr.action, pipelineId: rr.pipelineId, pipelineName: rr.pipelineName, finalStatus, haltedAt, steps, executionHash, startedAt, completedAt, durationMs: completedAt - startedAt, mechanism: 'AGENTUM' };
 }
 
 // ── MNEMARCH ──────────────────────────────────────────────────────────────────
@@ -130,13 +124,14 @@ function mnemarch_registerSchema(sd) {
   _schemas.set(sd.id, s); return s;
 }
 
-function mnemarch_writeMemory(anchor, schemaId, data) {
+async function mnemarch_writeMemory(anchor, schemaId, data) {
   if (!anchor?.anchorHash) throw new Error('WRITE_NO_ANCHOR');
   if (!_schemas.has(schemaId)) throw new Error(`SCHEMA_NOT_FOUND: ${schemaId}`);
   const schema = _schemas.get(schemaId);
   const now = Date.now();
   const memoryId = uuid();
-  return { memoryId, nodeId: anchor.nodeId, anchorHash: anchor.anchorHash, authority: anchor.authority, schemaId, schemaName: schema.name, data, attributionHash: sha256(JSON.stringify({ memoryId, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, schemaId, writtenAt: now })), writtenAt: now, decayAt: now + schema.retentionMs, status: 'ACTIVE', mechanism: 'MNEMARCH', version: MNEMARCH_VERSION };
+  const attributionHash = await sha256(JSON.stringify({ memoryId, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, schemaId, writtenAt: now }));
+  return { memoryId, nodeId: anchor.nodeId, anchorHash: anchor.anchorHash, authority: anchor.authority, schemaId, schemaName: schema.name, data, attributionHash, writtenAt: now, decayAt: now + schema.retentionMs, status: 'ACTIVE', mechanism: 'MNEMARCH', version: MNEMARCH_VERSION };
 }
 
 // ── ACCOUNTUM ─────────────────────────────────────────────────────────────────
@@ -149,7 +144,7 @@ async function accountum_recordEntry(anchor, entryDescriptor, kv) {
   const entryId = uuid();
   const recordedAt = Date.now();
   const sequence = state.sequence + 1;
-  const entryHash = sha256(JSON.stringify({ entryId, sequence, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, action, outcome, intentId, recordedAt, previousChainHash: state.chainHash }));
+  const entryHash = await sha256(JSON.stringify({ entryId, sequence, anchorHash: anchor.anchorHash, nodeId: anchor.nodeId, action, outcome, intentId, recordedAt, previousChainHash: state.chainHash }));
   const entry = { entryId, sequence, nodeId: anchor.nodeId, anchorHash: anchor.anchorHash, authority: anchor.authority, action, outcome, intentId, details, entryHash, previousChainHash: state.chainHash, recordedAt, mechanism: 'ACCOUNTUM', version: ACCOUNTUM_VERSION };
   await kv.put(`ARCHAI_ENTRY_${sequence}`, JSON.stringify(entry));
   await kv.put('ARCHAI_LEDGER_STATE', JSON.stringify({ sequence, chainHash: entryHash }));
@@ -176,7 +171,7 @@ async function accountum_getLedger(kv) {
 }
 
 // ── WORKERS AI via binding ────────────────────────────────────────────────────
-async function runAI(prompt, ai) {
+async function runWorkersAI(prompt, ai) {
   if (!ai) return { response: null, error: 'AI_BINDING_NOT_SET', note: 'Add Workers AI binding named AI in Pages settings' };
   try {
     const result = await ai.run(AI_MODEL, {
@@ -186,12 +181,57 @@ async function runAI(prompt, ai) {
       ]
     });
     if (result?.response) {
-      return { response: result.response, model: AI_MODEL, governed: true };
+      return { response: result.response, model: AI_MODEL, provider: 'workers-ai', governed: true };
     }
     return { response: null, error: 'AI_NO_RESPONSE', details: result };
   } catch(e) {
     return { response: null, error: 'AI_ERROR', message: e.message };
   }
+}
+
+// ── EXTERNAL PROVIDER PROXY ────────────────────────────────────────────────────
+async function runExternalProvider(prompt, providerConfig, env) {
+  const { baseUrl, model, apiKeyEnvVar } = providerConfig;
+  if (!baseUrl || !model) {
+    return { response: null, error: 'PROVIDER_CONFIG_INVALID', note: 'provider.baseUrl and provider.model are required' };
+  }
+  const apiKey = apiKeyEnvVar ? env[apiKeyEnvVar] : null;
+  if (apiKeyEnvVar && !apiKey) {
+    return { response: null, error: 'PROVIDER_KEY_NOT_SET', note: `Env var ${apiKeyEnvVar} is not bound in Pages settings` };
+  }
+  try {
+    const resp = await fetch(`${baseUrl.replace(/\/$/, '')}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: 'You are operating behind an ARCHAI governance proxy. Every request reaching you has been identity-verified, intent-validated, and will be logged immutably.' },
+          { role: 'user', content: prompt },
+        ],
+      }),
+    });
+    if (!resp.ok) {
+      const errText = await resp.text().catch(() => '');
+      return { response: null, error: 'PROVIDER_HTTP_ERROR', status: resp.status, message: errText.slice(0, 500) };
+    }
+    const data = await resp.json();
+    const content = data?.choices?.[0]?.message?.content ?? null;
+    if (!content) return { response: null, error: 'PROVIDER_NO_CONTENT', details: data };
+    return { response: content, model, provider: baseUrl, governed: true };
+  } catch(e) {
+    return { response: null, error: 'PROVIDER_FETCH_ERROR', message: e.message };
+  }
+}
+
+async function runAI(prompt, ai, provider, env) {
+  if (provider && provider.baseUrl) {
+    return runExternalProvider(prompt, provider, env);
+  }
+  return runWorkersAI(prompt, ai);
 }
 
 // ── PIPELINE SETUP ────────────────────────────────────────────────────────────
@@ -267,14 +307,14 @@ export async function onRequest(context) {
 
         try {
           // IDENTARCH
-          const anchor = identarch_generateAnchor({ id: body.node.id, role: body.node.role, authority: body.node.authority, metadata: body.node.metadata || {} });
-          const claim = identarch_issueClaim(anchor, body.intent.action);
-          const claimVerification = identarch_verifyClaim(claim, anchor);
+          const anchor = await identarch_generateAnchor({ id: body.node.id, role: body.node.role, authority: body.node.authority, metadata: body.node.metadata || {} });
+          const claim = await identarch_issueClaim(anchor, body.intent.action);
+          const claimVerification = await identarch_verifyClaim(claim, anchor);
           if (!claimVerification.verified) return errorResponse(401, 'IDENTARCH_FAILED', claimVerification.reason);
 
           // INTENTUM
-          const intentRecord = intentum_captureIntent(anchor, { action: body.intent.action, justification: body.intent.justification, metadata: body.intent.metadata || {} });
-          const intentValidation = intentum_validateIntent(intentRecord, body.intent.action);
+          const intentRecord = await intentum_captureIntent(anchor, { action: body.intent.action, justification: body.intent.justification, metadata: body.intent.metadata || {} });
+          const intentValidation = await intentum_validateIntent(intentRecord, body.intent.action);
           if (!intentValidation.valid) return errorResponse(422, 'INTENTUM_FAILED', intentValidation.reason);
 
           // AGENTUM
@@ -288,7 +328,7 @@ export async function onRequest(context) {
           if (execResult.finalStatus !== 'SUCCESS') return errorResponse(500, 'AGENTUM_FAILED', `Pipeline failed at step ${execResult.haltedAt}`);
 
           // MNEMARCH
-          const memRecord = mnemarch_writeMemory(anchor, 'archai-governed-request', { intentId: intentRecord.intentId, action: body.intent.action, governanceId, executionId: execResult.executionId, outcome: execResult.finalStatus });
+          const memRecord = await mnemarch_writeMemory(anchor, 'archai-governed-request', { intentId: intentRecord.intentId, action: body.intent.action, governanceId, executionId: execResult.executionId, outcome: execResult.finalStatus });
 
           // ACCOUNTUM
           const ledgerEntry = kv
@@ -299,7 +339,7 @@ export async function onRequest(context) {
 
           // AI MODEL — call Workers AI via REST
           const prompt = typeof body.request === 'string' ? body.request : (body.request.prompt || body.request.message || JSON.stringify(body.request));
-          const aiResult = await runAI(prompt, ai);
+          const aiResult = await runAI(prompt, ai, body.provider, env);
 
           return jsonResponse({
             success: true,
@@ -323,7 +363,7 @@ export async function onRequest(context) {
             },
             message: aiResult.response
               ? 'Request fully governed and AI response returned.'
-            : 'Governance chain complete. AI response unavailable — verify the AI binding is configured in Pages settings.', response unavailable — add CF_AI_TOKEN to Pages environment variables.',
+              : 'Governance chain complete. AI response unavailable — verify the AI binding or external provider credentials are configured in Pages settings.',
           });
 
         } catch(chainErr) { return errorResponse(422, 'CHAIN_FAILURE', chainErr.message); }
